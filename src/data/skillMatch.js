@@ -24,17 +24,13 @@ const ALIASES = {
   'javascript': ['js', 'es6', 'dom', 'typescript', 'ajax', 'fetch'],
   'component frameworks': ['react', 'reactjs', 'vue', 'angular', 'svelte', 'next.js', 'nextjs'],
   'backend': ['node', 'nodejs', 'node.js', 'express', 'rest api', 'django', 'flask', 'spring'],
-  'hipaa': ['icd-10', 'icd10', 'cpt', 'medical coding', 'phi', 'medical terminology', 'privacy'],
-  'clinical spreadsheets': ['excel', 'google sheets', 'pivot', 'xlookup', 'vlookup'],
-  'ehr': ['epic', 'cerner', 'ehr', 'emr', 'sql', 'synthea'],
-  'hospital quality': ['tableau', 'power bi', 'cms', 'dashboards'],
-  'interoperability': ['hl7', 'fhir'],
 };
 
 const STOP = new Set([
   'and', 'the', 'for', 'with', 'basics', 'foundations', 'modern', 'core', 'skills',
   'design', 'data', 'analysis', 'systems', 'web', 'user', 'product', 'business',
   'layouts', 'interactivity', 'fundamentals', 'computer', 'semantic',
+  'healthcare', 'health', 'clinical', 'india', 'act', 'models', 'quality', 'metrics', 'claims',
 ]);
 
 export const SKILL_SUGGESTIONS = {
@@ -42,7 +38,7 @@ export const SKILL_SUGGESTIONS = {
   productManager: ['Jira', 'Figma', 'Excel', 'SQL', 'User Research', 'Agile', 'Notion', 'Google Analytics'],
   design: ['Figma', 'Wireframing', 'User Research', 'Photoshop', 'Prototyping', 'Adobe XD'],
   data: ['Excel', 'SQL', 'Python', 'Power BI', 'Tableau', 'Statistics'],
-  healthcare: ['Excel', 'SQL', 'HIPAA', 'ICD-10', 'Tableau', 'Medical Terminology'],
+  healthcare: ['Excel', 'SQL', 'Medical Terminology', 'ICD-10', 'HIPAA', 'Power BI', 'Tableau', 'Python', 'FHIR', 'Epic'],
 };
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -56,7 +52,8 @@ function keywordsFor(skill) {
   const extra = Object.entries(ALIASES)
     .filter(([key]) => name.includes(key))
     .flatMap(([, list]) => list);
-  return [...new Set([...words, ...extra])];
+  const own = (skill.keywords || []).map((k) => k.toLowerCase());
+  return [...new Set([...words, ...extra, ...own])];
 }
 
 function hit(entry, kw) {
