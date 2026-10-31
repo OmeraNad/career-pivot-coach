@@ -155,19 +155,19 @@ export default function MockInterview() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('mockInterview.title')}</h1>
-          <p className="text-[#636659] text-sm">{t('mockInterview.subtitle')}</p>
+          <h1 className="text-2xl font-bold text-[#292923] mb-1">{t('mockInterview.title')}</h1>
+          <p className="text-[#626153] text-sm">{t('mockInterview.subtitle')}</p>
         </div>
-        <div className="bg-white border border-[#e2dfd4] rounded-3xl p-10 text-center shadow-xs">
-          <div className="w-20 h-20 bg-[#edf1e6] border border-[#d6dec8] rounded-full flex items-center justify-center mx-auto mb-6">
-            <Mic size={36} className="text-[#556b2f]" />
+        <div className="bg-white border border-[#D9D3C4] rounded-3xl p-10 text-center shadow-xs">
+          <div className="w-20 h-20 bg-[#E9EBDD] border border-[#D6D9C6] rounded-full flex items-center justify-center mx-auto mb-6">
+            <Mic size={36} className="text-[#68734A]" />
           </div>
-          <h2 className="text-[#1e2019] font-bold text-xl mb-3">Practice interview questions for {targetRole}</h2>
-          <p className="text-[#636659] text-sm mb-2">Practice {questions.length} role-specific questions, including a skill selected from your current profile gaps.</p>
-          <p className="text-[#636659] text-sm mb-8">Feedback uses an on-device keyword and writing-structure rubric. It is not AI, an employer evaluation, or a measure of hiring likelihood.</p>
+          <h2 className="text-[#292923] font-bold text-xl mb-3">Practice interview questions for {targetRole}</h2>
+          <p className="text-[#626153] text-sm mb-2">Practice {questions.length} role-specific questions, including a skill selected from your current profile gaps.</p>
+          <p className="text-[#626153] text-sm mb-8">Feedback uses an on-device keyword and writing-structure rubric. It is not AI, an employer evaluation, or a measure of hiring likelihood.</p>
           
           <button onClick={() => setStarted(true)}
-            className="bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-8 py-3.5 rounded-2xl transition-all shadow-xs">
+            className="bg-[#68734A] hover:bg-[#515D3A] text-white font-semibold px-8 py-3.5 rounded-2xl transition-all shadow-xs">
             {t('mockInterview.start')}
           </button>
         </div>
@@ -175,7 +175,7 @@ export default function MockInterview() {
     );
   }
 
-  const scoreBadgeColor = !feedback ? '' : feedback.score >= 75 ? 'text-[#3f5022] bg-[#edf1e6]' : feedback.score >= 40 ? 'text-[#8a6b18] bg-[#fbf5e6]' : 'text-[#ba3c3c] bg-[#faebeb]';
+  const scoreBadgeColor = !feedback ? '' : feedback.score >= 75 ? 'text-[#3F4A2F] bg-[#E9EBDD]' : feedback.score >= 40 ? 'text-[#866B34] bg-[#F4EDDB]' : 'text-[#ba3c3c] bg-[#faebeb]';
   const sessionAverage = Math.round(sessionScores.reduce((sum, result) => sum + result.score, 0) / Math.max(sessionScores.length, 1));
   const focusAreas = sessionScores.length
     ? Object.keys(sessionScores[0].scoreBreakdown).map((dimension) => ({
@@ -188,30 +188,30 @@ export default function MockInterview() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('mockInterview.title')}</h1>
-          <p className="text-[#636659] text-sm">Question {qIndex + 1} of {questions.length} • {targetRole}</p>
+          <h1 className="text-2xl font-bold text-[#292923] mb-1">{t('mockInterview.title')}</h1>
+          <p className="text-[#626153] text-sm">Question {qIndex + 1} of {questions.length} • {targetRole}</p>
         </div>
         <div className="flex gap-2">
           {questions.map((_, i) => (
-            <div key={i} className={`w-8 h-2 rounded-full transition-all ${i < qIndex ? 'bg-[#556b2f]' : i === qIndex ? 'bg-[#708643]' : 'bg-[#e2dfd4]'}`} />
+            <div key={i} className={`w-8 h-2 rounded-full transition-all ${i < qIndex ? 'bg-[#68734A]' : i === qIndex ? 'bg-[#87906A]' : 'bg-[#D9D3C4]'}`} />
           ))}
         </div>
       </div>
 
       {/* Question card */}
-      <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 space-y-4 shadow-xs">
+      <div className="bg-white border border-[#D9D3C4] rounded-2xl p-6 space-y-4 shadow-xs">
         <div className="flex items-center gap-2">
-          <span className="bg-[#edf1e6] text-[#455633] text-xs font-semibold px-3 py-1 rounded-full border border-[#d6dec8]">{q.type}</span>
+          <span className="bg-[#E9EBDD] text-[#4F5B3D] text-xs font-semibold px-3 py-1 rounded-full border border-[#D6D9C6]">{q.type}</span>
         </div>
-        <p className="text-[#1e2019] text-lg font-bold leading-relaxed">{q.question}</p>
+        <p className="text-[#292923] text-lg font-bold leading-relaxed">{q.question}</p>
 
         {/* Rubric */}
-        <div className="bg-[#faf9f5] border border-[#e2dfd4] rounded-xl p-4">
-          <p className="text-[#7d8270] text-xs font-bold mb-2 uppercase tracking-wider">Practice rubric checkpoints:</p>
+        <div className="bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl p-4">
+          <p className="text-[#797762] text-xs font-bold mb-2 uppercase tracking-wider">Practice rubric checkpoints:</p>
           <ul className="space-y-1.5">
             {q.rubric.map((r) => (
-              <li key={r} className="text-[#4b4e43] text-sm flex items-center gap-2">
-                <ChevronRight size={14} className="text-[#556b2f]" />{r}
+              <li key={r} className="text-[#4D4A3F] text-sm flex items-center gap-2">
+                <ChevronRight size={14} className="text-[#68734A]" />{r}
               </li>
             ))}
           </ul>
@@ -226,13 +226,13 @@ export default function MockInterview() {
           disabled={submitted}
           rows={5}
           placeholder="Type your response here... (Try explaining in your own words, or test what happens if you're unsure)"
-          className="w-full bg-white border border-[#dcd8cb] rounded-2xl p-4 text-[#1e2019] placeholder-[#9a9e8f] focus:outline-none focus:border-[#556b2f] focus:ring-2 focus:ring-[#556b2f]/15 resize-none text-sm disabled:opacity-60 shadow-xs"
+          className="w-full bg-white border border-[#D9D3C4] rounded-2xl p-4 text-[#292923] placeholder-[#85836F] focus:outline-none focus:border-[#68734A] focus:ring-2 focus:ring-[#68734A]/15 resize-none text-sm disabled:opacity-60 shadow-xs"
         />
         {!submitted && (
           <button 
             onClick={handleSubmitAnswer} 
             disabled={answer.trim().length === 0}
-            className="mt-3 bg-[#556b2f] hover:bg-[#445625] disabled:opacity-40 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
+            className="mt-3 bg-[#68734A] hover:bg-[#515D3A] disabled:opacity-40 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
           >
             {t('mockInterview.submit')} & Evaluate
           </button>
@@ -242,13 +242,13 @@ export default function MockInterview() {
       {/* Feedback Card */}
       {submitted && feedback && (
         <div className="space-y-4 animate-fadeIn">
-          <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#f0eee6]">
+          <div className="bg-white border border-[#D9D3C4] rounded-2xl p-6 shadow-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#EEEADF]">
               <div>
-                <h3 className="text-[#1e2019] font-bold flex items-center gap-2 text-base">
-                  <Sparkles size={18} className="text-[#556b2f]" /> Practice rubric feedback
+                <h3 className="text-[#292923] font-bold flex items-center gap-2 text-base">
+                  <Sparkles size={18} className="text-[#68734A]" /> Practice rubric feedback
                 </h3>
-                <span className="text-xs text-[#7d8270]">
+                <span className="text-xs text-[#797762]">
                   {feedback.score >= 75 ? 'Strong Answer' : feedback.score >= 40 ? 'Partial Credit' : 'Needs Practice'}
                 </span>
               </div>
@@ -257,41 +257,41 @@ export default function MockInterview() {
               </div>
             </div>
 
-            <p className="text-xs text-[#7d8270]">Automated practice feedback based on text signals only; it cannot verify factual or technical correctness.</p>
+            <p className="text-xs text-[#797762]">Automated practice feedback based on text signals only; it cannot verify factual or technical correctness.</p>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               {Object.entries(feedback.scoreBreakdown).map(([label, score]) => (
-                <div key={label} className="bg-[#faf9f5] border border-[#e2dfd4] rounded-xl p-3">
-                  <div className="text-[#1e2019] font-bold text-sm">{score}%</div>
-                  <div className="text-[#7d8270] text-[10px] mt-1">{label}</div>
+                <div key={label} className="bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl p-3">
+                  <div className="text-[#292923] font-bold text-sm">{score}%</div>
+                  <div className="text-[#797762] text-[10px] mt-1">{label}</div>
                 </div>
               ))}
             </div>
 
             <div className="space-y-3">
               <div>
-                <p className="text-[#3f5022] text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <p className="text-[#3F4A2F] text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <CheckCircle size={14} /> What was strong:
                 </p>
                 {feedback.strengths.map((s, idx) => (
-                  <p key={idx} className="text-[#4b4e43] text-sm ml-4">• {s}</p>
+                  <p key={idx} className="text-[#4D4A3F] text-sm ml-4">• {s}</p>
                 ))}
               </div>
 
               <div>
-                <p className="text-[#8a6b18] text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <p className="text-[#866B34] text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <AlertCircle size={14} /> What to improve:
                 </p>
                 {feedback.improvements.map((imp, idx) => (
-                  <p key={idx} className="text-[#4b4e43] text-sm ml-4">• {imp}</p>
+                  <p key={idx} className="text-[#4D4A3F] text-sm ml-4">• {imp}</p>
                 ))}
               </div>
 
               {/* Ideal Answer Suggestion */}
-              <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-xl p-4 mt-3">
-                <span className="text-xs font-bold text-[#3f5022] flex items-center gap-1.5 mb-1.5">
+              <div className="bg-[#E9EBDD] border border-[#D6D9C6] rounded-xl p-4 mt-3">
+                <span className="text-xs font-bold text-[#3F4A2F] flex items-center gap-1.5 mb-1.5">
                   <BookOpen size={14} /> Model Answer to Learn From:
                 </span>
-                <p className="text-[#2b2d27] text-xs leading-relaxed italic">
+                <p className="text-[#292923] text-xs leading-relaxed italic">
                   "{q.idealAnswer}"
                 </p>
               </div>
@@ -302,21 +302,21 @@ export default function MockInterview() {
           {qIndex < questions.length - 1 ? (
             <button 
               onClick={handleNext}
-              className="w-full bg-[#556b2f] hover:bg-[#445625] text-white font-semibold py-3.5 rounded-xl transition-all shadow-xs"
+              className="w-full bg-[#68734A] hover:bg-[#515D3A] text-white font-semibold py-3.5 rounded-xl transition-all shadow-xs"
             >
               {t('mockInterview.next')} →
             </button>
           ) : (
-            <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-6 text-center">
+            <div className="bg-[#E9EBDD] border border-[#D6D9C6] rounded-2xl p-6 text-center">
               <div className="text-3xl mb-2">🎉</div>
-              <h3 className="text-[#1e2019] font-bold text-base mb-1">{targetRole} Interview Complete!</h3>
-              <p className="text-[#636659] text-xs">Practice average: {sessionAverage}% across {sessionScores.length} answers.</p>
-              <p className="text-[#636659] text-xs mt-2">
+              <h3 className="text-[#292923] font-bold text-base mb-1">{targetRole} Interview Complete!</h3>
+              <p className="text-[#626153] text-xs">Practice average: {sessionAverage}% across {sessionScores.length} answers.</p>
+              <p className="text-[#626153] text-xs mt-2">
                 {focusAreas.length
                   ? `Suggested practice focus: ${focusAreas.map((item) => `${item.dimension} (${item.average}%)`).join(', ')}.`
                   : 'No rubric dimension fell below 70%. Keep practicing with specific examples and role-relevant detail.'}
               </p>
-              <button onClick={restartInterview} className="mt-4 bg-white border border-[#d6dec8] text-[#3f5022] font-semibold px-4 py-2 rounded-xl text-xs hover:bg-[#faf9f5]">
+              <button onClick={restartInterview} className="mt-4 bg-white border border-[#D6D9C6] text-[#3F4A2F] font-semibold px-4 py-2 rounded-xl text-xs hover:bg-[#FFFDF7]">
                 Practice again
               </button>
             </div>

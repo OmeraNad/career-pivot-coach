@@ -44,25 +44,25 @@ export default function PortfolioProjects() {
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-2xl font-bold text-[#1e2019]">{t('dashboard.tabs.projects') || 'Portfolio Project Roadmap'}</h1>
-            <span className="text-xs bg-[#edf1e6] text-[#455633] border border-[#d6dec8] px-2.5 py-0.5 rounded-full font-semibold">
+            <h1 className="text-2xl font-bold text-[#292923]">{t('dashboard.tabs.projects') || 'Portfolio Project Roadmap'}</h1>
+            <span className="text-xs bg-[#E9EBDD] text-[#4F5B3D] border border-[#D6D9C6] px-2.5 py-0.5 rounded-full font-semibold">
               {targetRole}
             </span>
           </div>
-          <p className="text-[#636659] text-sm">
+          <p className="text-[#626153] text-sm">
             Projects progress from beginner step-by-step milestones to advanced showcases. Prerequisite checks verify if you have learned the required foundational skills before starting.
           </p>
         </div>
       </div>
 
       {/* Guide Note */}
-      <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-5 flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#556b2f] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+      <div className="bg-[#E9EBDD] border border-[#D6D9C6] rounded-2xl p-5 flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-[#68734A] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
           <Sparkles size={20} />
         </div>
         <div>
-          <h3 className="text-[#1e2019] font-bold text-sm mb-1">Step-by-Step Learning Principle</h3>
-          <p className="text-[#4b4e43] text-xs leading-relaxed">
+          <h3 className="text-[#292923] font-bold text-sm mb-1">Step-by-Step Learning Principle</h3>
+          <p className="text-[#4D4A3F] text-xs leading-relaxed">
             Never attempt a complex full-stack project until you complete Level 1 basics. Each project below flags exactly which skills you must learn first so you never get overwhelmed or stuck.
           </p>
         </div>
@@ -80,29 +80,29 @@ export default function PortfolioProjects() {
             <div 
               key={proj.id} 
               className={`bg-white border rounded-3xl p-6 shadow-xs transition-all space-y-5 ${
-                isReadyToBuild ? 'border-[#556b2f]/40 shadow-sm' : 'border-[#e2dfd4]'
+                isReadyToBuild ? 'border-[#68734A]/40 shadow-sm' : 'border-[#D9D3C4]'
               }`}
             >
               {/* Title & Metadata */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#f0eee6] pb-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#EEEADF] pb-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                    <span className="text-xs bg-[#fbf5e6] text-[#8a6b18] border border-[#f0e2bd] font-semibold px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs bg-[#F4EDDB] text-[#866B34] border border-[#E2D6B6] font-semibold px-2.5 py-0.5 rounded-full">
                       {proj.difficulty}
                     </span>
-                    <span className="text-[#7d8270] text-xs flex items-center gap-1">
+                    <span className="text-[#797762] text-xs flex items-center gap-1">
                       <Clock size={13} /> {proj.timeToBuild}
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-[#1e2019]">{proj.title}</h2>
-                  <p className="text-[#636659] text-sm mt-1">{proj.description}</p>
+                  <h2 className="text-xl font-bold text-[#292923]">{proj.title}</h2>
+                  <p className="text-[#626153] text-sm mt-1">{proj.description}</p>
                 </div>
 
                 <a 
                   href={proj.githubTemplate}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#556b2f] hover:bg-[#445625] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs flex-shrink-0"
+                  className="inline-flex items-center gap-2 bg-[#68734A] hover:bg-[#515D3A] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs flex-shrink-0"
                 >
                   <FolderGit2 size={16} /> Explore Project Starter <ExternalLink size={13} />
                 </a>
@@ -110,24 +110,24 @@ export default function PortfolioProjects() {
 
               {/* Prerequisite Readiness Indicator (User Request) */}
               {isReadyToBuild ? (
-                <div className="p-3.5 rounded-2xl bg-[#edf1e6] border border-[#d6dec8] flex items-center gap-2.5 text-xs text-[#3f5022] font-semibold">
-                  <CheckCircle size={16} className="text-[#556b2f] flex-shrink-0" />
+                <div className="p-3.5 rounded-2xl bg-[#E9EBDD] border border-[#D6D9C6] flex items-center gap-2.5 text-xs text-[#3F4A2F] font-semibold">
+                  <CheckCircle size={16} className="text-[#68734A] flex-shrink-0" />
                   <span>✅ You have learned all prerequisites! You are fully equipped to build this project right now.</span>
                 </div>
               ) : (
-                <div className="p-4 rounded-2xl bg-[#fbf5e6] border border-[#f0e2bd] space-y-1.5">
-                  <div className="flex items-center gap-2 text-[#8a6b18] text-xs font-bold">
+                <div className="p-4 rounded-2xl bg-[#F4EDDB] border border-[#E2D6B6] space-y-1.5">
+                  <div className="flex items-center gap-2 text-[#866B34] text-xs font-bold">
                     <AlertTriangle size={15} />
                     <span>⚠️ Prerequisite Knowledge Check: You must learn this before you can build this project:</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5 pl-6 pt-1">
                     {missingSkills.map((ms) => (
-                      <span key={ms} className="text-xs bg-white text-[#8a6b18] border border-[#f0e2bd] px-2.5 py-0.5 rounded-md font-semibold">
+                      <span key={ms} className="text-xs bg-white text-[#866B34] border border-[#E2D6B6] px-2.5 py-0.5 rounded-md font-semibold">
                         Must learn: {ms}
                       </span>
                     ))}
                   </div>
-                  <p className="text-[#7d8270] text-xs pl-6 pt-1">
+                  <p className="text-[#797762] text-xs pl-6 pt-1">
                     👉 Go to the <strong>Skill Gap Map</strong> tab to complete the foundational lesson and quiz for these skills first!
                   </p>
                 </div>
@@ -135,7 +135,7 @@ export default function PortfolioProjects() {
 
               {/* Skills required list */}
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#7d8270] block mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#797762] block mb-2">
                   Skills Exercised in this Project:
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -146,11 +146,11 @@ export default function PortfolioProjects() {
                         key={skill} 
                         className={`text-xs font-semibold px-3 py-1 rounded-lg flex items-center gap-1.5 border ${
                           hasLearned 
-                            ? 'bg-[#edf1e6] text-[#3f5022] border-[#d6dec8]' 
-                            : 'bg-[#faf9f5] text-[#636659] border-[#e2dfd4]'
+                            ? 'bg-[#E9EBDD] text-[#3F4A2F] border-[#D6D9C6]'
+                            : 'bg-[#FFFDF7] text-[#626153] border-[#D9D3C4]'
                         }`}
                       >
-                        {hasLearned ? <CheckCircle2 size={13} className="text-[#556b2f]" /> : <BookOpen size={13} className="text-[#8c907f]" />}
+                        {hasLearned ? <CheckCircle2 size={13} className="text-[#68734A]" /> : <BookOpen size={13} className="text-[#85836F]" />}
                         {skill}
                       </span>
                     );
@@ -160,14 +160,14 @@ export default function PortfolioProjects() {
 
               {/* Tech Stack Pills */}
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#7d8270] block mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#797762] block mb-2">
                   Tools & Architecture:
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {proj.techStack.map(tech => (
                     <span 
                       key={tech} 
-                      className="text-xs bg-[#faf9f5] text-[#1e2019] border border-[#e2dfd4] font-medium px-2.5 py-1 rounded-md"
+                      className="text-xs bg-[#FFFDF7] text-[#292923] border border-[#D9D3C4] font-medium px-2.5 py-1 rounded-md"
                     >
                       {tech}
                     </span>
@@ -176,26 +176,26 @@ export default function PortfolioProjects() {
               </div>
 
               {/* Why Recruiters Love It */}
-              <div className="bg-[#faf9f5] border border-[#e2dfd4] rounded-2xl p-4">
-                <span className="text-xs font-bold text-[#556b2f] flex items-center gap-1.5 mb-1">
+              <div className="bg-[#FFFDF7] border border-[#D9D3C4] rounded-2xl p-4">
+                <span className="text-xs font-bold text-[#68734A] flex items-center gap-1.5 mb-1">
                   <Code2 size={15} /> Why Hiring Managers Care:
                 </span>
-                <p className="text-[#4b4e43] text-xs leading-relaxed">{proj.whyRecruitersLoveIt}</p>
+                <p className="text-[#4D4A3F] text-xs leading-relaxed">{proj.whyRecruitersLoveIt}</p>
               </div>
               <div className="grid md:grid-cols-2 gap-3 text-xs">
-                <div className="rounded-xl bg-[#edf1e6] border border-[#d6dec8] p-3">
-                  <strong className="block text-[#3f5022] mb-1">Expected outcome</strong>
-                  <span className="text-[#4b4e43]">{proj.expectedOutcome || 'A shareable, role-relevant work sample.'}</span>
+                <div className="rounded-xl bg-[#E9EBDD] border border-[#D6D9C6] p-3">
+                  <strong className="block text-[#3F4A2F] mb-1">Expected outcome</strong>
+                  <span className="text-[#4D4A3F]">{proj.expectedOutcome || 'A shareable, role-relevant work sample.'}</span>
                 </div>
-                <div className="rounded-xl bg-[#faf9f5] border border-[#e2dfd4] p-3">
-                  <strong className="block text-[#4b4e43] mb-1">Portfolio presentation</strong>
-                  <span className="text-[#636659]">{proj.presentationGuidance || 'Explain the brief, your process, and what you learned.'}</span>
+                <div className="rounded-xl bg-[#FFFDF7] border border-[#D9D3C4] p-3">
+                  <strong className="block text-[#4D4A3F] mb-1">Portfolio presentation</strong>
+                  <span className="text-[#626153]">{proj.presentationGuidance || 'Explain the brief, your process, and what you learned.'}</span>
                 </div>
               </div>
 
               {/* Checklist */}
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#7d8270] block mb-2.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#797762] block mb-2.5">
                   Step-by-Step Implementation Checklist:
                 </span>
                 <div className="space-y-2">
@@ -205,15 +205,15 @@ export default function PortfolioProjects() {
                       <button
                         key={idx}
                         onClick={() => toggleStep(proj.id, idx)}
-                        className="w-full flex items-center gap-3 p-3 rounded-xl border border-[#f0eee6] hover:border-[#b8c2a4] hover:bg-[#faf9f5] transition-all text-left group"
+                        className="w-full flex items-center gap-3 p-3 rounded-xl border border-[#EEEADF] hover:border-[#A6AA8B] hover:bg-[#FFFDF7] transition-all text-left group"
                       >
                         <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${
-                          isDone ? 'bg-[#556b2f] text-white' : 'border border-[#cbd0be]'
+                          isDone ? 'bg-[#68734A] text-white' : 'border border-[#A6AA8B]'
                         }`}>
                           {isDone && <CheckCircle2 size={13} />}
                         </div>
                         <span className={`text-xs md:text-sm ${
-                          isDone ? 'line-through text-[#8c907f]' : 'text-[#1e2019] font-medium'
+                          isDone ? 'line-through text-[#85836F]' : 'text-[#292923] font-medium'
                         }`}>
                           {feat}
                         </span>

@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --bg-main: #f7f6f2;
-  --bg-card: #ffffff;
-  --bg-card-subtle: #f0eee6;
-  --border-subtle: #e4e1d6;
-  --text-primary: #1e2019;
-  --text-secondary: #636659;
-  --olive-primary: #556b2f;
-  --olive-dark: #3f5022;
-  --olive-light: #708643;
-  --olive-surface: #edf1e6;
+  --bg-main: #F6F3EB;
+  --bg-card: #FFFDF7;
+  --bg-card-subtle: #EEEADF;
+  --border-subtle: #D9D3C4;
+  --text-primary: #292923;
+  --text-secondary: #626153;
+  --olive-primary: #68734A;
+  --olive-dark: #3F4A2F;
+  --olive-light: #87906A;
+  --olive-surface: #E9EBDD;
+  --gold-muted: #866B34;
+  --gold-surface: #F4EDDB;
 }
 
 * {
@@ -22,8 +24,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f7f6f2;
-  color: #1e2019;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+@layer utilities {
+  .bg-white {
+    background-color: var(--bg-card);
+  }
 }
 
 /* Custom scrollbar in warm olive */
@@ -32,12 +40,12 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f0eee6;
+  background: #EEEADF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd0be;
+  background: #A6AA8B;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9fa88c;
+  background: #A6AA8B;
 }

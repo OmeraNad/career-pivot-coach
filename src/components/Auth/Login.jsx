@@ -28,33 +28,33 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f6f2] flex items-center justify-center p-4 selection:bg-[#556b2f]/20">
+    <div className="min-h-screen bg-[#F6F3EB] flex items-center justify-center p-4 selection:bg-[#68734A]/20">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 bg-[#556b2f] rounded-2xl flex items-center justify-center shadow-md shadow-[#556b2f]/20">
+          <div className="w-12 h-12 bg-[#68734A] rounded-2xl flex items-center justify-center shadow-md shadow-[#68734A]/20">
             <Compass size={26} className="text-white" />
           </div>
-          <span className="text-2xl font-bold tracking-tight text-[#1e2019]">Career Compass</span>
+          <span className="text-2xl font-bold tracking-tight text-[#292923]">Career Compass</span>
         </div>
 
         {/* Card */}
-        <div className="bg-white border border-[#e4e1d6] rounded-3xl p-8 shadow-sm">
-          <h1 className="text-3xl font-bold text-[#1e2019] mb-1">{t('login.title')}</h1>
-          <p className="text-[#636659] mb-8 text-sm">{t('login.subtitle')}</p>
+        <div className="bg-white border border-[#D9D3C4] rounded-3xl p-8 shadow-sm">
+          <h1 className="text-3xl font-bold text-[#292923] mb-1">{t('login.title')}</h1>
+          <p className="text-[#626153] mb-8 text-sm">{t('login.subtitle')}</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-[#2b2d27]">{t('login.email')}</label>
+              <label className="text-sm font-semibold text-[#292923]">{t('login.email')}</label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8c907f]" />
+                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#85836F]" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl pl-10 pr-4 py-3 text-[#1e2019] placeholder-[#9a9e8f] focus:outline-none focus:border-[#556b2f] focus:ring-2 focus:ring-[#556b2f]/15 transition-all text-sm"
+                  className="w-full bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl pl-10 pr-4 py-3 text-[#292923] placeholder-[#85836F] focus:outline-none focus:border-[#68734A] focus:ring-2 focus:ring-[#68734A]/15 transition-all text-sm"
                   placeholder="you@example.com"
                 />
               </div>
@@ -62,19 +62,19 @@ export default function Login() {
 
             {/* Password */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-[#2b2d27]">{t('login.password')}</label>
+              <label className="text-sm font-semibold text-[#292923]">{t('login.password')}</label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8c907f]" />
+                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#85836F]" />
                 <input
                   type={showPass ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl pl-10 pr-10 py-3 text-[#1e2019] placeholder-[#9a9e8f] focus:outline-none focus:border-[#556b2f] focus:ring-2 focus:ring-[#556b2f]/15 transition-all text-sm"
+                  className="w-full bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl pl-10 pr-10 py-3 text-[#292923] placeholder-[#85836F] focus:outline-none focus:border-[#68734A] focus:ring-2 focus:ring-[#68734A]/15 transition-all text-sm"
                   placeholder="••••••••"
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8c907f] hover:text-[#1e2019] transition-colors">
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#85836F] hover:text-[#292923] transition-colors">
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
@@ -91,7 +91,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#556b2f] hover:bg-[#445625] disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm"
+              className="w-full bg-[#68734A] hover:bg-[#515D3A] disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm"
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : null}
               {t('login.button')}
@@ -99,10 +99,10 @@ export default function Login() {
           </form>
 
           {/* Create account link */}
-          <div className="mt-6 text-center border-t border-[#f0eee6] pt-5">
-            <p className="text-[#636659] text-sm">
+          <div className="mt-6 text-center border-t border-[#EEEADF] pt-5">
+            <p className="text-[#626153] text-sm">
               {t('login.noAccount')}{' '}
-              <Link to="/signup" className="text-[#556b2f] hover:text-[#3f5022] font-semibold underline underline-offset-2 transition-colors">
+              <Link to="/signup" className="text-[#68734A] hover:text-[#3F4A2F] font-semibold underline underline-offset-2 transition-colors">
                 {t('login.createAccount')}
               </Link>
             </p>

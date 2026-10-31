@@ -100,83 +100,83 @@ export default function ProgressTracker() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('progress.title')}</h1>
-        <p className="text-[#636659] text-sm">Progress is calculated from your saved activity for <strong>{role}</strong>; no sample percentages are used.</p>
+        <h1 className="text-2xl font-bold text-[#292923] mb-1">{t('progress.title')}</h1>
+        <p className="text-[#626153] text-sm">Progress is calculated from your saved activity for <strong>{role}</strong>; no sample percentages are used.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {stats.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="bg-white border border-[#e2dfd4] rounded-2xl p-5 shadow-xs">
-            <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center mb-3"><Icon size={20} /></div>
-            <div className="text-xl md:text-2xl font-bold text-[#1e2019] mb-1">{value}</div>
-            <div className="text-xs text-[#7d8270] font-medium">{label}</div>
+          <div key={label} className="bg-white border border-[#D9D3C4] rounded-2xl p-5 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-[#E9EBDD] text-[#68734A] flex items-center justify-center mb-3"><Icon size={20} /></div>
+            <div className="text-xl md:text-2xl font-bold text-[#292923] mb-1">{value}</div>
+            <div className="text-xs text-[#797762] font-medium">{label}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs">
+      <div className="bg-white border border-[#D9D3C4] rounded-2xl p-6 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-5">
           <div>
-            <h3 className="text-[#1e2019] font-bold text-base">Weekly learning activity</h3>
-            <p className="text-[#7d8270] text-xs mt-1">Estimated minutes from completed roadmap tasks (45 minutes per task).</p>
+            <h3 className="text-[#292923] font-bold text-base">Weekly learning activity</h3>
+            <p className="text-[#797762] text-xs mt-1">Estimated minutes from completed roadmap tasks (45 minutes per task).</p>
           </div>
-          <span className="text-sm text-[#556b2f] font-bold">{(completedTasks.length * 0.75).toFixed(1)} estimated hours total</span>
+          <span className="text-sm text-[#68734A] font-bold">{(completedTasks.length * 0.75).toFixed(1)} estimated hours total</span>
         </div>
         <div className="flex items-end gap-3 h-36">
           {weeklyMinutes.map((minutes, index) => (
             <div key={`${labels[index]}-${index}`} className="flex-1 flex flex-col items-center gap-2">
-              <span className="text-[#7d8270] text-[10px]">{minutes || ''}</span>
-              <div className="w-full bg-[#f0eee6] rounded-t-lg h-24 flex items-end overflow-hidden">
-                <div className="w-full bg-[#556b2f] transition-all" style={{ height: `${(minutes / maxMinutes) * 100}%` }} />
+              <span className="text-[#797762] text-[10px]">{minutes || ''}</span>
+              <div className="w-full bg-[#EEEADF] rounded-t-lg h-24 flex items-end overflow-hidden">
+                <div className="w-full bg-[#68734A] transition-all" style={{ height: `${(minutes / maxMinutes) * 100}%` }} />
               </div>
-              <span className="text-[#7d8270] text-xs font-medium">{labels[index]}</span>
+              <span className="text-[#797762] text-xs font-medium">{labels[index]}</span>
             </div>
           ))}
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-white border border-[#e2dfd4] rounded-2xl p-5 shadow-xs">
-          <h3 className="text-[#1e2019] font-bold text-sm mb-3">Skills you have marked as learned</h3>
+        <div className="bg-white border border-[#D9D3C4] rounded-2xl p-5 shadow-xs">
+          <h3 className="text-[#292923] font-bold text-sm mb-3">Skills you have marked as learned</h3>
           {learnedSkills.length ? (
             <div className="space-y-2">
               {learnedSkills.map((skill, index) => (
-                <div key={`${skill.name}-${index}`} className="flex items-center gap-3 bg-[#faf9f5] border border-[#e2dfd4] rounded-xl px-3 py-2.5">
-                  <CheckCircle size={16} className="text-[#556b2f] flex-shrink-0" />
-                  <span className="text-[#1e2019] text-xs font-semibold flex-1">{skill.name}</span>
-                  <span className="text-[#7d8270] text-xs">{skill.date}</span>
+                <div key={`${skill.name}-${index}`} className="flex items-center gap-3 bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl px-3 py-2.5">
+                  <CheckCircle size={16} className="text-[#68734A] flex-shrink-0" />
+                  <span className="text-[#292923] text-xs font-semibold flex-1">{skill.name}</span>
+                  <span className="text-[#797762] text-xs">{skill.date}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="p-5 text-center bg-[#faf9f5] border border-dashed border-[#e2dfd4] rounded-xl text-xs text-[#7d8270]">
+            <p className="p-5 text-center bg-[#FFFDF7] border border-dashed border-[#D9D3C4] rounded-xl text-xs text-[#797762]">
               No skills completed yet. Use the role-specific Skill Gap Map to learn and mark skills.
             </p>
           )}
         </div>
-        <div className="bg-white border border-[#e2dfd4] rounded-2xl p-5 shadow-xs">
-          <h3 className="text-[#1e2019] font-bold text-sm mb-3">Career preparation activity</h3>
-          <div className="space-y-3 text-xs text-[#636659]">
-            <p className="flex justify-between gap-3"><span>Interview answers evaluated</span><strong className="text-[#1e2019]">{interviewScores.length}</strong></p>
-            <p className="flex justify-between gap-3"><span>Applications recorded</span><strong className="text-[#1e2019]">{applications.length}</strong></p>
-            <p className="flex justify-between gap-3"><span>Resume details</span><strong className="text-[#1e2019]">{resumeAdded ? 'Saved locally' : 'Not added'}</strong></p>
-            <p className="flex justify-between gap-3"><span>Portfolio projects completed</span><strong className="text-[#1e2019]">{completedProjects} of {projects.length}</strong></p>
+        <div className="bg-white border border-[#D9D3C4] rounded-2xl p-5 shadow-xs">
+          <h3 className="text-[#292923] font-bold text-sm mb-3">Career preparation activity</h3>
+          <div className="space-y-3 text-xs text-[#626153]">
+            <p className="flex justify-between gap-3"><span>Interview answers evaluated</span><strong className="text-[#292923]">{interviewScores.length}</strong></p>
+            <p className="flex justify-between gap-3"><span>Applications recorded</span><strong className="text-[#292923]">{applications.length}</strong></p>
+            <p className="flex justify-between gap-3"><span>Resume details</span><strong className="text-[#292923]">{resumeAdded ? 'Saved locally' : 'Not added'}</strong></p>
+            <p className="flex justify-between gap-3"><span>Portfolio projects completed</span><strong className="text-[#292923]">{completedProjects} of {projects.length}</strong></p>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-5 flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-white text-[#556b2f] flex items-center justify-center flex-shrink-0 shadow-xs"><Sparkles size={20} /></div>
+      <div className="bg-[#E9EBDD] border border-[#D6D9C6] rounded-2xl p-5 flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-white text-[#68734A] flex items-center justify-center flex-shrink-0 shadow-xs"><Sparkles size={20} /></div>
         <div>
-          <p className="text-[#1e2019] font-bold text-sm mb-1">Your next step</p>
-          <p className="text-[#4b4e43] text-sm leading-relaxed">
+          <p className="text-[#292923] font-bold text-sm mb-1">Your next step</p>
+          <p className="text-[#4D4A3F] text-sm leading-relaxed">
             {nextSkill
               ? `Continue with ${nextSkill.skill} for ${role}. Your readiness score will move as you record skill, roadmap, and portfolio progress.`
               : applications.length
                 ? `All listed ${role} skills are covered in your current profile. Keep building portfolio evidence and reviewing your recorded applications.`
                 : `All listed ${role} skills are covered in your current profile. Add a portfolio project or begin tracking applications when ready.`}
           </p>
-          {applications.length > 0 && <p className="text-[#636659] text-xs mt-2">Application outcomes are descriptive records only; Career Compass does not predict hiring decisions.</p>}
+          {applications.length > 0 && <p className="text-[#626153] text-xs mt-2">Application outcomes are descriptive records only; Career Compass does not predict hiring decisions.</p>}
         </div>
       </div>
     </div>

@@ -6,12 +6,12 @@ import { CAREER_ROLES } from '../../data/careerCatalog';
 
 const STATUSES = ['Interested', 'Applied', 'Assessment', 'Interview', 'Rejected', 'Selected'];
 const STATUS_COLORS = {
-  Interested: 'bg-[#f0eee6] text-[#636659] border-[#e2dfd4]',
-  Applied: 'bg-[#edf1e6] text-[#455633] border-[#d6dec8]',
-  Assessment: 'bg-[#fbf5e6] text-[#8a6b18] border-[#f0e2bd]',
-  Interview: 'bg-[#eef3f7] text-[#2c5f7d] border-[#cee0ec]',
+  Interested: 'bg-[#EEEADF] text-[#626153] border-[#D9D3C4]',
+  Applied: 'bg-[#E9EBDD] text-[#4F5B3D] border-[#D6D9C6]',
+  Assessment: 'bg-[#F4EDDB] text-[#866B34] border-[#E2D6B6]',
+  Interview: 'bg-[#E9EBDD] text-[#3F4A2F] border-[#D6D9C6]',
   Rejected: 'bg-[#faebeb] text-[#ba3c3c] border-[#f2c8c8]',
-  Selected: 'bg-[#ebf5ed] text-[#296a3e] border-[#c0e4c8]',
+  Selected: 'bg-[#E9EBDD] text-[#3F4A2F] border-[#D6D9C6]',
 };
 
 const initialForm = (role) => ({
@@ -122,18 +122,18 @@ export default function ApplicationTracker() {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('applications.title')}</h1>
-          <p className="text-[#636659] text-sm">{t('applications.subtitle')} Your application records stay in this browser.</p>
+          <h1 className="text-2xl font-bold text-[#292923] mb-1">{t('applications.title')}</h1>
+          <p className="text-[#626153] text-sm">{t('applications.subtitle')} Your application records stay in this browser.</p>
         </div>
         <button onClick={() => { setShowForm(true); setError(''); }}
-          className="flex items-center gap-2 bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-all shadow-xs whitespace-nowrap">
+          className="flex items-center gap-2 bg-[#68734A] hover:bg-[#515D3A] text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-all shadow-xs whitespace-nowrap">
           <Plus size={16} /> {t('applications.add')}
         </button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="rounded-2xl border border-[#e2dfd4] bg-white p-4 text-center">
-          <div className="text-2xl font-bold text-[#1e2019]">{apps.length}</div><div className="text-xs text-[#7d8270]">Total applications</div>
+        <div className="rounded-2xl border border-[#D9D3C4] bg-white p-4 text-center">
+          <div className="text-2xl font-bold text-[#292923]">{apps.length}</div><div className="text-xs text-[#797762]">Total applications</div>
         </div>
         {STATUSES.map((status) => (
           <div key={status} className={`rounded-2xl border p-4 text-center ${STATUS_COLORS[status]}`}>
@@ -149,20 +149,20 @@ export default function ApplicationTracker() {
           ['Response rate', `${totals.responseRate}%`],
           ['Selection rate', `${totals.selectionRate}%`],
         ].map(([label, value]) => (
-          <div key={label} className="bg-white border border-[#e2dfd4] rounded-xl px-4 py-3 flex justify-between items-center">
-            <span className="text-xs text-[#636659]">{label}</span><strong className="text-[#1e2019]">{value}</strong>
+          <div key={label} className="bg-white border border-[#D9D3C4] rounded-xl px-4 py-3 flex justify-between items-center">
+            <span className="text-xs text-[#626153]">{label}</span><strong className="text-[#292923]">{value}</strong>
           </div>
         ))}
       </div>
 
-      <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-5 flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-white text-[#556b2f] flex items-center justify-center flex-shrink-0"><TrendingUp size={20} /></div>
+      <div className="bg-[#E9EBDD] border border-[#D6D9C6] rounded-2xl p-5 flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-white text-[#68734A] flex items-center justify-center flex-shrink-0"><TrendingUp size={20} /></div>
         <div className="min-w-0">
-          <p className="text-[#1e2019] font-bold text-sm mb-1">Insights from your recorded applications</p>
+          <p className="text-[#292923] font-bold text-sm mb-1">Insights from your recorded applications</p>
           {!apps.length ? (
-            <p className="text-[#4b4e43] text-sm">Log applications and update their outcomes to see descriptive patterns here. No hiring outcomes are predicted.</p>
+            <p className="text-[#4D4A3F] text-sm">Log applications and update their outcomes to see descriptive patterns here. No hiring outcomes are predicted.</p>
           ) : (
-            <div className="space-y-1 text-xs text-[#4b4e43]">
+            <div className="space-y-1 text-xs text-[#4D4A3F]">
               <p>{totals.interviews} of {apps.length} recorded applications reached interview or selection; {totals.responded} have a response status beyond Interested or Applied.</p>
               <p>Recorded response patterns by role: {Object.entries(totals.roleOutcomes)
                 .sort(([, first], [, second]) => second.responses - first.responses)
@@ -178,10 +178,10 @@ export default function ApplicationTracker() {
       </div>
 
       {showForm && (
-        <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 space-y-4 shadow-xs">
+        <div className="bg-white border border-[#D9D3C4] rounded-2xl p-6 space-y-4 shadow-xs">
           <div className="flex items-center justify-between">
-            <h3 className="text-[#1e2019] font-bold text-base">Log a job application</h3>
-            <button onClick={() => setShowForm(false)} aria-label="Close form" className="text-[#8c907f] hover:text-[#1e2019]"><X size={18} /></button>
+            <h3 className="text-[#292923] font-bold text-base">Log a job application</h3>
+            <button onClick={() => setShowForm(false)} aria-label="Close form" className="text-[#85836F] hover:text-[#292923]"><X size={18} /></button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
@@ -192,58 +192,58 @@ export default function ApplicationTracker() {
               ['interviewDate', 'Interview date', ''],
               ['skills', 'Skills listed in the job description', 'e.g. SQL, reporting, communication'],
             ].map(([field, label, placeholder]) => (
-              <label key={field} className="text-[#636659] text-xs font-semibold">
+              <label key={field} className="text-[#626153] text-xs font-semibold">
                 {label}
                 <input
                   type={field === 'date' || field === 'interviewDate' ? 'date' : field === 'link' ? 'url' : 'text'}
                   value={form[field]}
                   onChange={(event) => setForm({ ...form, [field]: event.target.value })}
                   placeholder={placeholder}
-                  className="mt-1 w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-3 py-2.5 text-[#1e2019] font-normal focus:outline-none focus:border-[#556b2f]"
+                  className="mt-1 w-full bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl px-3 py-2.5 text-[#292923] font-normal focus:outline-none focus:border-[#68734A]"
                 />
               </label>
             ))}
-            <label className="text-[#636659] text-xs font-semibold">
+            <label className="text-[#626153] text-xs font-semibold">
               Current status
               <select value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}
-                className="mt-1 w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-3 py-2.5 text-[#1e2019]">
+                className="mt-1 w-full bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl px-3 py-2.5 text-[#292923]">
                 {STATUSES.map((status) => <option key={status}>{status}</option>)}
               </select>
             </label>
-            <label className="text-[#636659] text-xs font-semibold">
+            <label className="text-[#626153] text-xs font-semibold">
               Notes and feedback
               <textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })}
                 rows={2} placeholder="Notes from your application or interview"
-                className="mt-1 w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-3 py-2.5 text-[#1e2019] font-normal resize-y focus:outline-none focus:border-[#556b2f]" />
+                className="mt-1 w-full bg-[#FFFDF7] border border-[#D9D3C4] rounded-xl px-3 py-2.5 text-[#292923] font-normal resize-y focus:outline-none focus:border-[#68734A]" />
             </label>
           </div>
           {error && <p role="alert" className="text-xs text-[#ba3c3c]">{error}</p>}
-          <button onClick={addApp} className="bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all shadow-xs">
+          <button onClick={addApp} className="bg-[#68734A] hover:bg-[#515D3A] text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all shadow-xs">
             Save Application
           </button>
         </div>
       )}
 
-      <div className="bg-white border border-[#e2dfd4] rounded-2xl overflow-hidden shadow-xs">
-        <div className="px-5 py-3 border-b border-[#f0eee6] bg-[#faf9f5] text-[#7d8270] text-xs font-bold uppercase tracking-wider">
+      <div className="bg-white border border-[#D9D3C4] rounded-2xl overflow-hidden shadow-xs">
+        <div className="px-5 py-3 border-b border-[#EEEADF] bg-[#FFFDF7] text-[#797762] text-xs font-bold uppercase tracking-wider">
           Recorded applications
         </div>
         {apps.length === 0 ? (
           <div className="p-8 text-center">
-            <Briefcase size={26} className="text-[#b8c2a4] mx-auto mb-2" />
-            <p className="text-[#636659] text-sm">No applications logged yet.</p>
-            <p className="text-[#7d8270] text-xs mt-1">Add a role to start tracking follow-ups, dates, and outcomes.</p>
+            <Briefcase size={26} className="text-[#A6AA8B] mx-auto mb-2" />
+            <p className="text-[#626153] text-sm">No applications logged yet.</p>
+            <p className="text-[#797762] text-xs mt-1">Add a role to start tracking follow-ups, dates, and outcomes.</p>
           </div>
         ) : (
-          <div className="divide-y divide-[#f0eee6]">
+          <div className="divide-y divide-[#EEEADF]">
             {apps.map((application) => (
-              <article key={application.id} className="p-4 md:p-5 hover:bg-[#faf9f5] transition-colors">
+              <article key={application.id} className="p-4 md:p-5 hover:bg-[#FFFDF7] transition-colors">
                 <div className="flex flex-col lg:flex-row lg:items-center gap-3">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <div className="w-9 h-9 bg-[#f0eee6] rounded-xl flex items-center justify-center flex-shrink-0"><Building size={15} className="text-[#556b2f]" /></div>
+                    <div className="w-9 h-9 bg-[#EEEADF] rounded-xl flex items-center justify-center flex-shrink-0"><Building size={15} className="text-[#68734A]" /></div>
                     <div className="min-w-0">
-                      <p className="text-[#1e2019] text-sm font-semibold truncate">{application.company} · {application.role}</p>
-                      <p className="text-[#7d8270] text-xs">Applied {application.date || 'date not set'}{application.interviewDate ? ` · Interview ${application.interviewDate}` : ''}</p>
+                      <p className="text-[#292923] text-sm font-semibold truncate">{application.company} · {application.role}</p>
+                      <p className="text-[#797762] text-xs">Applied {application.date || 'date not set'}{application.interviewDate ? ` · Interview ${application.interviewDate}` : ''}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -254,17 +254,17 @@ export default function ApplicationTracker() {
                       {STATUSES.map((status) => <option key={status}>{status}</option>)}
                     </select>
                     {application.link && (
-                      <a href={application.link} target="_blank" rel="noopener noreferrer" aria-label="Open application link" className="text-[#556b2f] p-1.5">
+                      <a href={application.link} target="_blank" rel="noopener noreferrer" aria-label="Open application link" className="text-[#68734A] p-1.5">
                         <ExternalLink size={15} />
                       </a>
                     )}
-                    <button onClick={() => removeApp(application.id)} aria-label={`Remove ${application.company} application`} className="text-[#8c907f] hover:text-[#ba3c3c] p-1.5">
+                    <button onClick={() => removeApp(application.id)} aria-label={`Remove ${application.company} application`} className="text-[#85836F] hover:text-[#ba3c3c] p-1.5">
                       <X size={15} />
                     </button>
                   </div>
                 </div>
                 {(application.notes || application.skills) && (
-                  <div className="ml-12 mt-2 text-xs text-[#636659]">
+                  <div className="ml-12 mt-2 text-xs text-[#626153]">
                     {application.notes && <p>{application.notes}</p>}
                     {application.skills && <p className="mt-1"><strong>Listed skills:</strong> {application.skills}</p>}
                   </div>

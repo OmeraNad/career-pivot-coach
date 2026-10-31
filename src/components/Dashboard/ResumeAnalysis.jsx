@@ -121,24 +121,24 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
   };
 
   return (
-    <section className="bg-white border border-[#e2dfd4] rounded-2xl p-5 md:p-6 shadow-xs space-y-5">
+    <section className="bg-white border border-[#D9D3C4] rounded-2xl p-5 md:p-6 shadow-xs space-y-5">
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <FileText size={18} className="text-[#556b2f]" />
-          <h2 className="text-[#1e2019] font-bold text-base">Resume and target-role review</h2>
+          <FileText size={18} className="text-[#68734A]" />
+          <h2 className="text-[#292923] font-bold text-base">Resume and target-role review</h2>
         </div>
-        <p className="text-[#636659] text-xs leading-relaxed">
+        <p className="text-[#626153] text-xs leading-relaxed">
           Review your information locally against the curated {targetRole} skill baseline. Your resume is not sent to a server, and this is not an employer or AI evaluation.
         </p>
       </div>
 
-      <label className="flex items-center gap-3 p-4 rounded-xl border border-dashed border-[#b8c2a4] bg-[#faf9f5] cursor-pointer hover:bg-[#edf1e6] transition-colors">
-        <span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#556b2f]">
-          {isReading ? <span className="w-4 h-4 rounded-full border-2 border-[#b8c2a4] border-t-[#556b2f] animate-spin" /> : <Upload size={19} />}
+      <label className="flex items-center gap-3 p-4 rounded-xl border border-dashed border-[#A6AA8B] bg-[#FFFDF7] cursor-pointer hover:bg-[#E9EBDD] transition-colors">
+        <span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#68734A]">
+          {isReading ? <span className="w-4 h-4 rounded-full border-2 border-[#A6AA8B] border-t-[#68734A] animate-spin" /> : <Upload size={19} />}
         </span>
         <span className="flex-1 min-w-0">
-          <span className="block text-[#1e2019] text-sm font-semibold">{isReading ? 'Reading PDF on this device…' : 'Upload a PDF resume'}</span>
-          <span className="block text-[#7d8270] text-xs truncate">{form.fileName || 'Text extraction only; scanned PDFs can be entered manually.'}</span>
+          <span className="block text-[#292923] text-sm font-semibold">{isReading ? 'Reading PDF on this device…' : 'Upload a PDF resume'}</span>
+          <span className="block text-[#797762] text-xs truncate">{form.fileName || 'Text extraction only; scanned PDFs can be entered manually.'}</span>
         </span>
         <input type="file" accept="application/pdf,.pdf" onChange={handleUpload} className="sr-only" disabled={isReading} />
       </label>
@@ -150,17 +150,17 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
       )}
 
       <div className="grid md:grid-cols-2 gap-3">
-        <label className="text-xs font-semibold text-[#4b4e43]">
+        <label className="text-xs font-semibold text-[#4D4A3F]">
           Target role
-          <div className="mt-1 px-3 py-2.5 rounded-lg bg-[#edf1e6] border border-[#d6dec8] text-[#3f5022]">{targetRole}</div>
+          <div className="mt-1 px-3 py-2.5 rounded-lg bg-[#E9EBDD] border border-[#D6D9C6] text-[#3F4A2F]">{targetRole}</div>
         </label>
-        <label className="text-xs font-semibold text-[#4b4e43]">
+        <label className="text-xs font-semibold text-[#4D4A3F]">
           Existing skills (comma separated)
           <input
             value={form.existingSkills}
             onChange={(event) => updateForm('existingSkills', event.target.value)}
             placeholder="e.g. SQL, Excel, financial modeling"
-            className="mt-1 w-full px-3 py-2.5 rounded-lg bg-[#faf9f5] border border-[#e2dfd4] text-[#1e2019] font-normal focus:outline-none focus:border-[#556b2f]"
+            className="mt-1 w-full px-3 py-2.5 rounded-lg bg-[#FFFDF7] border border-[#D9D3C4] text-[#292923] font-normal focus:outline-none focus:border-[#68734A]"
           />
         </label>
         {[
@@ -169,54 +169,54 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
           ['certifications', 'Certifications'],
           ['projects', 'Projects'],
         ].map(([field, label]) => (
-          <label key={field} className="text-xs font-semibold text-[#4b4e43]">
+          <label key={field} className="text-xs font-semibold text-[#4D4A3F]">
             {label}
             <textarea
               value={form[field]}
               onChange={(event) => updateForm(field, event.target.value)}
               rows={2}
               placeholder={`Add your ${label.toLowerCase()} (optional)`}
-              className="mt-1 w-full px-3 py-2.5 rounded-lg bg-[#faf9f5] border border-[#e2dfd4] text-[#1e2019] font-normal resize-y focus:outline-none focus:border-[#556b2f]"
+              className="mt-1 w-full px-3 py-2.5 rounded-lg bg-[#FFFDF7] border border-[#D9D3C4] text-[#292923] font-normal resize-y focus:outline-none focus:border-[#68734A]"
             />
           </label>
         ))}
       </div>
 
-      <div className="rounded-xl border border-[#e2dfd4] bg-[#faf9f5] p-4 space-y-3">
+      <div className="rounded-xl border border-[#D9D3C4] bg-[#FFFDF7] p-4 space-y-3">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h3 className="text-[#1e2019] font-bold text-sm">Local skill-gap assessment</h3>
-            <p className="text-[#7d8270] text-xs mt-1">Matched requirements are based only on skills found in your resume or entered information.</p>
+            <h3 className="text-[#292923] font-bold text-sm">Local skill-gap assessment</h3>
+            <p className="text-[#797762] text-xs mt-1">Matched requirements are based only on skills found in your resume or entered information.</p>
           </div>
-          <span className="text-[#556b2f] font-bold text-sm whitespace-nowrap">{assessment.readiness}% skill coverage</span>
+          <span className="text-[#68734A] font-bold text-sm whitespace-nowrap">{assessment.readiness}% skill coverage</span>
         </div>
-        <div className="h-2 rounded-full bg-[#e4e1d6] overflow-hidden">
-          <div className="h-full bg-[#556b2f] transition-all" style={{ width: `${assessment.readiness}%` }} />
+        <div className="h-2 rounded-full bg-[#D9D3C4] overflow-hidden">
+          <div className="h-full bg-[#68734A] transition-all" style={{ width: `${assessment.readiness}%` }} />
         </div>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <p className="text-xs font-bold text-[#3f5022] mb-2">Strengths found ({assessment.strengths.length})</p>
+            <p className="text-xs font-bold text-[#3F4A2F] mb-2">Strengths found ({assessment.strengths.length})</p>
             {assessment.strengths.length ? assessment.strengths.map((skill) => (
-              <p key={skill.skill} className="flex gap-2 text-xs text-[#4b4e43] mb-1">
-                <CheckCircle2 size={14} className="text-[#556b2f] flex-shrink-0" />{skill.skill}
+              <p key={skill.skill} className="flex gap-2 text-xs text-[#4D4A3F] mb-1">
+                <CheckCircle2 size={14} className="text-[#68734A] flex-shrink-0" />{skill.skill}
               </p>
-            )) : <p className="text-xs text-[#7d8270]">No matching skills found yet. Add skills or upload a text-based PDF.</p>}
+            )) : <p className="text-xs text-[#797762]">No matching skills found yet. Add skills or upload a text-based PDF.</p>}
           </div>
           <div>
-            <p className="text-xs font-bold text-[#8a6b18] mb-2">Priority skills to develop ({assessment.missing.length})</p>
+            <p className="text-xs font-bold text-[#866B34] mb-2">Priority skills to develop ({assessment.missing.length})</p>
             {assessment.missing.map((skill) => (
-              <p key={skill.skill} className="text-xs text-[#4b4e43] mb-1">{skill.skill} <span className="text-[#7d8270]">· {skill.priority}</span></p>
+              <p key={skill.skill} className="text-xs text-[#4D4A3F] mb-1">{skill.skill} <span className="text-[#797762]">· {skill.priority}</span></p>
             ))}
           </div>
         </div>
-        <div className="grid md:grid-cols-2 gap-3 pt-2 border-t border-[#e2dfd6]">
+        <div className="grid md:grid-cols-2 gap-3 pt-2 border-t border-[#D9D3C4]">
           <div>
-            <p className="text-xs font-bold text-[#4b4e43] mb-1">Experience provided</p>
-            <p className="text-xs text-[#636659] whitespace-pre-wrap">{form.experience || 'No experience details provided.'}</p>
+            <p className="text-xs font-bold text-[#4D4A3F] mb-1">Experience provided</p>
+            <p className="text-xs text-[#626153] whitespace-pre-wrap">{form.experience || 'No experience details provided.'}</p>
           </div>
           <div>
-            <p className="text-xs font-bold text-[#4b4e43] mb-1">Next improvements</p>
-            <p className="text-xs text-[#636659]">
+            <p className="text-xs font-bold text-[#4D4A3F] mb-1">Next improvements</p>
+            <p className="text-xs text-[#626153]">
               {assessment.missing.length
                 ? `Add truthful examples of ${assessment.missing.slice(0, 2).map((skill) => skill.skill).join(' and ')} where applicable, and consider a portfolio project to demonstrate them. Do not list skills you have not practiced.`
                 : 'No priority skill gaps were detected against this curated baseline. Review your resume for clear, specific evidence and keep the information accurate.'}
@@ -224,15 +224,15 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
           </div>
         </div>
         {form.resumeText && (
-          <div className="pt-2 border-t border-[#e2dfd6]">
-            <p className="text-xs font-bold text-[#4b4e43] mb-1">Text extracted from your resume</p>
-            <p className="text-xs text-[#636659] whitespace-pre-wrap break-words">{form.resumeText.slice(0, 1000)}{form.resumeText.length > 1000 ? '…' : ''}</p>
+          <div className="pt-2 border-t border-[#D9D3C4]">
+            <p className="text-xs font-bold text-[#4D4A3F] mb-1">Text extracted from your resume</p>
+            <p className="text-xs text-[#626153] whitespace-pre-wrap break-words">{form.resumeText.slice(0, 1000)}{form.resumeText.length > 1000 ? '…' : ''}</p>
           </div>
         )}
         <button
           type="button"
           onClick={saveSkillsToProfile}
-          className="bg-white border border-[#d6dec8] text-[#3f5022] rounded-lg px-3 py-2 text-xs font-semibold hover:bg-[#edf1e6] transition-colors"
+          className="bg-white border border-[#D6D9C6] text-[#3F4A2F] rounded-lg px-3 py-2 text-xs font-semibold hover:bg-[#E9EBDD] transition-colors"
         >
           Use these skills in my skill map
         </button>

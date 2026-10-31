@@ -33,23 +33,23 @@ export default function Overview({ setActiveTab }) {
   return (
     <div className="space-y-8">
       {/* Target Role Banner */}
-      <div className="bg-white border border-[#e2dfd4] rounded-3xl p-6 shadow-xs flex items-center justify-between">
+      <div className="bg-white border border-[#D9D3C4] rounded-3xl p-6 shadow-xs flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-[#edf1e6] border border-[#d6dec8] rounded-2xl flex items-center justify-center text-[#556b2f]">
+          <div className="w-12 h-12 bg-[#E9EBDD] border border-[#D6D9C6] rounded-2xl flex items-center justify-center text-[#68734A]">
             <Compass size={24} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-[#7d8270] uppercase tracking-wider">Active Target Role</span>
-              {isBeginner && <span className="text-xs bg-[#edf1e6] text-[#455633] px-2 py-0.5 rounded-full font-medium">Beginner</span>}
+              <span className="text-xs font-semibold text-[#797762] uppercase tracking-wider">Active Target Role</span>
+              {isBeginner && <span className="text-xs bg-[#E9EBDD] text-[#4F5B3D] px-2 py-0.5 rounded-full font-medium">Beginner</span>}
             </div>
-            <h2 className="text-xl font-bold text-[#1e2019]">{role}</h2>
+            <h2 className="text-xl font-bold text-[#292923]">{role}</h2>
           </div>
         </div>
 
         <button 
           onClick={() => setActiveTab('skillGap')}
-          className="bg-[#556b2f] hover:bg-[#445625] text-white text-xs md:text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs flex items-center gap-2"
+          className="bg-[#68734A] hover:bg-[#515D3A] text-white text-xs md:text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs flex items-center gap-2"
         >
           View Skill Gap Map <ArrowRight size={14} />
         </button>
@@ -59,10 +59,10 @@ export default function Overview({ setActiveTab }) {
       {isBeginner && (
         <section>
           <div className="flex items-center gap-2 mb-2">
-            <Star size={18} className="text-[#8a6b18]" />
-            <h2 className="text-[#1e2019] font-bold text-lg">{t('beginner.title')}</h2>
+            <Star size={18} className="text-[#866B34]" />
+            <h2 className="text-[#292923] font-bold text-lg">{t('beginner.title')}</h2>
           </div>
-          <p className="text-[#636659] text-sm mb-5">
+          <p className="text-[#626153] text-sm mb-5">
             {recommendedCategories.length
               ? `Starting roles matched to ${recommendedCategories.map((category) => category.title).join(', ')}.`
               : 'Choose a role from the target-role menu to see a personalized career path.'}
@@ -70,8 +70,8 @@ export default function Overview({ setActiveTab }) {
           {recommendedCategories.length > 0 && (
             <div className="space-y-4">
               {recommendedCategories.map((category) => (
-                <div key={category.id} className="bg-white border border-[#e2dfd4] rounded-2xl p-5 shadow-xs">
-                  <h3 className="text-[#1e2019] font-bold text-sm mb-3">{category.title}</h3>
+                <div key={category.id} className="bg-white border border-[#D9D3C4] rounded-2xl p-5 shadow-xs">
+                  <h3 className="text-[#292923] font-bold text-sm mb-3">{category.title}</h3>
                   <div className="flex flex-wrap gap-2">
                     {category.roles.map((recommendedRole) => {
                       const isSelected = role === recommendedRole.title;
@@ -82,8 +82,8 @@ export default function Overview({ setActiveTab }) {
                           aria-pressed={isSelected}
                           className={`rounded-xl border px-3 py-2 text-xs font-semibold transition-colors ${
                             isSelected
-                              ? 'bg-[#556b2f] border-[#556b2f] text-white'
-                              : 'bg-[#faf9f5] border-[#e2dfd4] text-[#4b4e43] hover:border-[#9fa88c]'
+                              ? 'bg-[#68734A] border-[#68734A] text-white'
+                              : 'bg-[#FFFDF7] border-[#D9D3C4] text-[#4D4A3F] hover:border-[#A6AA8B]'
                           }`}
                         >
                           {recommendedRole.title}
@@ -102,19 +102,19 @@ export default function Overview({ setActiveTab }) {
       {isBeginner && (
         <section>
           <div className="flex items-center gap-2 mb-2">
-            <BookOpen size={18} className="text-[#556b2f]" />
-            <h2 className="text-[#1e2019] font-bold text-lg">{t('beginner.learnFirst')}</h2>
+            <BookOpen size={18} className="text-[#68734A]" />
+            <h2 className="text-[#292923] font-bold text-lg">{t('beginner.learnFirst')}</h2>
           </div>
-          <p className="text-[#636659] text-sm mb-5">{t('beginner.learnFirstSubtitle')}</p>
+          <p className="text-[#626153] text-sm mb-5">{t('beginner.learnFirstSubtitle')}</p>
           <div className="space-y-3">
             {BASICS.map((b, i) => (
-              <div key={b.title} className="bg-white border border-[#e2dfd4] rounded-2xl p-4 flex items-center gap-4 hover:border-[#b8c2a4] transition-all shadow-xs">
-                <div className="w-10 h-10 bg-[#edf1e6] border border-[#d6dec8] rounded-xl flex items-center justify-center text-xl flex-shrink-0">{b.icon}</div>
+              <div key={b.title} className="bg-white border border-[#D9D3C4] rounded-2xl p-4 flex items-center gap-4 hover:border-[#A6AA8B] transition-all shadow-xs">
+                <div className="w-10 h-10 bg-[#E9EBDD] border border-[#D6D9C6] rounded-xl flex items-center justify-center text-xl flex-shrink-0">{b.icon}</div>
                 <div>
-                  <div className="text-[#1e2019] font-semibold text-sm">{b.title}</div>
-                  <div className="text-[#636659] text-xs mt-0.5">{b.desc}</div>
+                  <div className="text-[#292923] font-semibold text-sm">{b.title}</div>
+                  <div className="text-[#626153] text-xs mt-0.5">{b.desc}</div>
                 </div>
-                <div className="ml-auto w-6 h-6 bg-[#f0eee6] rounded-full flex items-center justify-center text-[#7d8270] text-xs font-bold">{i + 1}</div>
+                <div className="ml-auto w-6 h-6 bg-[#EEEADF] rounded-full flex items-center justify-center text-[#797762] text-xs font-bold">{i + 1}</div>
               </div>
             ))}
           </div>
@@ -123,21 +123,21 @@ export default function Overview({ setActiveTab }) {
 
       {/* Quick actions */}
       <section>
-        <h2 className="text-[#1e2019] font-bold text-lg mb-4">
+        <h2 className="text-[#292923] font-bold text-lg mb-4">
           {isBeginner ? '🌿 Core Pivot Modules' : '⚡ Your Career Roadmap'}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {quickActions.map(({ id, icon: Icon, label, desc }) => (
             <button key={id} onClick={() => setActiveTab(id)}
-              className="flex items-start gap-4 p-5 rounded-2xl border border-[#e2dfd4] bg-white hover:border-[#556b2f] hover:bg-[#faf9f5] transition-all text-left group shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0 group-hover:bg-[#556b2f] group-hover:text-white transition-colors">
+              className="flex items-start gap-4 p-5 rounded-2xl border border-[#D9D3C4] bg-white hover:border-[#68734A] hover:bg-[#FFFDF7] transition-all text-left group shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-[#E9EBDD] text-[#68734A] flex items-center justify-center flex-shrink-0 group-hover:bg-[#68734A] group-hover:text-white transition-colors">
                 <Icon size={20} />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-[#1e2019] text-sm mb-1">{label}</div>
-                <div className="text-[#636659] text-xs leading-relaxed">{desc}</div>
+                <div className="font-semibold text-[#292923] text-sm mb-1">{label}</div>
+                <div className="text-[#626153] text-xs leading-relaxed">{desc}</div>
               </div>
-              <ArrowRight size={16} className="mt-1 text-[#b8c2a4] group-hover:text-[#556b2f] group-hover:translate-x-1 transition-all" />
+              <ArrowRight size={16} className="mt-1 text-[#A6AA8B] group-hover:text-[#68734A] group-hover:translate-x-1 transition-all" />
             </button>
           ))}
         </div>
