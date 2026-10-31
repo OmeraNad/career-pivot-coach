@@ -16,9 +16,14 @@ import Overview from './Overview';
 import i18n from '../../i18n';
 
 const LANGUAGES = [
-  { code: 'en', label: 'EN', flag: '🇺🇸' },
-  { code: 'hi', label: 'हि', flag: '🇮🇳' },
-  { code: 'es', label: 'ES', flag: '🇪🇸' },
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'pt', label: 'Português', flag: '🇧🇷' },
+  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+  { code: 'zh', label: '中文', flag: '🇨🇳' },
 ];
 
 export default function Dashboard() {
@@ -96,19 +101,19 @@ export default function Dashboard() {
         {/* Language switcher */}
         {sidebarOpen && (
           <div className="p-3 border-t border-[#e2dfd4]">
-            <div className="flex items-center gap-1 bg-[#e4e1d6] rounded-xl p-1">
-              <Globe size={14} className="text-[#636659] ml-1 flex-shrink-0" />
-              {LANGUAGES.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => switchLang(lang.code)}
-                  className={`flex-1 py-1 rounded-lg text-xs font-semibold transition-all ${
-                    currentLang === lang.code ? 'bg-white text-[#1e2019] shadow-xs' : 'text-[#636659] hover:text-[#1e2019]'
-                  }`}
-                >
-                  {lang.label}
-                </button>
-              ))}
+            <div className="flex items-center gap-2 bg-white border border-[#e2dfd4] rounded-xl px-2.5 py-1.5 shadow-xs">
+              <Globe size={14} className="text-[#556b2f] flex-shrink-0" />
+              <select
+                value={currentLang}
+                onChange={(e) => switchLang(e.target.value)}
+                className="bg-transparent text-xs font-semibold text-[#1e2019] focus:outline-none w-full cursor-pointer"
+              >
+                {LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code} className="bg-white text-[#1e2019]">
+                    {lang.flag} {lang.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         )}
@@ -149,7 +154,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 bg-[#f0eee6] border border-[#dcd8cb] px-3 py-1.5 rounded-xl">
               <span className="text-xs text-[#636659] font-medium">Target Role:</span>
               <select
-                value={user?.prefs?.role || 'Junior Software & Web Engineer'}
+                value={user?.prefs?.role || 'Product Manager'}
                 onChange={(e) => {
                   const newRole = e.target.value;
                   const users = JSON.parse(localStorage.getItem('cpc_users') || '[]');
@@ -165,11 +170,17 @@ export default function Dashboard() {
                 }}
                 className="bg-transparent text-[#3f5022] font-semibold text-xs focus:outline-none cursor-pointer"
               >
+                <option value="Product Manager">Product Manager</option>
                 <option value="Junior Software & Web Engineer">Junior Software & Web Engineer</option>
                 <option value="Junior Health Data & Informatics Specialist">Junior Health Data & Informatics Specialist</option>
                 <option value="Business Intelligence & Data Analyst">Business Intelligence & Data Analyst</option>
                 <option value="UI/UX & Product Designer">UI/UX & Product Designer</option>
-                <option value="Associate Product & Operations Manager">Associate Product & Operations Manager</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                {/* Fallback if user typed a custom role */}
+                {user?.prefs?.role && !['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Data Analyst'].includes(user.prefs.role) && (
+                  <option value={user.prefs.role}>{user.prefs.role}</option>
+                )}
               </select>
             </div>
 

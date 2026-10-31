@@ -1,0 +1,109 @@
+{
+  "login": {
+    "title": "Bienvenue",
+    "subtitle": "Connectez-vous à votre coach de transition de carrière",
+    "email": "Adresse Email",
+    "password": "Mot de passe",
+    "button": "Se connecter",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "createAccount": "Créer un compte",
+    "error": {
+      "notFound": "Aucun compte trouvé avec cet email. Veuillez créer un compte.",
+      "wrongPassword": "Mot de passe incorrect. Veuillez réessayer.",
+      "generic": "Une erreur s'est produite. Veuillez réessayer."
+    }
+  },
+  "signup": {
+    "title": "Créez votre compte",
+    "subtitle": "Commencez votre parcours de transition professionnelle",
+    "name": "Nom complet",
+    "email": "Adresse Email",
+    "password": "Mot de passe",
+    "confirm": "Confirmer le mot de passe",
+    "button": "Créer le compte",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "signIn": "Se connecter",
+    "error": {
+      "exists": "Un compte avec cet email existe déjà.",
+      "mismatch": "Les mots de passe ne correspondent pas.",
+      "generic": "Une erreur s'est produite. Veuillez réessayer."
+    }
+  },
+  "welcome": {
+    "title": "Bienvenue",
+    "subtitle": "Configurons votre accompagnement de carrière personnalisé.",
+    "continue": "Commencer"
+  },
+  "language": {
+    "title": "Quelle langue préférez-vous ?",
+    "subtitle": "Nous utiliserons cette langue dans toute l'application.",
+    "continue": "Continuer"
+  },
+  "role": {
+    "title": "Un métier en tête ?",
+    "subtitle": "Indiquez votre métier cible ou laissez-nous vous guider.",
+    "placeholder": "ex. Product Manager, Développeur Web, Data Analyst...",
+    "beginner": "Je suis débutant, aidez-moi à choisir",
+    "continue": "Continuer"
+  },
+  "dashboard": {
+    "greeting": "Bonjour",
+    "subtitle": "Votre centre de commande de carrière",
+    "tabs": {
+      "overview": "Aperçu",
+      "skillGap": "Écart de compétences",
+      "weeklyPlan": "Plan hebdomadaire",
+      "projects": "Projets de portfolio",
+      "mockInterview": "Entretien blanc",
+      "applications": "Candidatures",
+      "progress": "Progression"
+    }
+  },
+  "skillGap": {
+    "title": "Cartographie des compétences",
+    "subtitle": "Basé sur les descriptions de postes réelles du marché",
+    "critical": "Indispensable",
+    "important": "Important",
+    "niceToHave": "Un plus",
+    "yourLevel": "Votre niveau",
+    "required": "Requis",
+    "analyze": "Analyser les compétences"
+  },
+  "weeklyPlan": {
+    "title": "Plan semaine par semaine",
+    "subtitle": "Votre feuille de route d'apprentissage personnalisée",
+    "week": "Semaine",
+    "day": "Jour",
+    "stuck": "Je suis bloqué — Réajuster",
+    "complete": "Marquer comme fait"
+  },
+  "mockInterview": {
+    "title": "Entretien blanc",
+    "subtitle": "Entraînez-vous avec des questions ciblées selon le poste",
+    "start": "Démarrer l'entretien",
+    "next": "Question suivante",
+    "submit": "Soumettre la réponse",
+    "feedback": "Voir l'évaluation",
+    "score": "Score"
+  },
+  "applications": {
+    "title": "Suivi des candidatures",
+    "subtitle": "Suivez vos candidatures et découvrez les tendances de réponse",
+    "add": "Ajouter une candidature",
+    "status": {
+      "applied": "Postulé",
+      "screening": "Sélection",
+      "interview": "Entretien",
+      "offer": "Offre",
+      "rejected": "Refusé"
+    }
+  },
+  "progress": {
+    "title": "Suivi de progression",
+    "subtitle": "Mesurez vos progrès au quotidien",
+    "overall": "Progression globale",
+    "streak": "Jours consécutifs",
+    "completed": "Tâches terminées",
+    "skillsLearned": "Compétences maîtrisées"
+  }
+}

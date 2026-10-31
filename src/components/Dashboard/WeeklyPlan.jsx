@@ -8,10 +8,10 @@ export default function WeeklyPlan() {
   const { t } = useTranslation();
   const { user } = useAuth();
 
-  const targetRole = user?.prefs?.role && user.prefs.role !== 'beginner' ? user.prefs.role : 'Full Stack Developer';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+  const targetRole = user?.prefs?.role || 'Product Manager';
+  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
 
-  const storageKey = `cpc_plan_${user?.id || 'guest'}`;
+  const storageKey = `cpc_plan_${user?.id || 'guest'}_${getRoleKey(targetRole)}`;
 
   const [plan, setPlan] = useState(() => {
     const saved = localStorage.getItem(storageKey);
@@ -26,11 +26,12 @@ export default function WeeklyPlan() {
   const [replanned, setReplanned] = useState(false);
 
   useEffect(() => {
+    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
     const saved = localStorage.getItem(storageKey);
-    if (!saved) {
-      const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
-      setPlan(config.weeklyPlan);
+    if (saved) {
+      try { setPlan(JSON.parse(saved)); return; } catch (e) {}
     }
+    setPlan(config.weeklyPlan);
   }, [targetRole, storageKey]);
 
   const toggleTask = (wi, di) => {

@@ -8,11 +8,11 @@ const LANGUAGES = [
   { code: 'en', label: 'English', native: 'English', flag: '🇺🇸' },
   { code: 'hi', label: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
   { code: 'es', label: 'Spanish', native: 'Español', flag: '🇪🇸' },
-  { code: 'fr', label: 'French', native: 'Français', flag: '🇫🇷', comingSoon: true },
-  { code: 'de', label: 'German', native: 'Deutsch', flag: '🇩🇪', comingSoon: true },
-  { code: 'ar', label: 'Arabic', native: 'العربية', flag: '🇸🇦', comingSoon: true },
-  { code: 'pt', label: 'Portuguese', native: 'Português', flag: '🇧🇷', comingSoon: true },
-  { code: 'zh', label: 'Chinese', native: '中文', flag: '🇨🇳', comingSoon: true },
+  { code: 'fr', label: 'French', native: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'German', native: 'Deutsch', flag: '🇩🇪' },
+  { code: 'pt', label: 'Portuguese', native: 'Português', flag: '🇧🇷' },
+  { code: 'ar', label: 'Arabic', native: 'العربية', flag: '🇸🇦' },
+  { code: 'zh', label: 'Chinese', native: '中文', flag: '🇨🇳' },
 ];
 
 export default function LanguageSelect() {
@@ -20,8 +20,7 @@ export default function LanguageSelect() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(i18n.language || 'en');
 
-  const handleSelect = (code, comingSoon) => {
-    if (comingSoon) return;
+  const handleSelect = (code) => {
     setSelected(code);
     i18n.changeLanguage(code);
     localStorage.setItem('preferredLanguage', code);
@@ -45,13 +44,10 @@ export default function LanguageSelect() {
           {LANGUAGES.map((lang) => (
             <button
               key={lang.code}
-              onClick={() => handleSelect(lang.code, lang.comingSoon)}
-              disabled={lang.comingSoon}
+              onClick={() => handleSelect(lang.code)}
               className={`relative flex items-center gap-3 p-4 rounded-2xl border transition-all text-left ${
                 selected === lang.code
                   ? 'bg-[#edf1e6] border-[#556b2f] shadow-sm'
-                  : lang.comingSoon
-                  ? 'bg-white/50 border-[#e4e1d6] opacity-40 cursor-not-allowed'
                   : 'bg-white border-[#e4e1d6] hover:border-[#b8c2a4] hover:bg-[#faf9f5]'
               }`}
             >
@@ -60,9 +56,6 @@ export default function LanguageSelect() {
                 <div className="text-[#1e2019] font-semibold text-sm">{lang.native}</div>
                 <div className="text-[#636659] text-xs">{lang.label}</div>
               </div>
-              {lang.comingSoon && (
-                <span className="absolute top-2 right-2 text-xs bg-[#e4e1d6] text-[#636659] px-2 py-0.5 rounded-full">Soon</span>
-              )}
               {selected === lang.code && (
                 <div className="absolute top-2 right-2 w-5 h-5 bg-[#556b2f] rounded-full flex items-center justify-center">
                   <Check size={12} className="text-white" />

@@ -67,8 +67,8 @@ export default function MockInterview() {
   const { t } = useTranslation();
   const { user } = useAuth();
 
-  const targetRole = user?.prefs?.role && user.prefs.role !== 'beginner' ? user.prefs.role : 'Full Stack Developer';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+  const targetRole = user?.prefs?.role || 'Product Manager';
+  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
 
   const [questions, setQuestions] = useState(roleConfig.mockInterview);
   const [started, setStarted] = useState(false);
@@ -78,7 +78,7 @@ export default function MockInterview() {
   const [feedback, setFeedback] = useState(null);
 
   useEffect(() => {
-    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
     setQuestions(config.mockInterview);
     setQIndex(0);
     setAnswer('');

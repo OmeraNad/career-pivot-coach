@@ -1,0 +1,109 @@
+{
+  "login": {
+    "title": "Bem-vindo de volta",
+    "subtitle": "Acesse seu Career Pivot Coach",
+    "email": "Endereço de E-mail",
+    "password": "Senha",
+    "button": "Entrar",
+    "noAccount": "Não tem uma conta?",
+    "createAccount": "Criar uma nova conta",
+    "error": {
+      "notFound": "Nenhuma conta encontrada com este e-mail. Por favor, crie uma conta.",
+      "wrongPassword": "Senha incorreta. Tente novamente.",
+      "generic": "Ocorreu um erro. Tente novamente."
+    }
+  },
+  "signup": {
+    "title": "Crie sua conta",
+    "subtitle": "Inicie sua jornada de transição de carreira",
+    "name": "Nome completo",
+    "email": "Endereço de E-mail",
+    "password": "Senha",
+    "confirm": "Confirmar senha",
+    "button": "Criar conta",
+    "hasAccount": "Já tem uma conta?",
+    "signIn": "Entrar",
+    "error": {
+      "exists": "Já existe uma conta com este e-mail.",
+      "mismatch": "As senhas não coincidem.",
+      "generic": "Ocorreu um erro. Tente novamente."
+    }
+  },
+  "welcome": {
+    "title": "Bem-vindo",
+    "subtitle": "Vamos configurar seu plano personalizado de carreira.",
+    "continue": "Começar"
+  },
+  "language": {
+    "title": "Qual idioma você prefere?",
+    "subtitle": "Usaremos este idioma em todo o aplicativo.",
+    "continue": "Continuar"
+  },
+  "role": {
+    "title": "Tem algum cargo em mente?",
+    "subtitle": "Informe seu cargo desejado ou deixe-nos sugerir.",
+    "placeholder": "ex: Product Manager, Desenvolvedor Web, Data Analyst...",
+    "beginner": "Sou iniciante, quero descobrir",
+    "continue": "Continuar"
+  },
+  "dashboard": {
+    "greeting": "Olá",
+    "subtitle": "Seu centro de comando profissional",
+    "tabs": {
+      "overview": "Visão Geral",
+      "skillGap": "Lacunas de Habilidades",
+      "weeklyPlan": "Plano Semanal",
+      "projects": "Projetos de Portfólio",
+      "mockInterview": "Simulador de Entrevista",
+      "applications": "Candidaturas",
+      "progress": "Progresso"
+    }
+  },
+  "skillGap": {
+    "title": "Mapa de Habilidades",
+    "subtitle": "Baseado em vagas reais do mercado de trabalho",
+    "critical": "Essencial",
+    "important": "Importante",
+    "niceToHave": "Diferencial",
+    "yourLevel": "Seu nível",
+    "required": "Exigido",
+    "analyze": "Analisar Habilidades"
+  },
+  "weeklyPlan": {
+    "title": "Plano Semana a Semana",
+    "subtitle": "Seu roteiro prático e personalizado",
+    "week": "Semana",
+    "day": "Dia",
+    "stuck": "Travei — Reajustar Plano",
+    "complete": "Marcar como Concluído"
+  },
+  "mockInterview": {
+    "title": "Simulador de Entrevista",
+    "subtitle": "Pratique com perguntas reais avaliadas por critérios de contratação",
+    "start": "Iniciar Entrevista",
+    "next": "Próxima Pergunta",
+    "submit": "Enviar Resposta",
+    "feedback": "Ver Avaliação",
+    "score": "Pontuação"
+  },
+  "applications": {
+    "title": "Rastreador de Vagas",
+    "subtitle": "Monitore suas candidaturas e descubra quais geram respostas",
+    "add": "Adicionar Vaga",
+    "status": {
+      "applied": "Candidatou-se",
+      "screening": "Triagem",
+      "interview": "Entrevista",
+      "offer": "Oferta",
+      "rejected": "Não selecionado"
+    }
+  },
+  "progress": {
+    "title": "Acompanhamento de Progresso",
+    "subtitle": "Acompanhe seu avanço diário",
+    "overall": "Progresso Geral",
+    "streak": "Dias Consecutivos",
+    "completed": "Tarefas Concluídas",
+    "skillsLearned": "Habilidades Aprendidas"
+  }
+}

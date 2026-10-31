@@ -1,0 +1,109 @@
+{
+  "login": {
+    "title": "欢迎回来",
+    "subtitle": "登录您的职业转型智能教练",
+    "email": "电子邮箱",
+    "password": "密码",
+    "button": "登录",
+    "noAccount": "还没有账号？",
+    "createAccount": "创建新账号",
+    "error": {
+      "notFound": "未找到此邮箱对应的账号，请先创建账号。",
+      "wrongPassword": "密码不正确，请重试。",
+      "generic": "出错了，请重试。"
+    }
+  },
+  "signup": {
+    "title": "创建您的账号",
+    "subtitle": "开启您的职业转型与技能进阶之旅",
+    "name": "全名",
+    "email": "电子邮箱",
+    "password": "密码",
+    "confirm": "确认密码",
+    "button": "立即注册",
+    "hasAccount": "已经有账号？",
+    "signIn": "直接登录",
+    "error": {
+      "exists": "该邮箱已注册账号。",
+      "mismatch": "两次输入的密码不一致。",
+      "generic": "出错了，请重试。"
+    }
+  },
+  "welcome": {
+    "title": "欢迎使用",
+    "subtitle": "让我们为您量身定制职业转型与技能学习路径。",
+    "continue": "开始体验"
+  },
+  "language": {
+    "title": "请选择您的首选语言",
+    "subtitle": "我们将在整个应用中使用该语言为您服务。",
+    "continue": "继续"
+  },
+  "role": {
+    "title": "您有明确的目标岗位吗？",
+    "subtitle": "输入您的目标职位，或让我们为您推荐热门路径。",
+    "placeholder": "例如：产品经理 (Product Manager)、数据分析师、前端工程师...",
+    "beginner": "我是零基础新手，请为我推荐",
+    "continue": "继续"
+  },
+  "dashboard": {
+    "greeting": "您好",
+    "subtitle": "您的个性化职业指挥中心",
+    "tabs": {
+      "overview": "总览",
+      "skillGap": "技能差距图谱",
+      "weeklyPlan": "每周进阶计划",
+      "projects": "实战作品集项目",
+      "mockInterview": "全真模拟面试",
+      "applications": "求职投递追踪",
+      "progress": "学习进度"
+    }
+  },
+  "skillGap": {
+    "title": "技能差距分析",
+    "subtitle": "基于全球真实招聘职缺要求深度对标",
+    "critical": "核心硬核要求",
+    "important": "重要加分项",
+    "niceToHave": "进阶拓展",
+    "yourLevel": "您当前水平",
+    "required": "职位所需标准",
+    "analyze": "重新分析技能"
+  },
+  "weeklyPlan": {
+    "title": "周进阶学习计划",
+    "subtitle": "每天45分钟、循序渐进的行动指南",
+    "week": "第几周",
+    "day": "天",
+    "stuck": "遇到瓶颈 — 动态调整计划",
+    "complete": "标记完成"
+  },
+  "mockInterview": {
+    "title": "AI 模拟面试评估",
+    "subtitle": "基于真实面试考核标准打分并给出范例答案",
+    "start": "开始模拟面试",
+    "next": "下一题",
+    "submit": "提交我的回答",
+    "feedback": "查看评估报告",
+    "score": "综合得分"
+  },
+  "applications": {
+    "title": "求职投递智能追踪",
+    "subtitle": "记录投递进展，发现最容易获得面试的职位类型",
+    "add": "添加新投递",
+    "status": {
+      "applied": "已投递",
+      "screening": "初筛中",
+      "interview": "安排面试",
+      "offer": "已发录用",
+      "rejected": "未通过"
+    }
+  },
+  "progress": {
+    "title": "每日学习成长追踪",
+    "subtitle": "量化您的每一份努力",
+    "overall": "综合完成度",
+    "streak": "连续学习天数",
+    "completed": "已完成任务数",
+    "skillsLearned": "已掌握技能数"
+  }
+}

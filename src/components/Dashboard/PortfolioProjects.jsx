@@ -11,8 +11,8 @@ export default function PortfolioProjects() {
   const { t } = useTranslation();
   const { user } = useAuth();
 
-  const targetRole = user?.prefs?.role && user.prefs.role !== 'beginner' ? user.prefs.role : 'Junior Software & Web Engineer';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.technology;
+  const targetRole = user?.prefs?.role || 'Product Manager';
+  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
   const projects = roleConfig.portfolioProjects || [];
 
   // Read mastered skills from user storage

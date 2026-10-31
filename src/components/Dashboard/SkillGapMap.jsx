@@ -58,8 +58,8 @@ export default function SkillGapMap() {
   const { t } = useTranslation();
   const { user } = useAuth();
   
-  const targetRole = user?.prefs?.role && user.prefs.role !== 'beginner' ? user.prefs.role : 'Full Stack Developer';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+  const targetRole = user?.prefs?.role || 'Product Manager';
+  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
 
   const [skillsData, setSkillsData] = useState(roleConfig.skills);
   const [selectedSkill, setSelectedSkill] = useState(null);
@@ -68,7 +68,7 @@ export default function SkillGapMap() {
   const [resume, setResume] = useState('');
 
   useEffect(() => {
-    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
     setSkillsData(config.skills);
   }, [targetRole]);
 

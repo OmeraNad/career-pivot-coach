@@ -1,0 +1,109 @@
+{
+  "login": {
+    "title": "Willkommen zurück",
+    "subtitle": "Melden Sie sich bei Ihrem Career Pivot Coach an",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "button": "Anmelden",
+    "noAccount": "Noch kein Konto?",
+    "createAccount": "Neues Konto erstellen",
+    "error": {
+      "notFound": "Kein Konto mit dieser E-Mail gefunden. Bitte erstellen Sie ein Konto.",
+      "wrongPassword": "Falsches Passwort. Bitte versuchen Sie es erneut.",
+      "generic": "Ein Fehler ist aufgetreten."
+    }
+  },
+  "signup": {
+    "title": "Konto erstellen",
+    "subtitle": "Starten Sie Ihre berufliche Neuorientierung",
+    "name": "Vollständiger Name",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirm": "Passwort bestätigen",
+    "button": "Konto erstellen",
+    "hasAccount": "Haben Sie bereits ein Konto?",
+    "signIn": "Anmelden",
+    "error": {
+      "exists": "Ein Konto mit dieser E-Mail existiert bereits.",
+      "mismatch": "Passwörter stimmen nicht überein.",
+      "generic": "Ein Fehler ist aufgetreten."
+    }
+  },
+  "welcome": {
+    "title": "Willkommen",
+    "subtitle": "Lassen Sie uns Ihr persönliches Karriere-Coaching einrichten.",
+    "continue": "Starten"
+  },
+  "language": {
+    "title": "Welche Sprache bevorzugen Sie?",
+    "subtitle": "Wir werden diese Sprache in der gesamten App verwenden.",
+    "continue": "Weiter"
+  },
+  "role": {
+    "title": "Haben Sie eine Wunschrolle?",
+    "subtitle": "Geben Sie Ihre Zielrolle an oder lassen Sie sich beraten.",
+    "placeholder": "z.B. Product Manager, Webentwickler, Data Analyst...",
+    "beginner": "Ich bin Anfänger, bitte um Vorschläge",
+    "continue": "Weiter"
+  },
+  "dashboard": {
+    "greeting": "Hallo",
+    "subtitle": "Ihre persönliche Karriere-Kommandozentrale",
+    "tabs": {
+      "overview": "Übersicht",
+      "skillGap": "Kompetenzlücke",
+      "weeklyPlan": "Wochenplan",
+      "projects": "Portfolio-Projekte",
+      "mockInterview": "Probe-Interview",
+      "applications": "Bewerbungen",
+      "progress": "Fortschritt"
+    }
+  },
+  "skillGap": {
+    "title": "Kompetenzanalyse",
+    "subtitle": "Basierend auf realen Stellenbeschreibungen",
+    "critical": "Dringend erforderlich",
+    "important": "Wichtig",
+    "niceToHave": "Vorteilhaft",
+    "yourLevel": "Ihr Stand",
+    "required": "Erforderlich",
+    "analyze": "Kompetenzen analysieren"
+  },
+  "weeklyPlan": {
+    "title": "Schritt-für-Schritt-Wochenplan",
+    "subtitle": "Ihr maßgeschneiderter Lernplan",
+    "week": "Woche",
+    "day": "Tag",
+    "stuck": "Ich hänge fest — Plan anpassen",
+    "complete": "Als erledigt markieren"
+  },
+  "mockInterview": {
+    "title": "Probe-Interview",
+    "subtitle": "Trainieren Sie mit rollenspezifischen Interviewfragen",
+    "start": "Interview starten",
+    "next": "Nächste Frage",
+    "submit": "Antwort einreichen",
+    "feedback": "Feedback ansehen",
+    "score": "Punktzahl"
+  },
+  "applications": {
+    "title": "Bewerbungs-Tracker",
+    "subtitle": "Verfolgen Sie Bewerbungen und Erfolgsquoten",
+    "add": "Bewerbung hinzufügen",
+    "status": {
+      "applied": "Beworben",
+      "screening": "Vorauswahl",
+      "interview": "Interview",
+      "offer": "Angebot",
+      "rejected": "Abgelehnt"
+    }
+  },
+  "progress": {
+    "title": "Fortschritts-Tracker",
+    "subtitle": "Sehen Sie Ihren täglichen Lernfortschritt",
+    "overall": "Gesamtfortschritt",
+    "streak": "Tage in Folge",
+    "completed": "Erledigte Aufgaben",
+    "skillsLearned": "Gelernte Fähigkeiten"
+  }
+}
