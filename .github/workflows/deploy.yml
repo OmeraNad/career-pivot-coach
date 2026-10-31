@@ -3,7 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main   # Triggers on every push to main
+      - main
+      - master   # Added master so it triggers automatically on push!
 
   # Allow manual trigger from GitHub Actions tab
   workflow_dispatch:
