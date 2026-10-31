@@ -141,11 +141,41 @@ export default function Dashboard() {
             <h2 className="text-white font-bold">{t('dashboard.greeting')}, {user?.name?.split(' ')[0]} 👋</h2>
             <p className="text-slate-400 text-xs">{t('dashboard.subtitle')}</p>
           </div>
-          {user?.prefs?.isBeginner && (
-            <span className="bg-purple-600/20 text-purple-400 border border-purple-500/30 text-xs font-semibold px-3 py-1 rounded-full">
-              ✨ Beginner Path
-            </span>
-          )}
+          
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl">
+              <span className="text-xs text-slate-400">Target Role:</span>
+              <select
+                value={user?.prefs?.role || 'Full Stack Developer'}
+                onChange={(e) => {
+                  const newRole = e.target.value;
+                  const users = JSON.parse(localStorage.getItem('cpc_users') || '[]');
+                  const idx = users.findIndex((u) => u.id === user.id);
+                  const updatedPrefs = { ...user.prefs, role: newRole, isBeginner: false };
+                  if (idx !== -1) {
+                    users[idx] = { ...users[idx], prefs: updatedPrefs };
+                    localStorage.setItem('cpc_users', JSON.stringify(users));
+                  }
+                  const session = { ...user, prefs: updatedPrefs };
+                  localStorage.setItem('cpc_session', JSON.stringify(session));
+                  window.location.reload();
+                }}
+                className="bg-transparent text-purple-300 font-semibold text-xs focus:outline-none cursor-pointer"
+              >
+                <option value="Full Stack Developer" className="bg-slate-900 text-white">Full Stack Developer</option>
+                <option value="Data Analyst" className="bg-slate-900 text-white">Data Analyst</option>
+                <option value="Software Engineer" className="bg-slate-900 text-white">Software Engineer</option>
+                <option value="Product Manager" className="bg-slate-900 text-white">Product Manager</option>
+                <option value="UX Designer" className="bg-slate-900 text-white">UX Designer</option>
+              </select>
+            </div>
+
+            {user?.prefs?.isBeginner && (
+              <span className="bg-purple-600/20 text-purple-400 border border-purple-500/30 text-xs font-semibold px-3 py-1 rounded-full">
+                ✨ Beginner Path
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="p-8">

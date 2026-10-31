@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { ArrowRight, Search, Sparkles } from 'lucide-react';
 
 const POPULAR_ROLES = [
@@ -12,6 +13,7 @@ const POPULAR_ROLES = [
 export default function RoleSelect() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { completeOnboarding } = useAuth();
   const [role, setRole] = useState('');
   const [isBeginner, setIsBeginner] = useState(false);
 
@@ -27,11 +29,16 @@ export default function RoleSelect() {
 
   const handleContinue = () => {
     if (isBeginner) {
-      // Store selection then go to interests
       sessionStorage.setItem('onboarding_role', 'beginner');
       navigate('/onboarding/interests');
     } else {
-      sessionStorage.setItem('onboarding_role', role);
+      const lang = localStorage.getItem('preferredLanguage') || 'en';
+      completeOnboarding({
+        role: role.trim(),
+        isBeginner: false,
+        interests: [],
+        language: lang,
+      });
       navigate('/dashboard');
     }
   };

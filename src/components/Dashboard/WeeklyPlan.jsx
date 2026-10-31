@@ -1,46 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AlertOctagon, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
-
-const INITIAL_PLAN = [
-  {
-    week: 1, title: 'SQL Foundations',
-    days: [
-      { day: 'Mon', task: 'Complete MODE SQL Tutorial: Basics (2 hrs)', done: true },
-      { day: 'Tue', task: 'Practice SELECT, WHERE, GROUP BY (1.5 hrs)', done: true },
-      { day: 'Wed', task: 'JOINs deep dive — inner, left, right (2 hrs)', done: false },
-      { day: 'Thu', task: 'Window functions: ROW_NUMBER, RANK (1.5 hrs)', done: false },
-      { day: 'Fri', task: 'Mini project: Analyze a sample dataset (2 hrs)', done: false },
-    ],
-  },
-  {
-    week: 2, title: 'Python for Data',
-    days: [
-      { day: 'Mon', task: 'Python basics: data types, loops, functions (2 hrs)', done: false },
-      { day: 'Tue', task: 'Pandas: DataFrames, read_csv, head, describe (2 hrs)', done: false },
-      { day: 'Wed', task: 'Data cleaning: nulls, duplicates, dtypes (1.5 hrs)', done: false },
-      { day: 'Thu', task: 'Matplotlib: basic charts and plots (1.5 hrs)', done: false },
-      { day: 'Fri', task: 'Mini project: Clean and visualize a dataset (2 hrs)', done: false },
-    ],
-  },
-  {
-    week: 3, title: 'Data Visualization',
-    days: [
-      { day: 'Mon', task: 'Tableau Public install + connect to data (1 hr)', done: false },
-      { day: 'Tue', task: 'Build your first dashboard (2 hrs)', done: false },
-      { day: 'Wed', task: 'Advanced charts: scatter, heat map, treemap (2 hrs)', done: false },
-      { day: 'Thu', task: 'Storytelling with data — best practices (1.5 hrs)', done: false },
-      { day: 'Fri', task: 'Publish a portfolio dashboard (2 hrs)', done: false },
-    ],
-  },
-];
+import { useAuth } from '../../contexts/AuthContext';
+import { AlertOctagon, CheckCircle2, Circle, RefreshCw, Calendar } from 'lucide-react';
+import { ROLE_DATA, getRoleKey } from '../../data/roleData';
 
 export default function WeeklyPlan() {
   const { t } = useTranslation();
-  const [plan, setPlan] = useState(INITIAL_PLAN);
+  const { user } = useAuth();
+
+  const targetRole = user?.prefs?.role && user.prefs.role !== 'beginner' ? user.prefs.role : 'Full Stack Developer';
+  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+
+  const [plan, setPlan] = useState(roleConfig.weeklyPlan);
   const [expanded, setExpanded] = useState(0);
   const [replanning, setReplanning] = useState(false);
   const [replanned, setReplanned] = useState(false);
+
+  useEffect(() => {
+    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
+    setPlan(config.weeklyPlan);
+  }, [targetRole]);
 
   const toggleTask = (wi, di) => {
     setPlan((prev) => prev.map((w, wIdx) => wIdx !== wi ? w : {
@@ -50,7 +29,10 @@ export default function WeeklyPlan() {
 
   const handleReplan = () => {
     setReplanning(true);
-    setTimeout(() => { setReplanning(false); setReplanned(true); }, 2000);
+    setTimeout(() => { 
+      setReplanning(false); 
+      setReplanned(true); 
+    }, 1800);
   };
 
   const totalDays = plan.flatMap((w) => w.days).length;
@@ -60,7 +42,12 @@ export default function WeeklyPlan() {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-1">{t('weeklyPlan.title')}</h1>
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl font-bold text-white">{t('weeklyPlan.title')}</h1>
+            <span className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2.5 py-0.5 rounded-full font-medium">
+              {targetRole}
+            </span>
+          </div>
           <p className="text-slate-400 text-sm">{t('weeklyPlan.subtitle')}</p>
         </div>
         <button onClick={handleReplan} disabled={replanning}
@@ -71,11 +58,11 @@ export default function WeeklyPlan() {
       </div>
 
       {replanned && (
-        <div className="bg-orange-500/10 border border-orange-500/30 rounded-2xl p-4 flex items-center gap-3">
-          <RefreshCw size={18} className="text-orange-400" />
+        <div className="bg-orange-500/10 border border-orange-500/30 rounded-2xl p-4 flex items-center gap-3 animate-fadeIn">
+          <RefreshCw size={18} className="text-orange-400 flex-shrink-0" />
           <div>
-            <div className="text-orange-300 font-semibold text-sm">Plan Adjusted!</div>
-            <div className="text-slate-400 text-xs">We detected you were moving slower on Week 2. We've added more video-based resources and broken tasks into smaller pieces.</div>
+            <div className="text-orange-300 font-semibold text-sm">Adaptive Plan Adjusted for {targetRole}!</div>
+            <div className="text-slate-400 text-xs">We detected pacing friction. We have split heavy coding concepts into bite-sized 45-minute daily modules and added guided code-along video walkthroughs.</div>
           </div>
         </div>
       )}
@@ -83,8 +70,8 @@ export default function WeeklyPlan() {
       {/* Progress bar */}
       <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
         <div className="flex justify-between text-sm mb-2">
-          <span className="text-slate-400">Overall completion</span>
-          <span className="text-white font-semibold">{doneDays}/{totalDays} days</span>
+          <span className="text-slate-400">Roadmap Milestone Progress</span>
+          <span className="text-white font-semibold">{doneDays}/{totalDays} tasks completed</span>
         </div>
         <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
           <div className="h-full bg-gradient-to-r from-purple-600 to-pink-500 rounded-full transition-all"
@@ -97,7 +84,7 @@ export default function WeeklyPlan() {
         const weekDone = week.days.filter((d) => d.done).length;
         const isExpanded = expanded === wi;
         return (
-          <div key={week.week} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+          <div key={week.week} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-md">
             <button onClick={() => setExpanded(isExpanded ? -1 : wi)}
               className="w-full flex items-center justify-between p-5 hover:bg-white/5 transition-all">
               <div className="flex items-center gap-3">
