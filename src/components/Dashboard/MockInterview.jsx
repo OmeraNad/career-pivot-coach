@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { Mic, ChevronRight, Sparkles, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
-import { getSkillLevels } from '../../data/skillMatch';
+import { getProfileSkillLevels } from '../../data/skillMatch';
 
 function evaluateInterviewAnswer(answer, question) {
   const clean = (answer || '').trim().toLowerCase();
@@ -91,7 +91,7 @@ export default function MockInterview() {
   const roleKey = getRoleKey(targetRole);
   const roleConfig = ROLE_DATA[roleKey] || ROLE_DATA.productManager;
   const roleSkills = [...roleConfig.skills.critical, ...roleConfig.skills.important, ...roleConfig.skills.niceToHave];
-  const knownSkillLevels = getSkillLevels(roleKey, user?.prefs?.knownSkills, user?.prefs?.skillConfidence);
+  const knownSkillLevels = getProfileSkillLevels(roleKey, user?.prefs || {});
   const questionFocus = roleSkills.find((skill) => !knownSkillLevels[skill.skill])
     || roleSkills[0];
   const questionsForRole = (roleConfig.mockInterview || []).map((question) => question.type === 'Technical' && questionFocus

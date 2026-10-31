@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { AlertOctagon, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
-import { getSkillLevels, allSkillsFor } from '../../data/skillMatch';
+import { getProfileSkillLevels, allSkillsFor } from '../../data/skillMatch';
 import { createWeeklyPlan } from '../../data/careerCatalog';
 
 function reconcilePlan(savedPlan, generatedPlan) {
@@ -33,7 +33,7 @@ export default function WeeklyPlan() {
   const storageKey = `cpc_plan_${user?.id || 'guest'}_${roleKey}`;
 
   // Which plan steps the user already knows, based on the skills they entered
-  const levels = getSkillLevels(roleKey, user?.prefs?.knownSkills, user?.prefs?.skillConfidence);
+  const levels = getProfileSkillLevels(roleKey, user?.prefs || {});
   const coveredSteps = new Set(
     allSkillsFor(roleKey)
       .filter((s) => (levels[s.skill] || 0) >= s.required - 5)

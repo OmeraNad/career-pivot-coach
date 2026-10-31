@@ -20,40 +20,83 @@ function readResume(key) {
   }
 }
 
-export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePrefs }) {
+function assessForm(form, knownSkills, roleSkills) {
+  const listedSkills = form.existingSkills.split(/[,;\n]+/).map((skill) => skill.trim()).filter(Boolean);
+  const allListedSkills = [...new Set([...(knownSkills || []), ...listedSkills])];
+  const sources = [
+    { type: 'resume', value: form.resumeText },
+    { type: 'education', value: form.education },
+    { type: 'experience', value: form.experience },
+    { type: 'certifications', value: form.certifications },
+    { type: 'projects', value: form.projects },
+    { type: 'listed', value: allListedSkills.join('\n') },
+  ];
+  return {
+    ...assessResumeSkills(roleSkills, sources),
+    listedSkills: allListedSkills,
+  };
+}
+
+function getSkillLevelsFromAssessment(assessment) {
+  return Object.values(assessment.categories).flat().reduce((levels, skill) => {
+    levels[skill.skill] = Math.round(skill.required * skill.proficiencyScore);
+    return levels;
+  }, {});
+}
+
+function getPdfParsingStatus(form, isReading, error) {
+  if (isReading) return 'Parsing PDF…';
+  if (!form.fileName) return error ? 'Parsing failed' : 'No PDF uploaded';
+  if (!form.resumeText) return 'No selectable text found';
+  return 'Parsed successfully';
+}
+
+function extractPageLines(items) {
+  const lines = [];
+  items.forEach((item) => {
+    const text = item.str?.trim();
+    if (!text) return;
+    const y = item.transform?.[5];
+    const previous = lines[lines.length - 1];
+    if (previous && Number.isFinite(y) && Math.abs(previous.y - y) < 3) {
+      previous.text += ` ${text}`;
+    } else {
+      lines.push({ y, text });
+    }
+  });
+  return lines.map(({ text }) => text).join('\n');
+}
+
+export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, updatePrefs }) {
   const storageKey = `cpc_resume_${user?.id || 'guest'}`;
   const [form, setForm] = useState(() => readResume(storageKey));
   const latestForm = useRef(form);
   const [isReading, setIsReading] = useState(false);
   const [error, setError] = useState('');
+  const [syncMessage, setSyncMessage] = useState('');
   const roleSkills = useMemo(() => [
     ...roleConfig.skills.critical,
     ...roleConfig.skills.important,
     ...roleConfig.skills.niceToHave,
   ], [roleConfig]);
   const assessment = useMemo(() => {
-    const listedSkills = form.existingSkills.split(/[,;\n]+/).map((skill) => skill.trim()).filter(Boolean);
-    const profileSkills = user?.prefs?.knownSkills || [];
-    const allListedSkills = [...new Set([...profileSkills, ...listedSkills])];
-    const sources = [
-      { type: 'resume', value: form.resumeText },
-      { type: 'education', value: form.education },
-      { type: 'experience', value: form.experience },
-      { type: 'certifications', value: form.certifications },
-      { type: 'projects', value: form.projects },
-      { type: 'listed', value: allListedSkills.join('\n') },
-    ];
-    const result = assessResumeSkills(roleSkills, sources);
-    return {
-      ...result,
-      listedSkills: allListedSkills,
-    };
+    return assessForm(form, user?.prefs?.knownSkills, roleSkills);
   }, [form, roleSkills, user?.prefs?.knownSkills]);
+
+  const updateSkillMap = (result) => {
+    const resumeSkillLevels = {
+      ...(user?.prefs?.resumeSkillLevels || {}),
+      [roleKey]: getSkillLevelsFromAssessment(result),
+    };
+    updatePrefs({ resumeSkillLevels });
+    setSyncMessage('Your resume assessment has been applied to the skill map.');
+  };
 
   const updateForm = (field, value) => {
     const next = { ...form, [field]: value };
     latestForm.current = next;
     setForm(next);
+    setSyncMessage('');
     try {
       localStorage.setItem(storageKey, JSON.stringify(next));
     } catch {
@@ -87,7 +130,7 @@ export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePre
       for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
         const page = await document.getPage(pageNumber);
         const content = await page.getTextContent();
-        pageText.push(content.items.map((item) => item.str).join(' '));
+        pageText.push(extractPageLines(content.items));
       }
       const resumeText = pageText.join('\n').trim().slice(0, 100000);
       if (!resumeText) {
@@ -96,8 +139,12 @@ export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePre
       const nextForm = { ...latestForm.current, fileName: file.name, resumeText };
       latestForm.current = nextForm;
       setForm(nextForm);
+      setSyncMessage('');
       try {
         localStorage.setItem(storageKey, JSON.stringify(nextForm));
+        if (resumeText) {
+          updateSkillMap(assessForm(nextForm, user?.prefs?.knownSkills, roleSkills));
+        }
       } catch {
         setError('Could not save this resume information in browser storage. Try a shorter resume or fewer notes.');
       }
@@ -109,14 +156,7 @@ export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePre
     }
   };
 
-  const saveSkillsToProfile = () => {
-    const detected = assessment.categories.strengths.map((skill) => skill.skill);
-    updatePrefs({
-      knownSkills: [...new Set([...assessment.listedSkills, ...detected])],
-      skillConfidence: 55,
-    });
-  };
-
+  const parseStatus = getPdfParsingStatus(form, isReading, error);
   return (
     <section className="bg-white border border-[#D9D3C4] rounded-2xl p-5 md:p-6 shadow-xs space-y-5">
       <div>
@@ -183,19 +223,43 @@ export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePre
         <div className="flex items-center justify-between gap-3">
           <div>
             <h3 className="text-[#292923] font-bold text-sm">Local skill-gap assessment</h3>
-            <p className="text-[#797762] text-xs mt-1">Matched requirements are based only on skills found in your resume or entered information.</p>
+            <p className="text-[#797762] text-xs mt-1">Matched requirements are based only on skills found in your resume or entered information. Uploading a readable PDF applies its evidence to the skill map.</p>
           </div>
           <span className="text-[#68734A] font-bold text-sm whitespace-nowrap">{assessment.coverage}% skill coverage</span>
         </div>
-        <div className="h-2 rounded-full bg-[#D9D3C4] overflow-hidden">
+        <div
+          role="progressbar"
+          aria-label="Calculated role skill coverage"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={assessment.coverage}
+          className="h-2 rounded-full bg-[#D9D3C4] overflow-hidden"
+        >
           <div className="h-full bg-[#68734A] transition-all" style={{ width: `${assessment.coverage}%` }} />
         </div>
         <p className="text-xs text-[#626153]">
-          Coverage is weighted by each role skill’s requirement level: demonstrated strengths count fully, partial evidence counts halfway, skills needing improvement count one-quarter, and missing or unassessed skills count zero.
+          Coverage is weighted by each role skill’s requirement level: basic evidence counts 25%, intermediate evidence 65%, advanced evidence 90%, and missing or unassessed skills count zero.
         </p>
         <p className="text-xs text-[#626153]">
           Education and certifications can show familiarity; practical proficiency requires evidence of applying a skill in work or a project.
         </p>
+        <div className="rounded-lg border border-[#D9D3C4] bg-white p-3">
+          <h4 className="text-xs font-bold text-[#292923] mb-2">Resume assessment diagnostics</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+            <p><span className="text-[#797762]">PDF parsing:</span> <strong>{parseStatus}</strong></p>
+            <p><span className="text-[#797762]">Skills extracted:</span> <strong>{assessment.diagnostics.extractedSkills.length}</strong></p>
+            <p><span className="text-[#797762]">Skills matched:</span> <strong>{assessment.diagnostics.matchedSkills.length}</strong></p>
+            <p><span className="text-[#797762]">Partially matched:</span> <strong>{assessment.diagnostics.partialSkills.length}</strong></p>
+            <p><span className="text-[#797762]">Missing skills:</span> <strong>{assessment.diagnostics.missingSkills.length}</strong></p>
+            <p><span className="text-[#797762]">Not assessed:</span> <strong>{assessment.diagnostics.notAssessedSkills.length}</strong></p>
+            <p><span className="text-[#797762]">Calculated coverage:</span> <strong>{assessment.coverage}%</strong></p>
+          </div>
+          <p className="text-xs text-[#797762] mt-2">
+            Extracted role skills: {assessment.diagnostics.extractedSkills.length
+              ? assessment.diagnostics.extractedSkills.map((skill) => `${skill.skill} (${skill.proficiency})`).join(', ')
+              : 'No role skills matched from the uploaded PDF yet.'}
+          </p>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           {[
             ['strengths', 'Demonstrated strengths', 'text-[#3F4A2F]'],
@@ -210,7 +274,7 @@ export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePre
                 <div key={skill.skill} className="text-xs text-[#4D4A3F] mb-3">
                   <p className="flex gap-2 font-semibold">
                     {category === 'strengths' && <CheckCircle2 size={14} className="text-[#68734A] flex-shrink-0" />}
-                    {skill.skill} <span className="text-[#797762] font-normal">· {skill.priority}</span>
+                    {skill.skill} <span className="text-[#797762] font-normal">· {skill.proficiency} · {skill.priority}</span>
                   </p>
                   <p className="mt-1 text-[#626153]">{skill.explanation}</p>
                   {skill.evidence.length > 0 && (
@@ -245,11 +309,12 @@ export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePre
         )}
         <button
           type="button"
-          onClick={saveSkillsToProfile}
+          onClick={() => updateSkillMap(assessment)}
           className="bg-white border border-[#D6D9C6] text-[#3F4A2F] rounded-lg px-3 py-2 text-xs font-semibold hover:bg-[#E9EBDD] transition-colors"
         >
-          Use these skills in my skill map
+          Update skill map from assessment
         </button>
+        {syncMessage && <p role="status" className="text-xs text-[#3F4A2F]">{syncMessage}</p>}
       </div>
     </section>
   );

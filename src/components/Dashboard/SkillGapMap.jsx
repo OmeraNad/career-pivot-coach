@@ -5,7 +5,7 @@ import { AlertTriangle, Info, BookOpen, PlayCircle, Sparkles } from 'lucide-reac
 import SkillLearningModal from './SkillLearningModal';
 import ResumeAnalysis from './ResumeAnalysis';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
-import { getSkillLevels } from '../../data/skillMatch';
+import { getProfileSkillLevels } from '../../data/skillMatch';
 
 function SkillCard({ item, onSelectSkill }) {
   const gap = item.required - item.yourLevel;
@@ -73,11 +73,13 @@ export default function SkillGapMap() {
 
   // Start each skill at the level inferred from the skills the user entered
   const withLevels = (skills) => {
-    const levels = getSkillLevels(roleKey, user?.prefs?.knownSkills, user?.prefs?.skillConfidence);
+    const levels = getProfileSkillLevels(roleKey, user?.prefs || {});
     const completed = new Set((user?.prefs?.completedSkills || []).map((skill) => skill.toLowerCase()));
     const map = (arr) => arr.map((s) => ({
       ...s,
-      yourLevel: completed.has(s.skill.toLowerCase()) ? s.required : levels[s.skill] ?? s.yourLevel,
+      yourLevel: completed.has(s.skill.toLowerCase())
+        ? s.required
+        : levels[s.skill] ?? s.yourLevel,
     }));
     return { critical: map(skills.critical), important: map(skills.important), niceToHave: map(skills.niceToHave) };
   };
@@ -116,6 +118,7 @@ export default function SkillGapMap() {
         key={user?.id}
         user={user}
         targetRole={targetRole}
+        roleKey={roleKey}
         roleConfig={roleConfig}
         updatePrefs={updatePrefs}
       />

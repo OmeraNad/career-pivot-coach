@@ -36,19 +36,21 @@ const STOP = new Set([
 
 const RESUME_SKILL_ALIASES = {
   'project planning': ['project plan', 'project timeline', 'project scope', 'work breakdown structure', 'wbs'],
-  'task and schedule tracking': ['task tracking', 'task tracker', 'tracked tasks', 'schedule tracking', 'project schedule', 'milestone tracking', 'tracked milestones', 'deadline tracking', 'trello', 'asana', 'microsoft project', 'gantt chart', 'gantt'],
-  'stakeholder communication': ['stakeholder management', 'status updates', 'client communication', 'cross-functional communication', 'communicated with stakeholders'],
+  'task and schedule tracking': ['task tracking', 'task tracker', 'tracked tasks', 'schedule tracking', 'project schedule', 'milestone tracking', 'tracked milestones', 'deadline tracking', 'time management', 'time management skills', 'trello', 'asana', 'microsoft project', 'gantt chart', 'gantt'],
+  'stakeholder communication': ['stakeholder management', 'status updates', 'client communication', 'cross-functional communication', 'communicated with stakeholders', 'teamwork', 'team work', 'team player', 'team collaboration', 'collaborative teamwork'],
   'risk and issue management': ['risk management', 'risk register', 'risk log', 'risk mitigation', 'issue management', 'issue log', 'issue tracker', 'raid log'],
-  'meeting coordination': ['meeting scheduling', 'meeting facilitation', 'meeting minutes', 'meeting agenda', 'action items', 'facilitated meetings'],
+  'meeting coordination': ['meeting scheduling', 'meeting facilitation', 'meeting minutes', 'meeting agenda', 'action items', 'facilitated meetings', 'event coordination', 'event planning', 'coordinated events', 'event logistics', 'event support', 'registration desk', 'event registration', 'event announcements', 'participant list', 'event updates'],
   'project documentation': ['project report', 'project brief', 'project charter', 'project records', 'status report'],
   'agile fundamentals': ['agile methodology', 'scrum', 'kanban', 'sprint planning', 'sprint retrospective', 'agile'],
   'microsoft excel': ['excel', 'google sheets', 'spreadsheet', 'pivot table', 'vlookup', 'xlookup'],
   'resource coordination': ['resource allocation', 'capacity planning', 'staffing coordination', 'vendor coordination', 'team allocation', 'resource planning'],
 };
 
-const ACTION_VERB = /\b(?:coordinat\w*|manag\w*|track\w*|plan\w*|schedul\w*|facilitat\w*|maintain\w*|creat\w*|develop\w*|deliver\w*|prepar\w*|document\w*|organ\w*|monitor\w*|updat\w*|lead|led|support\w*|build\w*|implement\w*|assign\w*|communicat\w*|mitigat\w*|resolv\w*|analyz\w*|analys\w*|improv\w*|us(?:e|ed|ing)|appl(?:y|ied|ying))\b/i;
-const BEGINNER_CUE = /\b(?:basic|beginner|familiar with|learning|introductory|entry.level|limited experience|needs? improvement|developing)\b/i;
-const RESULT_CUE = /\b(?:increased|reduced|improved|completed|delivered|on time|under budget|successfully|resulting in|outcome|percent|percentage|team(?:s)?|stakeholders|milestones|status report|tracker|register|dashboard|schedule|minutes|action items|documentation|plan|charter|retrospective\w*)\b|\b\d+(?:\.\d+)?%?\b/i;
+const ACTION_VERB = /\b(?:coordinat(?:e|es|ed|ing)|manag(?:e|es|ed|ing)|track(?:s|ed)|plan(?:ned|s)|schedul(?:e|es|ed|ing)|facilitat(?:e|es|ed|ing)|maintain(?:s|ed)|creat(?:e|es|ed|ing)|develop(?:s|ed|ing)|deliver(?:s|ed|ing)|prepar(?:e|es|ed|ing)|document(?:s|ed|ing)|organiz(?:e|es|ed|ing)|monitor(?:s|ed|ing)|updat(?:e|es|ed|ing)|lead|led|supported|build|built|implement(?:s|ed|ing)|assign(?:s|ed|ing)|communicat(?:e|es|ed|ing)|mitigat(?:e|es|ed|ing)|resolv(?:e|es|ed|ing)|analyz(?:e|es|ed|ing)|analys(?:e|es|ed|ing)|improv(?:e|es|ed|ing)|us(?:e|es|ed|ing)|appl(?:y|ies|ied|ying))\b/i;
+const BASIC_CUE = /\b(?:basic|beginner|familiar with|learning|introductory|entry.level|limited experience|needs? improvement|developing|assisted with|supported)\b/i;
+const ADVANCED_CUE = /\b(?:advanced|expert|proficient|independently|led|owned|specialist|senior)\b/i;
+const RESULT_CUE = /\b(?:increased|reduced|improved|completed|delivered|on time|under budget|successfully|resulting in|outcome|percent|percentage|stakeholders|milestones|status report|tracker|register|dashboard|schedule|minutes|action items|documentation|plan|charter|retrospective\w*)\b|\b\d+(?:\.\d+)?%?\b/i;
+const PROFICIENCY_SCORE = { basic: 0.25, intermediate: 0.65, advanced: 0.9, missing: 0, notAssessed: 0 };
 
 function normalizeEvidenceText(value) {
   return value.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
@@ -93,54 +95,69 @@ export function assessResumeSkills(roleSkills, sources = []) {
     notAssessed: [],
   };
   const evidenceScores = {
-    strength: 1,
-    partial: 0.5,
-    improvement: 0.25,
-    missing: 0,
-    notAssessed: 0,
+    advanced: PROFICIENCY_SCORE.advanced,
+    intermediate: PROFICIENCY_SCORE.intermediate,
+    basic: PROFICIENCY_SCORE.basic,
+    missing: PROFICIENCY_SCORE.missing,
+    notAssessed: PROFICIENCY_SCORE.notAssessed,
   };
 
   roleSkills.forEach((skill) => {
     const evidence = evidenceForSkill(skill, sources);
     const excerpts = [...new Set(evidence.map(({ text }) => text))];
+    const resumeEvidence = [...new Set(evidence
+      .filter(({ type }) => type === 'resume')
+      .map(({ text }) => text))];
     const practicalEvidence = evidence.filter(({ type, text }) =>
       ['experience', 'projects', 'resume'].includes(type) && ACTION_VERB.test(text),
     );
-    const hasBeginnerCue = evidence.some(({ type, text }) =>
-      !['certifications', 'education'].includes(type) && BEGINNER_CUE.test(text),
+    const hasBasicCue = evidence.some(({ type, text }) =>
+      !['certifications', 'education'].includes(type) && BASIC_CUE.test(text),
     );
-    const hasStrongEvidence = practicalEvidence.length > 0
-      && (practicalEvidence.length > 1 || practicalEvidence.some(({ text }) => RESULT_CUE.test(text)));
+    const independentPracticalEvidence = practicalEvidence.filter(({ text }) => !BASIC_CUE.test(text));
+    const hasAdvancedEvidence = independentPracticalEvidence.some(({ text }) =>
+      ADVANCED_CUE.test(text) && RESULT_CUE.test(text),
+    );
     let category;
+    let proficiency;
     let explanation;
 
-    if (hasBeginnerCue) {
-      category = 'improvement';
-      explanation = 'The information describes basic, developing, or limited proficiency; it does not establish independent practical proficiency.';
-    } else if (hasStrongEvidence) {
+    if (hasAdvancedEvidence) {
       category = 'strengths';
-      explanation = 'A practical action is described in work, project, or resume evidence, with a concrete deliverable, result, or repeated example.';
+      proficiency = 'advanced';
+      explanation = 'The evidence describes independent or advanced practical work and a concrete result or deliverable.';
+    } else if (independentPracticalEvidence.length) {
+      category = 'strengths';
+      proficiency = 'intermediate';
+      explanation = 'The evidence describes applying this skill in work or a project; it supports practical proficiency but does not establish advanced mastery.';
+    } else if (hasBasicCue || practicalEvidence.length) {
+      category = 'improvement';
+      proficiency = 'basic';
+      explanation = 'The information describes basic, developing, supported, or limited proficiency; it does not establish independent practical proficiency.';
     } else if (evidence.length) {
       category = 'partial';
+      proficiency = 'basic';
       const sourceTypes = new Set(evidence.map(({ type }) => type));
       explanation = sourceTypes.has('certifications') && !practicalEvidence.length
-        ? 'A course or certification mentions this skill, which supports familiarity but does not demonstrate practical proficiency.'
-        : 'This skill is listed or mentioned, but the supplied details do not show enough applied work or outcomes to establish practical proficiency.';
+        ? 'A course or certification mentions this skill, which supports basic familiarity but does not demonstrate practical proficiency.'
+        : 'This skill or related tool is listed or mentioned, which supports basic familiarity but does not establish practical proficiency.';
     } else if (substantiveProfile) {
       category = 'missing';
+      proficiency = 'missing';
       explanation = 'No supporting example was found in the substantive information provided. This means it is missing from the supplied evidence, not proof that you cannot do it.';
     } else {
       category = 'notAssessed';
+      proficiency = 'notAssessed';
       explanation = 'There is not enough resume or profile detail to assess this skill. Add a relevant example or explicitly note your experience level.';
     }
 
-    categories[category === 'strengths' ? 'strengths'
-      : category === 'partial' ? 'partial'
-        : category === 'missing' ? 'missing'
-          : category === 'improvement' ? 'improvement' : 'notAssessed'].push({
+    categories[category].push({
       ...skill,
       category,
+      proficiency,
+      proficiencyScore: PROFICIENCY_SCORE[proficiency],
       evidence: excerpts,
+      resumeEvidence,
       explanation,
     });
   });
@@ -150,17 +167,22 @@ export function assessResumeSkills(roleSkills, sources = []) {
     const category = Object.keys(categories).find((key) =>
       categories[key].some((item) => item.skill === skill.skill),
     );
-    const scoreKey = category === 'strengths' ? 'strength'
-      : category === 'partial' ? 'partial'
-        : category === 'improvement' ? 'improvement'
-          : category === 'missing' ? 'missing' : 'notAssessed';
-    return sum + (Number(skill.required) || 1) * evidenceScores[scoreKey];
+    const assessedSkill = categories[category].find((item) => item.skill === skill.skill);
+    return sum + (Number(skill.required) || 1) * evidenceScores[assessedSkill.proficiency];
   }, 0);
 
+  const allAssessedSkills = Object.values(categories).flat();
   return {
     categories,
     coverage: totalWeight ? Math.round((scoredWeight / totalWeight) * 100) : 0,
     substantiveProfile,
+    diagnostics: {
+      extractedSkills: allAssessedSkills.filter((skill) => skill.resumeEvidence.length > 0),
+      matchedSkills: allAssessedSkills.filter((skill) => skill.evidence.length > 0),
+      partialSkills: [...categories.partial, ...categories.improvement],
+      missingSkills: categories.missing,
+      notAssessedSkills: categories.notAssessed,
+    },
   };
 }
 
@@ -217,6 +239,13 @@ export function getSkillLevels(roleKey, knownSkills = [], confidence = 50) {
     }
   });
   return levels;
+}
+
+export function getProfileSkillLevels(roleKey, prefs = {}) {
+  return {
+    ...getSkillLevels(roleKey, prefs.knownSkills, prefs.skillConfidence),
+    ...(prefs.resumeSkillLevels?.[roleKey] || {}),
+  };
 }
 
 export function analyzeGaps(roleKey, knownSkills, confidence) {
