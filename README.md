@@ -1,16 +1,20 @@
-# React + Vite
+# Career Compass — Career Navigation & Pivot Coach
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Career Compass is a frontend-only career preparation dashboard built with React and Vite. It guides users from interest selection to role-specific skill planning, portfolio projects, interview practice, progress tracking, and application records.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+`npm run build` creates the static site in `dist/`; `npm run preview` serves that production build locally. The app uses hash-based routes and can be deployed to GitHub Pages without a backend.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Career data and privacy
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- Beginner onboarding supports multiple interests and recommends roles only from the selected categories. Career profiles are centralized in `src/data/careerCatalog.js`.
+- Role skills, learning resources, roadmaps, projects, and interview questions are curated frontend data. Job requirements are explicitly sample baselines, not live job listings or employer-specific requirements.
+- User profiles and progress are stored in browser `localStorage`. Resume PDFs are parsed locally for selectable text; neither the PDF nor extracted resume text is uploaded to a service. Scanned PDFs need information entered manually.
+- Mock interview feedback is an on-device keyword and writing-structure rubric, not an AI model, employer evaluation, or hiring prediction.
+- This static application has no authentication server, cross-device sync, live job-feed integration, or external AI service. Those capabilities require a future backend/API integration.

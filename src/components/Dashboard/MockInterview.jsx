@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { Mic, ChevronRight, Sparkles, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
+import { getSkillLevels } from '../../data/skillMatch';
 
 function evaluateInterviewAnswer(answer, question) {
   const clean = (answer || '').trim().toLowerCase();
+  const words = clean.split(/\s+/).filter(Boolean);
+  const keywords = question.keywords || ['situation', 'action', 'result', 'metric'];
 
-  // 1. Check for "I don't know" / "idk" / very short answers
   const isDontKnow = clean.includes("don't know") || 
                      clean.includes("dont know") || 
                      clean.includes("idk") || 
@@ -18,6 +20,13 @@ function evaluateInterviewAnswer(answer, question) {
   if (isDontKnow) {
     return {
       score: 18,
+      scoreBreakdown: {
+        Relevance: 18,
+        'Technical accuracy': 18,
+        Clarity: 18,
+        Communication: 18,
+        'Problem-solving': 18,
+      },
       status: 'needs-study',
       strengths: [
         'Honesty in acknowledging knowledge gaps is better than guessing randomly in interviews.'
@@ -30,13 +39,23 @@ function evaluateInterviewAnswer(answer, question) {
     };
   }
 
-  // 2. Check keyword coverage against question rubric
-  const keywords = question.keywords || ['situation', 'action', 'result', 'metric'];
   const matched = keywords.filter(kw => clean.includes(kw.toLowerCase()));
   const matchRatio = matched.length / Math.max(1, keywords.length);
-
-  let calculatedScore = Math.min(95, Math.round(45 + (matchRatio * 50)));
-  if (clean.length > 150) calculatedScore = Math.min(98, calculatedScore + 5);
+  const sentenceCount = (clean.match(/[.!?]/g) || []).length;
+  const relevance = Math.round(30 + (matchRatio * 70));
+  const technicalAccuracy = Math.round(30 + (matchRatio * 70));
+  const clarity = Math.min(100, 35 + (words.length >= 30 ? 30 : words.length >= 15 ? 15 : 0) + (sentenceCount >= 2 ? 20 : 5));
+  const communication = Math.min(100, 40 + (words.length >= 25 ? 25 : words.length >= 12 ? 15 : 0) + (sentenceCount >= 2 ? 15 : 0));
+  const problemSignals = ['approach', 'clarify', 'check', 'result', 'because', 'test', 'verify', 'measure', 'trade-off', 'example'];
+  const problemSolving = Math.min(100, 25 + problemSignals.filter((signal) => clean.includes(signal)).length * 15);
+  const scoreBreakdown = {
+    Relevance: relevance,
+    'Technical accuracy': technicalAccuracy,
+    Clarity: clarity,
+    Communication: communication,
+    'Problem-solving': problemSolving,
+  };
+  const calculatedScore = Math.round(Object.values(scoreBreakdown).reduce((sum, score) => sum + score, 0) / 5);
 
   const missingKeywords = keywords.filter(kw => !clean.includes(kw.toLowerCase())).slice(0, 3);
 
@@ -53,6 +72,7 @@ function evaluateInterviewAnswer(answer, question) {
 
   return {
     score: calculatedScore,
+    scoreBreakdown,
     status: calculatedScore >= 75 ? 'passed' : 'needs-work',
     strengths: [
       `Addressed ${matched.length > 0 ? matched.join(', ') : 'the central prompt'} directly`,
@@ -68,23 +88,29 @@ export default function MockInterview() {
   const { user } = useAuth();
 
   const targetRole = user?.prefs?.role || 'Product Manager';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
+  const roleKey = getRoleKey(targetRole);
+  const roleConfig = ROLE_DATA[roleKey] || ROLE_DATA.productManager;
+  const roleSkills = [...roleConfig.skills.critical, ...roleConfig.skills.important, ...roleConfig.skills.niceToHave];
+  const knownSkillLevels = getSkillLevels(roleKey, user?.prefs?.knownSkills, user?.prefs?.skillConfidence);
+  const questionFocus = roleSkills.find((skill) => !knownSkillLevels[skill.skill])
+    || roleSkills[0];
+  const questionsForRole = (roleConfig.mockInterview || []).map((question) => question.type === 'Technical' && questionFocus
+    ? {
+      ...question,
+      question: `Describe how you would use ${questionFocus.skill} in a ${targetRole} project.`,
+      keywords: [questionFocus.skill.toLowerCase(), 'example', 'result'],
+      idealAnswer: `A strong answer explains how ${questionFocus.skill} applies to ${targetRole}, gives a truthful example, and describes how to verify the result.`,
+    }
+    : question);
 
-  const [questions, setQuestions] = useState(roleConfig.mockInterview);
+  const [questions] = useState(questionsForRole);
   const [started, setStarted] = useState(false);
   const [qIndex, setQIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState(null);
-
-  useEffect(() => {
-    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
-    setQuestions(config.mockInterview);
-    setQIndex(0);
-    setAnswer('');
-    setSubmitted(false);
-    setFeedback(null);
-  }, [targetRole]);
+  const [sessionScores, setSessionScores] = useState([]);
+  const [storageError, setStorageError] = useState('');
 
   const q = questions[qIndex] || questions[0];
 
@@ -92,6 +118,18 @@ export default function MockInterview() {
     const evalResult = evaluateInterviewAnswer(answer, q);
     setFeedback(evalResult);
     setSubmitted(true);
+    setSessionScores((previous) => [...previous, evalResult]);
+    try {
+      const key = `cpc_interviews_${user?.id || 'guest'}`;
+      const saved = JSON.parse(localStorage.getItem(key) || '[]');
+      localStorage.setItem(key, JSON.stringify([
+        ...saved,
+        { role: targetRole, score: evalResult.score, scoreBreakdown: evalResult.scoreBreakdown, type: q.type, recordedAt: new Date().toISOString() },
+      ]));
+    } catch (error) {
+      console.error('Could not save mock interview feedback.', error);
+      setStorageError('Feedback could not be saved in browser storage.');
+    }
   };
 
   const handleNext = () => {
@@ -101,6 +139,16 @@ export default function MockInterview() {
       setSubmitted(false); 
       setFeedback(null); 
     }
+  };
+
+  const restartInterview = () => {
+    setStarted(false);
+    setQIndex(0);
+    setAnswer('');
+    setSubmitted(false);
+    setFeedback(null);
+    setSessionScores([]);
+    setStorageError('');
   };
 
   if (!started) {
@@ -114,9 +162,9 @@ export default function MockInterview() {
           <div className="w-20 h-20 bg-[#edf1e6] border border-[#d6dec8] rounded-full flex items-center justify-center mx-auto mb-6">
             <Mic size={36} className="text-[#556b2f]" />
           </div>
-          <h2 className="text-[#1e2019] font-bold text-xl mb-3">Practice Real Interview Questions for {targetRole}</h2>
-          <p className="text-[#636659] text-sm mb-2">You will get <strong className="text-[#1e2019]">{questions.length} calibrated questions</strong> matched to hiring standards.</p>
-          <p className="text-[#636659] text-sm mb-8">Each response is evaluated in real-time against rubric keywords, with instant score and ideal model answers.</p>
+          <h2 className="text-[#1e2019] font-bold text-xl mb-3">Practice interview questions for {targetRole}</h2>
+          <p className="text-[#636659] text-sm mb-2">Practice {questions.length} role-specific questions, including a skill selected from your current profile gaps.</p>
+          <p className="text-[#636659] text-sm mb-8">Feedback uses an on-device keyword and writing-structure rubric. It is not AI, an employer evaluation, or a measure of hiring likelihood.</p>
           
           <button onClick={() => setStarted(true)}
             className="bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-8 py-3.5 rounded-2xl transition-all shadow-xs">
@@ -128,6 +176,13 @@ export default function MockInterview() {
   }
 
   const scoreBadgeColor = !feedback ? '' : feedback.score >= 75 ? 'text-[#3f5022] bg-[#edf1e6]' : feedback.score >= 40 ? 'text-[#8a6b18] bg-[#fbf5e6]' : 'text-[#ba3c3c] bg-[#faebeb]';
+  const sessionAverage = Math.round(sessionScores.reduce((sum, result) => sum + result.score, 0) / Math.max(sessionScores.length, 1));
+  const focusAreas = sessionScores.length
+    ? Object.keys(sessionScores[0].scoreBreakdown).map((dimension) => ({
+      dimension,
+      average: Math.round(sessionScores.reduce((sum, result) => sum + result.scoreBreakdown[dimension], 0) / sessionScores.length),
+    })).filter((item) => item.average < 70)
+    : [];
 
   return (
     <div className="space-y-6">
@@ -152,7 +207,7 @@ export default function MockInterview() {
 
         {/* Rubric */}
         <div className="bg-[#faf9f5] border border-[#e2dfd4] rounded-xl p-4">
-          <p className="text-[#7d8270] text-xs font-bold mb-2 uppercase tracking-wider">Hiring Rubric Checkpoints:</p>
+          <p className="text-[#7d8270] text-xs font-bold mb-2 uppercase tracking-wider">Practice rubric checkpoints:</p>
           <ul className="space-y-1.5">
             {q.rubric.map((r) => (
               <li key={r} className="text-[#4b4e43] text-sm flex items-center gap-2">
@@ -191,7 +246,7 @@ export default function MockInterview() {
             <div className="flex items-center justify-between pb-3 border-b border-[#f0eee6]">
               <div>
                 <h3 className="text-[#1e2019] font-bold flex items-center gap-2 text-base">
-                  <Sparkles size={18} className="text-[#556b2f]" /> AI Rubric Evaluation
+                  <Sparkles size={18} className="text-[#556b2f]" /> Practice rubric feedback
                 </h3>
                 <span className="text-xs text-[#7d8270]">
                   {feedback.score >= 75 ? 'Strong Answer' : feedback.score >= 40 ? 'Partial Credit' : 'Needs Practice'}
@@ -200,6 +255,16 @@ export default function MockInterview() {
               <div className={`text-2xl font-bold px-3 py-1 rounded-xl border border-current ${scoreBadgeColor}`}>
                 {feedback.score}<span className="text-sm font-normal">/100</span>
               </div>
+            </div>
+
+            <p className="text-xs text-[#7d8270]">Automated practice feedback based on text signals only; it cannot verify factual or technical correctness.</p>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              {Object.entries(feedback.scoreBreakdown).map(([label, score]) => (
+                <div key={label} className="bg-[#faf9f5] border border-[#e2dfd4] rounded-xl p-3">
+                  <div className="text-[#1e2019] font-bold text-sm">{score}%</div>
+                  <div className="text-[#7d8270] text-[10px] mt-1">{label}</div>
+                </div>
+              ))}
             </div>
 
             <div className="space-y-3">
@@ -231,6 +296,7 @@ export default function MockInterview() {
                 </p>
               </div>
             </div>
+            {storageError && <p role="alert" className="text-xs text-[#ba3c3c]">{storageError}</p>}
           </div>
 
           {qIndex < questions.length - 1 ? (
@@ -244,7 +310,15 @@ export default function MockInterview() {
             <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-6 text-center">
               <div className="text-3xl mb-2">🎉</div>
               <h3 className="text-[#1e2019] font-bold text-base mb-1">{targetRole} Interview Complete!</h3>
-              <p className="text-[#636659] text-xs">Your responses have been evaluated against hiring criteria. Practice again anytime to refine your delivery.</p>
+              <p className="text-[#636659] text-xs">Practice average: {sessionAverage}% across {sessionScores.length} answers.</p>
+              <p className="text-[#636659] text-xs mt-2">
+                {focusAreas.length
+                  ? `Suggested practice focus: ${focusAreas.map((item) => `${item.dimension} (${item.average}%)`).join(', ')}.`
+                  : 'No rubric dimension fell below 70%. Keep practicing with specific examples and role-relevant detail.'}
+              </p>
+              <button onClick={restartInterview} className="mt-4 bg-white border border-[#d6dec8] text-[#3f5022] font-semibold px-4 py-2 rounded-xl text-xs hover:bg-[#faf9f5]">
+                Practice again
+              </button>
             </div>
           )}
         </div>

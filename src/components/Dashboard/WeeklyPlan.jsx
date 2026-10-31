@@ -1,9 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { AlertOctagon, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
 import { getSkillLevels, allSkillsFor } from '../../data/skillMatch';
+import { createWeeklyPlan } from '../../data/careerCatalog';
+
+function reconcilePlan(savedPlan, generatedPlan) {
+  if (!Array.isArray(savedPlan)) return generatedPlan;
+  return generatedPlan.map((week) => {
+    const previousDays = savedPlan.find((savedWeek) => savedWeek.week === week.week)?.days || [];
+    const currentDays = week.days.map((day) => {
+      const previous = previousDays.find((savedDay) => savedDay.task === day.task);
+      return previous ? { ...day, done: previous.done, completedAt: previous.completedAt } : day;
+    });
+    const currentTasks = new Set(currentDays.map((day) => day.task));
+    const retainedDays = previousDays.filter((day) =>
+      (day.done && !currentTasks.has(day.task)) || day.day?.startsWith('Extra practice'),
+    );
+    return { ...week, days: [...retainedDays, ...currentDays] };
+  });
+}
 
 export default function WeeklyPlan() {
   const { t } = useTranslation();
@@ -24,34 +41,37 @@ export default function WeeklyPlan() {
   );
   const stepOf = (w) => Number(/Step (\d+)/.exec(w.title)?.[1]);
 
+  const defaultPlan = roleConfig.categoryId
+    ? createWeeklyPlan(roleKey, user?.prefs?.knownSkills)
+    : roleConfig.weeklyPlan;
   const [plan, setPlan] = useState(() => {
     const saved = localStorage.getItem(storageKey);
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const savedPlan = JSON.parse(saved);
+        return roleConfig.categoryId ? reconcilePlan(savedPlan, defaultPlan) : savedPlan;
+      } catch (error) {
+        console.error('Could not read the saved learning plan.', error);
+      }
     }
-    return roleConfig.weeklyPlan;
+    return defaultPlan;
   });
 
   const [expanded, setExpanded] = useState(() => {
     const i = plan.findIndex((w) => !coveredSteps.has(stepOf(w)));
     return i === -1 ? 0 : i;
   });
-  const [replanning, setReplanning] = useState(false);
   const [replanned, setReplanned] = useState(false);
-
-  useEffect(() => {
-    const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
-    const saved = localStorage.getItem(storageKey);
-    if (saved) {
-      try { setPlan(JSON.parse(saved)); return; } catch (e) {}
-    }
-    setPlan(config.weeklyPlan);
-  }, [targetRole, storageKey]);
 
   const toggleTask = (wi, di) => {
     setPlan((prev) => {
       const updated = prev.map((w, wIdx) => wIdx !== wi ? w : {
-        ...w, days: w.days.map((d, dIdx) => dIdx !== di ? d : { ...d, done: !d.done })
+        ...w,
+        days: w.days.map((d, dIdx) => dIdx !== di ? d : {
+          ...d,
+          done: !d.done,
+          completedAt: !d.done ? new Date().toISOString() : '',
+        }),
       });
       const allTasks = updated.flatMap(w => w.days);
       localStorage.setItem(storageKey, JSON.stringify(updated));
@@ -61,11 +81,23 @@ export default function WeeklyPlan() {
   };
 
   const handleReplan = () => {
-    setReplanning(true);
-    setTimeout(() => {
-      setReplanning(false);
-      setReplanned(true);
-    }, 1500);
+    const allComplete = plan.every((week) => week.days.every((day) => day.done));
+    const firstIncomplete = plan.findIndex((week) => week.days.some((day) => !day.done));
+    const weekIndex = firstIncomplete === -1 ? 0 : firstIncomplete;
+    const focusSkill = allSkillsFor(roleKey).find((skill) => !coveredSteps.has(skill.stepNumber))
+      || allSkillsFor(roleKey)[0];
+    const activity = allComplete
+      ? `Advanced practice: extend your ${targetRole} portfolio with a more complex ${focusSkill?.skill || 'role-specific'} challenge`
+      : `Extra guided practice: revisit ${focusSkill?.skill || targetRole} with a smaller, step-by-step exercise`;
+    setPlan((previous) => {
+      const updated = previous.map((week, index) => index === weekIndex
+        ? { ...week, days: [...week.days, { day: `Extra practice ${week.days.length + 1}`, task: activity, resource: focusSkill?.suggestedResources?.[0], done: false }] }
+        : week);
+      localStorage.setItem(storageKey, JSON.stringify(updated));
+      localStorage.setItem(`cpc_plan_${user?.id}`, JSON.stringify(updated.flatMap((week) => week.days)));
+      return updated;
+    });
+    setReplanned(true);
   };
 
   const totalDays = plan.flatMap((w) => w.days).length;
@@ -83,9 +115,9 @@ export default function WeeklyPlan() {
           </div>
           <p className="text-[#636659] text-sm">{t('weeklyPlan.subtitle')}</p>
         </div>
-        <button onClick={handleReplan} disabled={replanning}
+        <button onClick={handleReplan}
           className="flex items-center gap-2 bg-white border border-[#e2dfd4] hover:border-[#8a6b18] text-[#8a6b18] font-semibold px-4 py-2 rounded-xl text-sm transition-all shadow-xs">
-          {replanning ? <span className="w-3 h-3 border-2 border-[#8a6b18]/40 border-t-[#8a6b18] rounded-full animate-spin" /> : <AlertOctagon size={15} />}
+          <AlertOctagon size={15} />
           {t('weeklyPlan.stuck')}
         </button>
       </div>
@@ -95,7 +127,7 @@ export default function WeeklyPlan() {
           <RefreshCw size={18} className="text-[#8a6b18] flex-shrink-0" />
           <div>
             <div className="text-[#8a6b18] font-bold text-sm">Adaptive Plan Adjusted for {targetRole}!</div>
-            <div className="text-[#636659] text-xs">We noticed you needed an easier on-ramp. Complex blocks have been broken into bite-sized 45-minute daily modules with extra guided practice checkpoints.</div>
+            <div className="text-[#636659] text-xs">An extra {targetRole}-specific practice task was added to the earliest active week. Finish it alongside the roadmap tasks.</div>
           </div>
         </div>
       )}
@@ -133,7 +165,7 @@ export default function WeeklyPlan() {
                       </span>
                     )}
                   </div>
-                  <div className="text-[#636659] text-xs">{weekDone}/{week.days.length} days complete</div>
+                  <div className="text-[#636659] text-xs">{week.objective || week.title} · {weekDone}/{week.days.length} tasks · {week.estimatedTime || 'about 3 hours'}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -148,7 +180,11 @@ export default function WeeklyPlan() {
               <div className="border-t border-[#f0eee6] divide-y divide-[#f0eee6] bg-[#faf9f5]">
                 {week.days.map((day, di) => (
                   <div key={di} className="flex items-center gap-4 px-6 py-3.5 hover:bg-white transition-all">
-                    <button onClick={() => toggleTask(wi, di)} className="flex-shrink-0">
+                    <button
+                      onClick={() => toggleTask(wi, di)}
+                      aria-label={`${day.done ? 'Mark incomplete' : 'Mark complete'}: ${day.task}`}
+                      className="flex-shrink-0"
+                    >
                       {day.done
                         ? <CheckCircle2 size={20} className="text-[#556b2f]" />
                         : <Circle size={20} className="text-[#cbd0be]" />}
@@ -156,6 +192,11 @@ export default function WeeklyPlan() {
                     <div className="flex-1">
                       <span className="text-[#556b2f] text-xs font-bold mr-2">{day.day}</span>
                       <span className={`text-sm ${day.done ? 'text-[#8c907f] line-through' : 'text-[#1e2019]'}`}>{day.task}</span>
+                      {day.resource?.url && (
+                        <a href={day.resource.url} target="_blank" rel="noopener noreferrer" className="block text-xs text-[#556b2f] hover:underline mt-1">
+                          Resource: {day.resource.name}
+                        </a>
+                      )}
                     </div>
                   </div>
                 ))}

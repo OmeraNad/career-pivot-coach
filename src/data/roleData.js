@@ -1,3 +1,5 @@
+import { CAREER_ROLE_DATA, getCareerRole } from './careerCatalog';
+
 export const INTEREST_TO_BOOMING_ROLE = {
   technology: 'Junior Software & Web Engineer',
   healthcare: 'Junior Health Data & Informatics Specialist',
@@ -818,8 +820,12 @@ export const ROLE_DATA = {
   }
 };
 
+Object.assign(ROLE_DATA, CAREER_ROLE_DATA);
+
 export function getRoleKey(roleString) {
   if (!roleString) return 'technology';
+  const careerRole = getCareerRole(roleString);
+  if (careerRole) return careerRole.key;
   const lower = roleString.toLowerCase();
   
   if (lower.includes('product manager') || lower.includes('product') || lower.includes('operations manager') || lower.includes('pm')) {

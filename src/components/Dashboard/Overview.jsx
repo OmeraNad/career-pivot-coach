@@ -1,15 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { Map, CalendarDays, Mic, SendHorizonal, TrendingUp, ArrowRight, Star, BookOpen, Compass, FolderGit2 } from 'lucide-react';
-
-const BEGINNER_ROLES = [
-  { title: 'Social Media Manager', emoji: '📱', time: '1-2 months', difficulty: 'Easy' },
-  { title: 'QA Tester', emoji: '🧪', time: '1-3 months', difficulty: 'Easy' },
-  { title: 'Copywriter', emoji: '✍️', time: '2-3 months', difficulty: 'Easy' },
-  { title: 'Junior Web Developer', emoji: '💻', time: '3-5 months', difficulty: 'Medium' },
-  { title: 'Graphic Designer', emoji: '🎨', time: '2-4 months', difficulty: 'Medium' },
-  { title: 'Data Analyst', emoji: '📊', time: '4-6 months', difficulty: 'Medium' },
-];
+import { CAREER_CATEGORIES } from '../../data/careerCatalog';
 
 const BASICS = [
   { icon: '📝', title: 'Write a Professional Resume', desc: 'Learn how to structure your resume from scratch without fluff' },
@@ -19,17 +11,15 @@ const BASICS = [
   { icon: '💻', title: 'Digital Literacy', desc: 'Google Workspace, modern productivity and collaboration tools' },
 ];
 
-const DIFF_COLORS = { 
-  Easy: 'text-[#455633] bg-[#edf1e6] border border-[#d6dec8]', 
-  Medium: 'text-[#8a6b18] bg-[#fbf5e6] border border-[#f0e2bd]', 
-  Hard: 'text-[#ba3c3c] bg-[#faebeb] border border-[#f2c8c8]' 
-};
-
 export default function Overview({ setActiveTab }) {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, updatePrefs } = useAuth();
   const isBeginner = user?.prefs?.isBeginner;
   const role = user?.prefs?.role || 'Full Stack Developer';
+  const interests = user?.prefs?.interests?.length
+    ? user.prefs.interests
+    : user?.prefs?.interestKey ? [user.prefs.interestKey] : [];
+  const recommendedCategories = CAREER_CATEGORIES.filter((category) => interests.includes(category.id));
 
   const quickActions = [
     { id: 'skillGap', icon: Map, label: t('dashboard.tabs.skillGap'), desc: 'See what skills you are missing & watch top tutorials' },
@@ -72,19 +62,39 @@ export default function Overview({ setActiveTab }) {
             <Star size={18} className="text-[#8a6b18]" />
             <h2 className="text-[#1e2019] font-bold text-lg">{t('beginner.title')}</h2>
           </div>
-          <p className="text-[#636659] text-sm mb-5">{t('beginner.subtitle')}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {BEGINNER_ROLES.map((r) => (
-              <div key={r.title} className="bg-white border border-[#e2dfd4] rounded-2xl p-5 hover:border-[#b8c2a4] transition-all group shadow-xs">
-                <div className="text-3xl mb-3">{r.emoji}</div>
-                <h3 className="text-[#1e2019] font-semibold text-sm mb-1">{r.title}</h3>
-                <div className="flex items-center gap-3 mt-3">
-                  <span className="text-[#7d8270] text-xs">⏱ {r.time}</span>
-                  <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${DIFF_COLORS[r.difficulty]}`}>{r.difficulty}</span>
+          <p className="text-[#636659] text-sm mb-5">
+            {recommendedCategories.length
+              ? `Starting roles matched to ${recommendedCategories.map((category) => category.title).join(', ')}.`
+              : 'Choose a role from the target-role menu to see a personalized career path.'}
+          </p>
+          {recommendedCategories.length > 0 && (
+            <div className="space-y-4">
+              {recommendedCategories.map((category) => (
+                <div key={category.id} className="bg-white border border-[#e2dfd4] rounded-2xl p-5 shadow-xs">
+                  <h3 className="text-[#1e2019] font-bold text-sm mb-3">{category.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {category.roles.map((recommendedRole) => {
+                      const isSelected = role === recommendedRole.title;
+                      return (
+                        <button
+                          key={recommendedRole.key}
+                          onClick={() => updatePrefs({ role: recommendedRole.title, isBeginner: true })}
+                          aria-pressed={isSelected}
+                          className={`rounded-xl border px-3 py-2 text-xs font-semibold transition-colors ${
+                            isSelected
+                              ? 'bg-[#556b2f] border-[#556b2f] text-white'
+                              : 'bg-[#faf9f5] border-[#e2dfd4] text-[#4b4e43] hover:border-[#9fa88c]'
+                          }`}
+                        >
+                          {recommendedRole.title}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
       )}
 

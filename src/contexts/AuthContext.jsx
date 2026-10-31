@@ -29,7 +29,13 @@ export function AuthProvider({ children }) {
       setLoading(false);
       throw new Error('WRONG_PASSWORD');
     }
-    const session = { id: found.id, name: found.name, email: found.email, onboarded: found.onboarded };
+    const session = {
+      id: found.id,
+      name: found.name,
+      email: found.email,
+      onboarded: found.onboarded,
+      prefs: found.prefs,
+    };
     saveSession(session);
     setUser(session);
     setLoading(false);
@@ -65,13 +71,26 @@ export function AuthProvider({ children }) {
     setUser(updated);
   };
 
+  const updatePrefs = (prefs) => {
+    if (!user) return;
+    const updated = { ...user, prefs: { ...user.prefs, ...prefs } };
+    const users = getUsers();
+    const idx = users.findIndex((item) => item.id === user.id);
+    if (idx !== -1) {
+      users[idx] = { ...users[idx], prefs: updated.prefs };
+      saveUsers(users);
+    }
+    saveSession(updated);
+    setUser(updated);
+  };
+
   const logout = () => {
     clearSession();
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, completeOnboarding }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, completeOnboarding, updatePrefs }}>
       {children}
     </AuthContext.Provider>
   );

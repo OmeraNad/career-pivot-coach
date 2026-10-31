@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ import ApplicationTracker from './ApplicationTracker';
 import ProgressTracker from './ProgressTracker';
 import Overview from './Overview';
 import i18n from '../../i18n';
+import { CAREER_ROLES } from '../../data/careerCatalog';
 
 const LANGUAGES = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
@@ -28,11 +29,17 @@ const LANGUAGES = [
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
+  const { user, logout, updatePrefs } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [currentLang, setCurrentLang] = useState(i18n.language || 'en');
+
+  useEffect(() => {
+    const handleResize = () => setSidebarOpen(window.innerWidth >= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
@@ -55,12 +62,12 @@ export default function Dashboard() {
   const renderContent = () => {
     switch (activeTab) {
       case 'overview': return <Overview setActiveTab={setActiveTab} />;
-      case 'skillGap': return <SkillGapMap />;
-      case 'weeklyPlan': return <WeeklyPlan />;
-      case 'projects': return <PortfolioProjects />;
-      case 'mockInterview': return <MockInterview />;
-      case 'applications': return <ApplicationTracker />;
-      case 'progress': return <ProgressTracker />;
+      case 'skillGap': return <SkillGapMap key={`${user?.id}-${user?.prefs?.role}`} />;
+      case 'weeklyPlan': return <WeeklyPlan key={`${user?.id}-${user?.prefs?.role}-${(user?.prefs?.knownSkills || []).join('|')}`} />;
+      case 'projects': return <PortfolioProjects key={`${user?.id}-${user?.prefs?.role}`} />;
+      case 'mockInterview': return <MockInterview key={`${user?.id}-${user?.prefs?.role}-${(user?.prefs?.knownSkills || []).join('|')}`} />;
+      case 'applications': return <ApplicationTracker key={user?.id} />;
+      case 'progress': return <ProgressTracker key={`${user?.id}-${user?.prefs?.role}`} />;
       default: return <Overview setActiveTab={setActiveTab} />;
     }
   };
@@ -68,14 +75,22 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f7f6f2] flex text-[#1e2019] selection:bg-[#556b2f]/20">
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} transition-all duration-300 bg-[#f0ede4] border-r border-[#e2dfd4] flex flex-col`}>
+      <aside className={`${sidebarOpen ? 'w-64 max-md:absolute max-md:inset-y-0 max-md:left-0 max-md:z-30 max-md:shadow-xl' : 'w-16'} shrink-0 transition-all duration-300 bg-[#f0ede4] border-r border-[#e2dfd4] flex flex-col`}>
         {/* Logo */}
-        <div className="p-4 flex items-center gap-3 border-b border-[#e2dfd4]">
-          <div className="w-8 h-8 bg-[#556b2f] rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-            <Compass size={18} className="text-white" />
-          </div>
-          {sidebarOpen && <span className="font-bold text-sm tracking-tight text-[#1e2019]">PivotIQ</span>}
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="ml-auto text-[#7d8270] hover:text-[#1e2019] transition-colors">
+        <div className={`p-4 flex items-center border-b border-[#e2dfd4] ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
+          {sidebarOpen && (
+            <>
+              <div className="w-8 h-8 bg-[#556b2f] rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                <Compass size={18} className="text-white" />
+              </div>
+              <span className="font-bold text-sm tracking-tight text-[#1e2019]">Career Compass</span>
+            </>
+          )}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? 'Collapse navigation' : 'Expand navigation'}
+            className={`${sidebarOpen ? 'ml-auto' : ''} text-[#7d8270] hover:text-[#1e2019] transition-colors`}
+          >
             {sidebarOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
@@ -85,7 +100,10 @@ export default function Dashboard() {
           {tabs.map(({ id, icon: Icon, label }) => (
             <button
               key={id}
-              onClick={() => setActiveTab(id)}
+              onClick={() => {
+                setActiveTab(id);
+                if (window.innerWidth < 768) setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium ${
                 activeTab === id
                   ? 'bg-[#556b2f] text-white shadow-sm'
@@ -144,43 +162,35 @@ export default function Dashboard() {
       {/* Main content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <div className="border-b border-[#e2dfd4] px-8 py-4 flex items-center justify-between bg-white/70 backdrop-blur sticky top-0 z-10">
+        <div className="border-b border-[#e2dfd4] px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-3 bg-white/70 backdrop-blur sticky top-0 z-10">
           <div>
             <h2 className="text-[#1e2019] font-bold text-base">{t('dashboard.greeting')}, {user?.name?.split(' ')[0]} 👋</h2>
             <p className="text-[#636659] text-xs">{t('dashboard.subtitle')}</p>
           </div>
           
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#f0eee6] border border-[#dcd8cb] px-3 py-1.5 rounded-xl">
+            <div className="flex min-w-0 items-center gap-2 bg-[#f0eee6] border border-[#dcd8cb] px-3 py-1.5 rounded-xl">
               <span className="text-xs text-[#636659] font-medium">Target Role:</span>
               <select
                 value={user?.prefs?.role || 'Product Manager'}
                 onChange={(e) => {
-                  const newRole = e.target.value;
-                  const users = JSON.parse(localStorage.getItem('cpc_users') || '[]');
-                  const idx = users.findIndex((u) => u.id === user.id);
-                  const updatedPrefs = { ...user.prefs, role: newRole, isBeginner: false };
-                  if (idx !== -1) {
-                    users[idx] = { ...users[idx], prefs: updatedPrefs };
-                    localStorage.setItem('cpc_users', JSON.stringify(users));
-                  }
-                  const session = { ...user, prefs: updatedPrefs };
-                  localStorage.setItem('cpc_session', JSON.stringify(session));
-                  window.location.reload();
+                  updatePrefs({ role: e.target.value, isBeginner: false });
                 }}
-                className="bg-transparent text-[#3f5022] font-semibold text-xs focus:outline-none cursor-pointer"
+                className="bg-transparent text-[#3f5022] font-semibold text-xs focus:outline-none cursor-pointer max-w-[42vw] md:max-w-none"
               >
-                <option value="Product Manager">Product Manager</option>
-                <option value="Junior Software & Web Engineer">Junior Software & Web Engineer</option>
-                <option value="Junior Health Data & Informatics Specialist">Junior Health Data & Informatics Specialist</option>
-                <option value="Business Intelligence & Data Analyst">Business Intelligence & Data Analyst</option>
-                <option value="UI/UX & Product Designer">UI/UX & Product Designer</option>
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="Data Analyst">Data Analyst</option>
-                {/* Fallback if user typed a custom role */}
-                {user?.prefs?.role && !['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Data Analyst'].includes(user.prefs.role) && (
-                  <option value={user.prefs.role}>{user.prefs.role}</option>
-                )}
+                <optgroup label="Curated career roles">
+                  {CAREER_ROLES.map((careerRole) => (
+                    <option key={careerRole.key} value={careerRole.title}>{careerRole.title}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Other roles">
+                  {['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Full Stack Developer']
+                    .filter((name) => !CAREER_ROLES.some((careerRole) => careerRole.title === name))
+                    .map((name) => <option key={name} value={name}>{name}</option>)}
+                  {user?.prefs?.role && !CAREER_ROLES.some((careerRole) => careerRole.title === user.prefs.role) && !['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Full Stack Developer'].includes(user.prefs.role) && (
+                    <option value={user.prefs.role}>{user.prefs.role}</option>
+                  )}
+                </optgroup>
               </select>
             </div>
 
@@ -192,7 +202,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="p-8 max-w-6xl mx-auto">
+        <div className="px-4 py-5 md:p-8 max-w-6xl mx-auto">
           {renderContent()}
         </div>
       </main>

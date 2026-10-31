@@ -1,96 +1,58 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import {
+  ArrowRight, BarChart3, Briefcase, Check, Coins, Megaphone, Palette, PenLine, Sparkles,
+} from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { ArrowRight, Check, Sparkles, TrendingUp } from 'lucide-react';
-import { INTEREST_TO_BOOMING_ROLE } from '../../data/roleData';
+import { CAREER_CATEGORIES } from '../../data/careerCatalog';
 
-const INTEREST_OPTIONS = [
-  { 
-    key: 'technology', 
-    emoji: '💻', 
-    title: 'Technology & Web Software', 
-    boomingRole: 'Junior Software & Web Engineer',
-    desc: 'Starts with logic & programming fundamentals, HTML, CSS, and JavaScript before frameworks.'
-  },
-  { 
-    key: 'healthcare', 
-    emoji: '🏥', 
-    title: 'Healthcare & Clinical Informatics', 
-    boomingRole: 'Junior Health Data & Informatics Specialist',
-    desc: 'Starts with healthcare privacy (HIPAA), medical coding (ICD-10), and patient spreadsheet analysis.'
-  },
-  { 
-    key: 'data', 
-    emoji: '📊', 
-    title: 'Data & Analytics', 
-    boomingRole: 'Business Intelligence & Data Analyst',
-    desc: 'Starts with data literacy, Excel formulas, and SQL database querying.'
-  },
-  { 
-    key: 'design', 
-    emoji: '🎨', 
-    title: 'Design & User Experience', 
-    boomingRole: 'UI/UX & Product Designer',
-    desc: 'Starts with user research, design thinking, wireframing, and Figma basics.'
-  },
-  { 
-    key: 'business', 
-    emoji: '💼', 
-    title: 'Business & Management', 
-    boomingRole: 'Associate Product & Operations Manager',
-    desc: 'Starts with customer discovery, product requirement docs (PRDs), and agile sprints.'
-  },
-  { 
-    key: 'marketing', 
-    emoji: '📣', 
-    title: 'Digital Marketing & Growth', 
-    boomingRole: 'Growth & Performance Marketing Specialist',
-    desc: 'Starts with marketing funnels, copywriting psychology, and campaign analytics.'
-  },
-  { 
-    key: 'finance', 
-    emoji: '💰', 
-    title: 'Finance & Accounting', 
-    boomingRole: 'Financial & Revenue Operations Analyst',
-    desc: 'Starts with financial modeling, Excel statements, and budgeting fundamentals.'
-  },
-  { 
-    key: 'writing', 
-    emoji: '✍️', 
-    title: 'Writing & Technical Communication', 
-    boomingRole: 'Technical Writer & Documentation Specialist',
-    desc: 'Starts with developer documentation, API guides, and knowledge-base structuring.'
-  }
-];
+const CATEGORY_ICONS = {
+  data: BarChart3,
+  business: Briefcase,
+  finance: Coins,
+  design: Palette,
+  marketing: Megaphone,
+  writing: PenLine,
+};
 
 export default function InterestSelect() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const { completeOnboarding } = useAuth();
-  const [selectedKey, setSelectedKey] = useState('technology');
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [selectedRole, setSelectedRole] = useState('');
+  const selectedCategories = CAREER_CATEGORIES.filter((category) => selectedInterests.includes(category.id));
 
-  const selectedOption = INTEREST_OPTIONS.find(o => o.key === selectedKey) || INTEREST_OPTIONS[0];
+  const toggleInterest = (interestId) => {
+    const next = selectedInterests.includes(interestId)
+      ? selectedInterests.filter((id) => id !== interestId)
+      : [...selectedInterests, interestId];
+    const availableRoles = CAREER_CATEGORIES
+      .filter((category) => next.includes(category.id))
+      .flatMap((category) => category.roles);
+    setSelectedInterests(next);
+    if (!availableRoles.some((role) => role.title === selectedRole)) {
+      setSelectedRole(availableRoles[0]?.title || '');
+    }
+  };
 
   const handleContinue = () => {
-    const boomingRole = selectedOption.boomingRole;
-    const lang = localStorage.getItem('preferredLanguage') || 'en';
-    
+    if (!selectedInterests.length || !selectedRole) return;
     completeOnboarding({
-      role: boomingRole,
-      interestKey: selectedKey,
+      role: selectedRole,
+      interestKey: selectedInterests[0],
       isBeginner: true,
-      interests: [selectedKey],
-      language: lang,
+      interests: selectedInterests,
+      language: localStorage.getItem('preferredLanguage') || 'en',
+      knownSkills: [],
+      skillConfidence: 35,
     });
     navigate('/dashboard');
   };
 
   return (
     <div className="min-h-screen bg-[#f7f6f2] flex items-center justify-center p-4 selection:bg-[#556b2f]/20">
-      <div className="max-w-2xl w-full">
-        {/* Step indicator */}
-        <div className="flex items-center justify-center gap-2 mb-8">
+      <div className="max-w-4xl w-full py-8">
+        <div className="flex items-center justify-center gap-2 mb-7" aria-label="Onboarding step 4 of 4">
           <div className="w-2 h-2 bg-[#dcd8cb] rounded-full" />
           <div className="w-2 h-2 bg-[#dcd8cb] rounded-full" />
           <div className="w-2 h-2 bg-[#dcd8cb] rounded-full" />
@@ -99,72 +61,106 @@ export default function InterestSelect() {
 
         <div className="flex items-center justify-center gap-2 mb-2">
           <Sparkles size={18} className="text-[#556b2f]" />
-          <span className="text-[#556b2f] text-xs font-bold uppercase tracking-widest">Beginner Career Pathway</span>
+          <span className="text-[#556b2f] text-xs font-bold uppercase tracking-widest">Beginner career pathway</span>
         </div>
-
         <h1 className="text-3xl md:text-4xl font-bold text-[#1e2019] mb-2 text-center tracking-tight">
-          Which field sparks your interest?
+          Which fields spark your interest?
         </h1>
-        <p className="text-[#636659] text-center mb-6 text-sm max-w-lg mx-auto">
-          Choose a field below. We will pair you with the <strong>#1 fastest-growing entry role</strong> in that industry and guide you through beginner-friendly foundational steps first.
+        <p className="text-[#636659] text-center mb-7 text-sm max-w-xl mx-auto">
+          Choose one or more areas. We will only recommend roles from the fields you select.
         </p>
 
-        {/* Interest grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-          {INTEREST_OPTIONS.map((item) => {
-            const isSelected = selectedKey === item.key;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-7">
+          {CAREER_CATEGORIES.map((category) => {
+            const Icon = CATEGORY_ICONS[category.id];
+            const isSelected = selectedInterests.includes(category.id);
             return (
               <button
-                key={item.key}
-                onClick={() => setSelectedKey(item.key)}
-                className={`relative flex items-start gap-3.5 p-4 rounded-2xl border text-left transition-all ${
+                key={category.id}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => toggleInterest(category.id)}
+                className={`relative flex min-h-36 items-start gap-3 p-4 rounded-2xl border text-left transition-all ${
                   isSelected
                     ? 'bg-[#edf1e6] border-[#556b2f] shadow-sm'
                     : 'bg-white border-[#e2dfd4] hover:border-[#b8c2a4] hover:bg-[#faf9f5]'
                 }`}
               >
-                <span className="text-2xl mt-0.5">{item.emoji}</span>
-                <div className="flex-1 pr-6">
-                  <div className="text-[#1e2019] text-sm font-bold flex items-center gap-1.5">
-                    {item.title}
-                  </div>
-                  <div className="text-[#556b2f] text-xs font-semibold mt-0.5 flex items-center gap-1">
-                    <TrendingUp size={12} /> Booming: {item.boomingRole}
-                  </div>
-                  <p className="text-[#7d8270] text-xs mt-1 line-clamp-2 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-                {isSelected && (
-                  <div className="absolute top-4 right-4 w-5 h-5 bg-[#556b2f] rounded-full flex items-center justify-center">
-                    <Check size={12} className="text-white" />
-                  </div>
-                )}
+                <span className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  isSelected ? 'bg-[#556b2f] text-white' : 'bg-[#f0eee6] text-[#556b2f]'
+                }`}>
+                  <Icon size={20} />
+                </span>
+                <span className="pr-5">
+                  <span className="block text-[#1e2019] text-sm font-bold">{category.title}</span>
+                  <span className="block text-[#636659] text-xs mt-1 leading-relaxed">{category.description}</span>
+                </span>
+                <span className={`absolute top-4 right-4 w-5 h-5 rounded-full border flex items-center justify-center ${
+                  isSelected ? 'bg-[#556b2f] border-[#556b2f] text-white' : 'bg-white border-[#dcd8cb] text-transparent'
+                }`}>
+                  <Check size={12} />
+                </span>
               </button>
             );
           })}
         </div>
 
-        {/* Selected Role Preview Box */}
-        <div className="p-4 rounded-2xl bg-white border border-[#e2dfd4] mb-6 flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-[#7d8270] uppercase tracking-wider block">Assigned Booming Pathway:</span>
-            <div className="text-[#1e2019] font-bold text-base mt-0.5">
-              {selectedOption.emoji} {selectedOption.boomingRole}
+        {selectedCategories.length > 0 && (
+          <section className="bg-white border border-[#e2dfd4] rounded-2xl p-5 md:p-6 mb-5">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4">
+              <div>
+                <h2 className="text-[#1e2019] font-bold text-base">Choose a starting role</h2>
+                <p className="text-[#636659] text-xs mt-1">Recommendations are limited to your selected interests.</p>
+              </div>
+              <span className="text-xs text-[#7d8270]">{selectedInterests.length} field{selectedInterests.length === 1 ? '' : 's'} selected</span>
             </div>
-            <p className="text-[#636659] text-xs mt-0.5">
-              Step 1 starts with true fundamentals before moving to complex tools.
-            </p>
+            <div className="space-y-4">
+              {selectedCategories.map((category) => (
+                <div key={category.id}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#7d8270] mb-2">{category.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {category.roles.map((role) => {
+                      const isSelected = selectedRole === role.title;
+                      return (
+                        <button
+                          key={role.key}
+                          type="button"
+                          aria-pressed={isSelected}
+                          onClick={() => setSelectedRole(role.title)}
+                          className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-colors ${
+                            isSelected
+                              ? 'bg-[#556b2f] border-[#556b2f] text-white'
+                              : 'bg-[#faf9f5] border-[#e2dfd4] text-[#4b4e43] hover:border-[#9fa88c]'
+                          }`}
+                        >
+                          {role.title}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-[#e2dfd4]">
+          <div className="min-w-0">
+            <span className="text-xs font-bold text-[#7d8270] uppercase tracking-wider block">Your starting role</span>
+            <div className="text-[#1e2019] font-bold text-base mt-0.5">
+              {selectedRole || 'Select an interest and role to continue'}
+            </div>
           </div>
           <button
+            type="button"
             onClick={handleContinue}
-            className="group flex items-center gap-2 bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs text-sm"
+            disabled={!selectedRole}
+            className="group flex items-center justify-center gap-2 bg-[#556b2f] hover:bg-[#445625] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs text-sm"
           >
             Start My Journey
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
-
       </div>
     </div>
   );

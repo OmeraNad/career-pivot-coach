@@ -197,14 +197,14 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
               <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs">
                 <span className="text-xs uppercase font-bold tracking-wider text-[#556b2f]">Knowledge Check</span>
                 <h4 className="text-[#1e2019] font-bold text-base mt-2 mb-4">
-                  {skill.quiz ? skill.quiz.question : `Which of the following is the key purpose of ${skill.skill}?`}
+                  {skill.quiz ? skill.quiz.question : `Which approach best helps you develop ${skill.skill}?`}
                 </h4>
 
                 <div className="space-y-2.5">
                   {(skill.quiz ? skill.quiz.options : [
-                    "To structure, build, and deploy reliable features",
-                    "To cause endless server downtime",
-                    "To delete database tables by accident"
+                    `Practice ${skill.skill} on a small, realistic task and check whether it meets the goal`,
+                    'Skip practice and rely on familiarity alone',
+                    'Use it without understanding or reviewing the result'
                   ]).map((opt, idx) => {
                     const isSelected = selectedQuizAnswer === idx;
                     const isCorrect = skill.quiz ? idx === skill.quiz.correctIndex : idx === 0;

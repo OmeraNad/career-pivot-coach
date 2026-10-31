@@ -31,6 +31,7 @@ const STOP = new Set([
   'design', 'data', 'analysis', 'systems', 'web', 'user', 'product', 'business',
   'layouts', 'interactivity', 'fundamentals', 'computer', 'semantic',
   'healthcare', 'health', 'clinical', 'india', 'act', 'models', 'quality', 'metrics', 'claims',
+  'social', 'media', 'financial', 'finance', 'business', 'marketing', 'content', 'technical',
 ]);
 
 export const SKILL_SUGGESTIONS = {
@@ -40,6 +41,12 @@ export const SKILL_SUGGESTIONS = {
   data: ['Excel', 'SQL', 'Python', 'Power BI', 'Tableau', 'Statistics'],
   healthcare: ['Excel', 'SQL', 'Medical Terminology', 'ICD-10', 'HIPAA', 'Power BI', 'Tableau', 'Python', 'FHIR', 'Epic'],
 };
+
+Object.entries(ROLE_DATA).forEach(([roleKey, role]) => {
+  if (!role.skills || SKILL_SUGGESTIONS[roleKey]) return;
+  SKILL_SUGGESTIONS[roleKey] = [...role.skills.critical, ...role.skills.important, ...role.skills.niceToHave]
+    .map((skill) => skill.skill);
+});
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -75,7 +82,7 @@ export function getSkillLevels(roleKey, knownSkills = [], confidence = 50) {
   if (entries.length === 0) return levels;
   allSkillsFor(roleKey).forEach((skill) => {
     const kws = keywordsFor(skill);
-    if (entries.some((e) => kws.some((kw) => hit(e, kw)))) {
+    if (entries.some((e) => e === skill.skill.toLowerCase() || kws.some((kw) => hit(e, kw)))) {
       levels[skill.skill] = Math.min(skill.required, confidence);
     }
   });

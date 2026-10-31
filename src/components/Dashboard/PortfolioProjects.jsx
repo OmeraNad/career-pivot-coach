@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { 
@@ -12,13 +12,26 @@ export default function PortfolioProjects() {
   const { user } = useAuth();
 
   const targetRole = user?.prefs?.role || 'Product Manager';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
+  const roleKey = getRoleKey(targetRole);
+  const roleConfig = ROLE_DATA[roleKey] || ROLE_DATA.productManager;
   const projects = roleConfig.portfolioProjects || [];
+  const storageKey = `cpc_project_steps_${user?.id || 'guest'}_${roleKey}`;
 
   // Read mastered skills from user storage
   const userMasteredSkills = JSON.parse(localStorage.getItem(`cpc_skills_${user?.id}`) || '[]').map(s => s.name);
 
-  const [completedSteps, setCompletedSteps] = useState({});
+  const [completedSteps, setCompletedSteps] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey) || '{}');
+    } catch (error) {
+      console.error('Could not read saved portfolio progress.', error);
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(completedSteps));
+  }, [completedSteps, storageKey]);
 
   const toggleStep = (projId, stepIdx) => {
     const key = `${projId}-${stepIdx}`;
@@ -168,6 +181,16 @@ export default function PortfolioProjects() {
                   <Code2 size={15} /> Why Hiring Managers Care:
                 </span>
                 <p className="text-[#4b4e43] text-xs leading-relaxed">{proj.whyRecruitersLoveIt}</p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-3 text-xs">
+                <div className="rounded-xl bg-[#edf1e6] border border-[#d6dec8] p-3">
+                  <strong className="block text-[#3f5022] mb-1">Expected outcome</strong>
+                  <span className="text-[#4b4e43]">{proj.expectedOutcome || 'A shareable, role-relevant work sample.'}</span>
+                </div>
+                <div className="rounded-xl bg-[#faf9f5] border border-[#e2dfd4] p-3">
+                  <strong className="block text-[#4b4e43] mb-1">Portfolio presentation</strong>
+                  <span className="text-[#636659]">{proj.presentationGuidance || 'Explain the brief, your process, and what you learned.'}</span>
+                </div>
               </div>
 
               {/* Checklist */}
