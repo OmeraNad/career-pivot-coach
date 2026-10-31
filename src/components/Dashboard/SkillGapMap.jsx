@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
-import { Search, Zap, AlertTriangle, Info, BookOpen, PlayCircle, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Search, Zap, AlertTriangle, Info, BookOpen, PlayCircle, Sparkles } from 'lucide-react';
 import SkillLearningModal from './SkillLearningModal';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
+import { getSkillLevels } from '../../data/skillMatch';
 
 function SkillCard({ item, onSelectSkill }) {
   const gap = item.required - item.yourLevel;
   return (
-    <div 
+    <div
       onClick={() => onSelectSkill(item)}
       className="bg-white border border-[#e2dfd4] rounded-2xl p-5 space-y-3 hover:border-[#556b2f] hover:shadow-md transition-all cursor-pointer group shadow-xs"
     >
@@ -33,9 +34,9 @@ function SkillCard({ item, onSelectSkill }) {
           <span>Target: <strong className="text-[#1e2019]">{item.required}%</strong></span>
         </div>
         <div className="w-full bg-[#f0eee6] rounded-full h-2 overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-[#708643] to-[#556b2f] rounded-full transition-all" 
-            style={{ width: `${item.yourLevel}%` }} 
+          <div
+            className="h-full bg-gradient-to-r from-[#708643] to-[#556b2f] rounded-full transition-all"
+            style={{ width: `${item.yourLevel}%` }}
           />
         </div>
         <div className="flex items-center justify-between text-xs pt-1">
@@ -46,10 +47,12 @@ function SkillCard({ item, onSelectSkill }) {
         </div>
       </div>
 
-      <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-xl px-3 py-2 text-xs text-[#3f5022] flex items-center gap-2">
-        <Sparkles size={14} className="text-[#556b2f] flex-shrink-0" />
-        <span className="truncate">{item.tip}</span>
-      </div>
+      {item.tip && (
+        <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-xl px-3 py-2 text-xs text-[#3f5022] flex items-center gap-2">
+          <Sparkles size={14} className="text-[#556b2f] flex-shrink-0" />
+          <span className="truncate">{item.tip}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -57,11 +60,19 @@ function SkillCard({ item, onSelectSkill }) {
 export default function SkillGapMap() {
   const { t } = useTranslation();
   const { user } = useAuth();
-  
-  const targetRole = user?.prefs?.role || 'Product Manager';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
 
-  const [skillsData, setSkillsData] = useState(roleConfig.skills);
+  const targetRole = user?.prefs?.role || 'Product Manager';
+  const roleKey = getRoleKey(targetRole);
+  const roleConfig = ROLE_DATA[roleKey] || ROLE_DATA.productManager;
+
+  // Start each skill at the level inferred from the skills the user entered
+  const withLevels = (skills) => {
+    const levels = getSkillLevels(roleKey, user?.prefs?.knownSkills, user?.prefs?.skillConfidence);
+    const map = (arr) => arr.map((s) => ({ ...s, yourLevel: levels[s.skill] ?? s.yourLevel }));
+    return { critical: map(skills.critical), important: map(skills.important), niceToHave: map(skills.niceToHave) };
+  };
+
+  const [skillsData, setSkillsData] = useState(() => withLevels(roleConfig.skills));
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [analyzed, setAnalyzed] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
@@ -69,19 +80,19 @@ export default function SkillGapMap() {
 
   useEffect(() => {
     const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
-    setSkillsData(config.skills);
-  }, [targetRole]);
+    setSkillsData(withLevels(config.skills));
+    // eslint-disable-next-line
+  }, [targetRole, user?.prefs?.knownSkills]);
 
   const handleAnalyze = () => {
     setAnalyzing(true);
-    setTimeout(() => { 
-      setAnalyzing(false); 
-      setAnalyzed(true); 
+    setTimeout(() => {
+      setAnalyzing(false);
+      setAnalyzed(true);
     }, 1200);
   };
 
   const handleMarkComplete = (skillName) => {
-    // Save to user mastered skills in localStorage
     const storageKey = `cpc_skills_${user?.id || 'guest'}`;
     const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
     if (!existing.some(s => s.name === skillName)) {
@@ -102,7 +113,6 @@ export default function SkillGapMap() {
 
   return (
     <div className="space-y-6">
-      {/* Title & Explainer */}
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('skillGap.title')}</h1>
@@ -136,8 +146,8 @@ export default function SkillGapMap() {
               className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl p-4 text-[#1e2019] placeholder-[#9a9e8f] focus:outline-none focus:border-[#556b2f] focus:ring-2 focus:ring-[#556b2f]/15 resize-none text-sm"
             />
           </div>
-          <button 
-            onClick={handleAnalyze} 
+          <button
+            onClick={handleAnalyze}
             disabled={analyzing}
             className="w-full bg-[#556b2f] hover:bg-[#445625] disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-xs"
           >
@@ -150,7 +160,6 @@ export default function SkillGapMap() {
         </div>
       ) : (
         <div className="space-y-8">
-          {/* Quick Summary Banner */}
           <div className="p-5 rounded-2xl bg-[#edf1e6] border border-[#d6dec8] flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#556b2f] text-white flex items-center justify-center shadow-xs">
@@ -166,7 +175,6 @@ export default function SkillGapMap() {
             </span>
           </div>
 
-          {/* Critical */}
           <div>
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle size={18} className="text-[#ba3c3c]" />
@@ -182,7 +190,6 @@ export default function SkillGapMap() {
             </div>
           </div>
 
-          {/* Important */}
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Zap size={18} className="text-[#8a6b18]" />
@@ -198,7 +205,6 @@ export default function SkillGapMap() {
             </div>
           </div>
 
-          {/* Nice to have */}
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Info size={18} className="text-[#455633]" />
@@ -216,7 +222,6 @@ export default function SkillGapMap() {
         </div>
       )}
 
-      {/* Interactive Modal when clicking any skill */}
       {selectedSkill && (
         <SkillLearningModal
           skill={selectedSkill}
