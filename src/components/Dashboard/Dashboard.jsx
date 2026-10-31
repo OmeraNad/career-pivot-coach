@@ -69,7 +69,7 @@ export default function Dashboard() {
           <div className="w-8 h-8 bg-[#556b2f] rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
             <Compass size={18} className="text-white" />
           </div>
-          {sidebarOpen && <span className="font-bold text-sm tracking-tight text-[#1e2019]">CareerPivot</span>}
+          {sidebarOpen && <span className="font-bold text-sm tracking-tight text-[#1e2019]">PivotIQ</span>}
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="ml-auto text-[#7d8270] hover:text-[#1e2019] transition-colors">
             {sidebarOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
@@ -165,6 +165,7 @@ export default function Dashboard() {
                 }}
                 className="bg-transparent text-[#3f5022] font-semibold text-xs focus:outline-none cursor-pointer"
               >
+                <option value="Healthcare Data Analyst">Healthcare Data Analyst</option>
                 <option value="Full Stack Developer">Full Stack Developer</option>
                 <option value="Data Analyst">Data Analyst</option>
                 <option value="Software Engineer">Software Engineer</option>

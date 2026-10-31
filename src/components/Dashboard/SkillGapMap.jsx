@@ -41,7 +41,7 @@ function SkillCard({ item, onSelectSkill }) {
         <div className="flex items-center justify-between text-xs pt-1">
           <span className="text-[#8a6b18] font-semibold">Remaining Gap: {gap > 0 ? `${gap}%` : 'Mastered! 🎉'}</span>
           <span className="text-[#556b2f] font-semibold group-hover:underline flex items-center gap-1">
-            Open Lesson & Videos →
+            Open Concept Guide & Resources →
           </span>
         </div>
       </div>
@@ -150,7 +150,7 @@ export default function SkillGapMap() {
               </div>
               <div>
                 <div className="text-[#1e2019] font-bold text-sm">Learning Center Active for {targetRole}</div>
-                <div className="text-[#636659] text-xs">Each skill includes verified free videos, sandbox playgrounds, and mini quizzes.</div>
+                <div className="text-[#636659] text-xs">Each skill includes curated learning paths, interactive code guides, and mini quizzes.</div>
               </div>
             </div>
             <span className="text-xs bg-white text-[#455633] border border-[#d6dec8] px-3 py-1.5 rounded-full font-semibold shadow-xs">

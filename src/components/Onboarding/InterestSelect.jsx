@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { ArrowRight, Check, Heart } from 'lucide-react';
+import { INTEREST_TO_ROLE } from '../../data/roleData';
 
 const INTEREST_ICONS = {
   technology: '💻', design: '🎨', business: '💼', data: '📊',
@@ -30,10 +31,18 @@ export default function InterestSelect() {
   };
 
   const handleContinue = () => {
-    const role = sessionStorage.getItem('onboarding_role') || 'Full Stack Developer';
+    // Map selected primary interest to role!
+    let determinedRole = 'Healthcare Data Analyst';
+    if (selected.length > 0) {
+      const primaryInterest = selected[0];
+      determinedRole = INTEREST_TO_ROLE[primaryInterest] || 'Full Stack Developer';
+    } else {
+      determinedRole = 'Data Analyst';
+    }
+
     const lang = localStorage.getItem('preferredLanguage') || 'en';
     completeOnboarding({
-      role: role === 'beginner' ? 'Full Stack Developer' : role,
+      role: determinedRole,
       isBeginner: true,
       interests: noInterest ? [] : selected,
       language: lang,

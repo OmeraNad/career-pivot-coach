@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, TrendingUp, Building, X } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { Plus, TrendingUp, Building, X, Briefcase } from 'lucide-react';
 
 const STATUS_COLORS = {
   Applied: 'bg-[#edf1e6] text-[#455633] border-[#d6dec8]',
@@ -10,29 +11,45 @@ const STATUS_COLORS = {
   Rejected: 'bg-[#faebeb] text-[#ba3c3c] border-[#f2c8c8]',
 };
 
-const INITIAL_APPS = [
-  { id: 1, company: 'Stripe', role: 'Full Stack Engineer', date: '2026-10-28', status: 'Screening' },
-  { id: 2, company: 'Vercel', role: 'Frontend Engineer', date: '2026-10-25', status: 'Applied' },
-  { id: 3, company: 'Shopify', role: 'Software Developer', date: '2026-10-20', status: 'Rejected' },
-  { id: 4, company: 'Linear', role: 'Full Stack Developer', date: '2026-10-15', status: 'Interview' },
-];
-
 export default function ApplicationTracker() {
   const { t } = useTranslation();
-  const [apps, setApps] = useState(INITIAL_APPS);
+  const { user } = useAuth();
+
+  const storageKey = `cpc_apps_${user?.id || 'guest'}`;
+
+  const [apps, setApps] = useState(() => {
+    return JSON.parse(localStorage.getItem(storageKey) || '[]');
+  });
+
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ company: '', role: '', date: '', status: 'Applied' });
+  const [form, setForm] = useState({ 
+    company: '', 
+    role: user?.prefs?.role || '', 
+    date: new Date().toISOString().split('T')[0], 
+    status: 'Applied' 
+  });
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(apps));
+  }, [apps, storageKey]);
 
   const addApp = () => {
     if (!form.company || !form.role) return;
     setApps((prev) => [...prev, { ...form, id: Date.now() }]);
-    setForm({ company: '', role: '', date: '', status: 'Applied' });
+    setForm({ 
+      company: '', 
+      role: user?.prefs?.role || '', 
+      date: new Date().toISOString().split('T')[0], 
+      status: 'Applied' 
+    });
     setShowForm(false);
   };
 
   const removeApp = (id) => setApps((prev) => prev.filter((a) => a.id !== id));
 
-  const responseRate = Math.round((apps.filter((a) => a.status !== 'Applied').length / apps.length) * 100);
+  const responseCount = apps.filter((a) => a.status !== 'Applied').length;
+  const responseRate = apps.length > 0 ? Math.round((responseCount / apps.length) * 100) : 0;
+  
   const byStatus = Object.fromEntries(
     ['Applied', 'Screening', 'Interview', 'Offer', 'Rejected'].map((s) => [s, apps.filter((a) => a.status === s).length])
   );
@@ -66,11 +83,11 @@ export default function ApplicationTracker() {
           <TrendingUp size={20} />
         </div>
         <div>
-          <p className="text-[#1e2019] font-bold text-sm mb-1">🌿 Mentor Opportunity Insight</p>
+          <p className="text-[#1e2019] font-bold text-sm mb-1">🌿 Application Intelligence</p>
           <p className="text-[#636659] text-sm leading-relaxed">
-            Your response rate is <strong className="text-[#1e2019]">{responseRate}%</strong>. 
-            You are generating consistent screening callbacks with modern developer tooling companies (Stripe, Linear). 
-            Prioritize applications requiring React + Node.js stacks where your gap map is strongest.
+            {apps.length === 0
+              ? `You haven't logged any applications yet. As you start sending resumes for ${user?.prefs?.role || 'your target role'}, log them here to discover which company stages and roles give you the highest callback rate.`
+              : `Overall response rate: ${responseRate}%. Keep tracking your submissions to calibrate which job descriptions yield interview screenings.`}
           </p>
         </div>
       </div>
@@ -79,21 +96,21 @@ export default function ApplicationTracker() {
       {showForm && (
         <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 space-y-4 shadow-xs animate-fadeIn">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-[#1e2019] font-bold text-base">New Job Application</h3>
+            <h3 className="text-[#1e2019] font-bold text-base">Log a Job Application</h3>
             <button onClick={() => setShowForm(false)} className="text-[#8c907f] hover:text-[#1e2019]"><X size={18} /></button>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-[#636659] text-xs font-semibold mb-1 block">Company</label>
+              <label className="text-[#636659] text-xs font-semibold mb-1 block">Company Name</label>
               <input value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })}
                 className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-4 py-2.5 text-[#1e2019] text-sm focus:outline-none focus:border-[#556b2f]"
-                placeholder="Google" />
+                placeholder="e.g. Google, Hospital System, Startup..." />
             </div>
             <div>
               <label className="text-[#636659] text-xs font-semibold mb-1 block">Role Title</label>
               <input value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}
                 className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-4 py-2.5 text-[#1e2019] text-sm focus:outline-none focus:border-[#556b2f]"
-                placeholder="Full Stack Developer" />
+                placeholder="e.g. Data Analyst" />
             </div>
             <div>
               <label className="text-[#636659] text-xs font-semibold mb-1 block">Date Applied</label>
@@ -120,26 +137,32 @@ export default function ApplicationTracker() {
         <div className="grid grid-cols-4 gap-4 px-6 py-3.5 border-b border-[#f0eee6] bg-[#faf9f5] text-[#7d8270] text-xs font-bold uppercase tracking-wider">
           <span>Company</span><span>Role</span><span>Date</span><span>Status</span>
         </div>
-        <div className="divide-y divide-[#f0eee6]">
-          {apps.map((app) => (
-            <div key={app.id} className="grid grid-cols-4 gap-4 px-6 py-4 items-center hover:bg-[#faf9f5] transition-all group">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-[#f0eee6] rounded-xl flex items-center justify-center">
-                  <Building size={14} className="text-[#556b2f]" />
+        {apps.length === 0 ? (
+          <div className="p-8 text-center text-[#7d8270] text-xs">
+            No applications logged yet. Click <strong>"Add Application"</strong> above to record your first role!
+          </div>
+        ) : (
+          <div className="divide-y divide-[#f0eee6]">
+            {apps.map((app) => (
+              <div key={app.id} className="grid grid-cols-4 gap-4 px-6 py-4 items-center hover:bg-[#faf9f5] transition-all group">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-[#f0eee6] rounded-xl flex items-center justify-center">
+                    <Building size={14} className="text-[#556b2f]" />
+                  </div>
+                  <span className="text-[#1e2019] text-sm font-semibold">{app.company}</span>
                 </div>
-                <span className="text-[#1e2019] text-sm font-semibold">{app.company}</span>
+                <span className="text-[#4b4e43] text-sm">{app.role}</span>
+                <span className="text-[#7d8270] text-sm">{app.date}</span>
+                <div className="flex items-center justify-between">
+                  <span className={`text-xs px-3 py-1 rounded-full border font-semibold ${STATUS_COLORS[app.status]}`}>{app.status}</span>
+                  <button onClick={() => removeApp(app.id)} className="opacity-0 group-hover:opacity-100 text-[#8c907f] hover:text-[#ba3c3c] transition-all">
+                    <X size={15} />
+                  </button>
+                </div>
               </div>
-              <span className="text-[#4b4e43] text-sm">{app.role}</span>
-              <span className="text-[#7d8270] text-sm">{app.date}</span>
-              <div className="flex items-center justify-between">
-                <span className={`text-xs px-3 py-1 rounded-full border font-semibold ${STATUS_COLORS[app.status]}`}>{app.status}</span>
-                <button onClick={() => removeApp(app.id)} className="opacity-0 group-hover:opacity-100 text-[#8c907f] hover:text-[#ba3c3c] transition-all">
-                  <X size={15} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

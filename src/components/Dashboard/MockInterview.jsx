@@ -1,18 +1,67 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
-import { Mic, ChevronRight, Sparkles } from 'lucide-react';
+import { Mic, ChevronRight, Sparkles, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
 
-const SAMPLE_FEEDBACK = {
-  score: 84,
-  strengths: ['Great technical clarity', 'Structured step-by-step reasoning'],
-  improvements: [
-    'Mention potential performance bottlenecks or failure edge cases',
-    'Summarize how your architectural decision benefits the business or user experience',
-  ],
-  tip: 'Use the STAR format: Situation → Task → Action → Result',
-};
+function evaluateInterviewAnswer(answer, question) {
+  const clean = (answer || '').trim().toLowerCase();
+
+  // 1. Check for "I don't know" / "idk" / very short answers
+  const isDontKnow = clean.includes("don't know") || 
+                     clean.includes("dont know") || 
+                     clean.includes("idk") || 
+                     clean.includes("no idea") || 
+                     clean.includes("not sure") ||
+                     clean.length < 15;
+
+  if (isDontKnow) {
+    return {
+      score: 18,
+      status: 'needs-study',
+      strengths: [
+        'Honesty in acknowledging knowledge gaps is better than guessing randomly in interviews.'
+      ],
+      improvements: [
+        'In a real interview, never stop at "I don\'t know"—always state what you know adjacent to the topic or how you would investigate.',
+        'Review the key terminology listed in the rubric below.'
+      ],
+      tip: `Here is the model answer to study: "${question.idealAnswer || 'Focus on the core concept and explain its real-world impact.'}"`
+    };
+  }
+
+  // 2. Check keyword coverage against question rubric
+  const keywords = question.keywords || ['situation', 'action', 'result', 'metric'];
+  const matched = keywords.filter(kw => clean.includes(kw.toLowerCase()));
+  const matchRatio = matched.length / Math.max(1, keywords.length);
+
+  let calculatedScore = Math.min(95, Math.round(45 + (matchRatio * 50)));
+  if (clean.length > 150) calculatedScore = Math.min(98, calculatedScore + 5);
+
+  const missingKeywords = keywords.filter(kw => !clean.includes(kw.toLowerCase())).slice(0, 3);
+
+  const improvements = [];
+  if (missingKeywords.length > 0) {
+    improvements.push(`Make sure to specifically address: ${missingKeywords.join(', ')}.`);
+  }
+  if (!clean.includes('because') && !clean.includes('result') && !clean.includes('led to')) {
+    improvements.push('Conclude with the measurable outcome or why this decision was made.');
+  }
+  if (improvements.length === 0) {
+    improvements.push('Consider mentioning edge cases or trade-offs for a senior-level answer.');
+  }
+
+  return {
+    score: calculatedScore,
+    status: calculatedScore >= 75 ? 'passed' : 'needs-work',
+    strengths: [
+      `Addressed ${matched.length > 0 ? matched.join(', ') : 'the central prompt'} directly`,
+      clean.length > 100 ? 'Good depth and sentence structure' : 'Clear communication'
+    ],
+    improvements,
+    tip: `Mentor takeaway: ${question.idealAnswer || 'Structure answers clearly with context, action, and results.'}`
+  };
+}
 
 export default function MockInterview() {
   const { t } = useTranslation();
@@ -26,25 +75,33 @@ export default function MockInterview() {
   const [qIndex, setQIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedback, setFeedback] = useState(null);
 
   useEffect(() => {
     const config = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.fullstack;
     setQuestions(config.mockInterview);
+    setQIndex(0);
+    setAnswer('');
+    setSubmitted(false);
+    setFeedback(null);
   }, [targetRole]);
 
   const q = questions[qIndex] || questions[0];
+
+  const handleSubmitAnswer = () => {
+    const evalResult = evaluateInterviewAnswer(answer, q);
+    setFeedback(evalResult);
+    setSubmitted(true);
+  };
 
   const handleNext = () => {
     if (qIndex < questions.length - 1) { 
       setQIndex(q => q + 1); 
       setAnswer(''); 
       setSubmitted(false); 
-      setShowFeedback(false); 
+      setFeedback(null); 
     }
   };
-
-  const scoreColor = SAMPLE_FEEDBACK.score >= 80 ? 'text-[#3f5022]' : 'text-[#8a6b18]';
 
   if (!started) {
     return (
@@ -57,14 +114,10 @@ export default function MockInterview() {
           <div className="w-20 h-20 bg-[#edf1e6] border border-[#d6dec8] rounded-full flex items-center justify-center mx-auto mb-6">
             <Mic size={36} className="text-[#556b2f]" />
           </div>
-          <h2 className="text-[#1e2019] font-bold text-xl mb-3">Ready to Practice for {targetRole}?</h2>
-          <p className="text-[#636659] text-sm mb-2">You will get <strong className="text-[#1e2019]">{questions.length} calibrated interview questions</strong> for {targetRole}.</p>
-          <p className="text-[#636659] text-sm mb-8">Each answer is scored against a real hiring rubric with tailored AI feedback.</p>
-          <div className="flex gap-3 justify-center mb-8">
-            {['Technical Architecture', 'Code Logic', 'Behavioral STAR'].map((type) => (
-              <span key={type} className="bg-[#f0eee6] text-[#4b4e43] text-xs px-3.5 py-1.5 rounded-full border border-[#e2dfd4] font-medium">{type}</span>
-            ))}
-          </div>
+          <h2 className="text-[#1e2019] font-bold text-xl mb-3">Practice Real Interview Questions for {targetRole}</h2>
+          <p className="text-[#636659] text-sm mb-2">You will get <strong className="text-[#1e2019]">{questions.length} calibrated questions</strong> matched to hiring standards.</p>
+          <p className="text-[#636659] text-sm mb-8">Each response is evaluated in real-time against rubric keywords, with instant score and ideal model answers.</p>
+          
           <button onClick={() => setStarted(true)}
             className="bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-8 py-3.5 rounded-2xl transition-all shadow-xs">
             {t('mockInterview.start')}
@@ -73,6 +126,8 @@ export default function MockInterview() {
       </div>
     );
   }
+
+  const scoreBadgeColor = !feedback ? '' : feedback.score >= 75 ? 'text-[#3f5022] bg-[#edf1e6]' : feedback.score >= 40 ? 'text-[#8a6b18] bg-[#fbf5e6]' : 'text-[#ba3c3c] bg-[#faebeb]';
 
   return (
     <div className="space-y-6">
@@ -114,60 +169,82 @@ export default function MockInterview() {
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           disabled={submitted}
-          rows={6}
-          placeholder="Type your response here as if speaking to the interviewer..."
+          rows={5}
+          placeholder="Type your response here... (Try explaining in your own words, or test what happens if you're unsure)"
           className="w-full bg-white border border-[#dcd8cb] rounded-2xl p-4 text-[#1e2019] placeholder-[#9a9e8f] focus:outline-none focus:border-[#556b2f] focus:ring-2 focus:ring-[#556b2f]/15 resize-none text-sm disabled:opacity-60 shadow-xs"
         />
-        {!submitted ? (
-          <button onClick={() => setSubmitted(true)} disabled={answer.trim().length < 5}
-            className="mt-3 bg-[#556b2f] hover:bg-[#445625] disabled:opacity-40 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs">
-            {t('mockInterview.submit')}
+        {!submitted && (
+          <button 
+            onClick={handleSubmitAnswer} 
+            disabled={answer.trim().length === 0}
+            className="mt-3 bg-[#556b2f] hover:bg-[#445625] disabled:opacity-40 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
+          >
+            {t('mockInterview.submit')} & Evaluate
           </button>
-        ) : !showFeedback ? (
-          <button onClick={() => setShowFeedback(true)}
-            className="mt-3 bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs">
-            {t('mockInterview.feedback')}
-          </button>
-        ) : null}
+        )}
       </div>
 
-      {/* Feedback */}
-      {showFeedback && (
+      {/* Feedback Card */}
+      {submitted && feedback && (
         <div className="space-y-4 animate-fadeIn">
-          <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-[#1e2019] font-bold flex items-center gap-2">
-                <Sparkles size={18} className="text-[#556b2f]" /> AI Rubric Evaluation
-              </h3>
-              <div className={`text-3xl font-bold ${scoreColor}`}>{SAMPLE_FEEDBACK.score}<span className="text-lg">/100</span></div>
+          <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#f0eee6]">
+              <div>
+                <h3 className="text-[#1e2019] font-bold flex items-center gap-2 text-base">
+                  <Sparkles size={18} className="text-[#556b2f]" /> AI Rubric Evaluation
+                </h3>
+                <span className="text-xs text-[#7d8270]">
+                  {feedback.score >= 75 ? 'Strong Answer' : feedback.score >= 40 ? 'Partial Credit' : 'Needs Practice'}
+                </span>
+              </div>
+              <div className={`text-2xl font-bold px-3 py-1 rounded-xl border border-current ${scoreBadgeColor}`}>
+                {feedback.score}<span className="text-sm font-normal">/100</span>
+              </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
-                <p className="text-[#3f5022] text-sm font-bold mb-2">✅ Key Strengths</p>
-                {SAMPLE_FEEDBACK.strengths.map((s) => <p key={s} className="text-[#4b4e43] text-sm mb-1">• {s}</p>)}
+                <p className="text-[#3f5022] text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <CheckCircle size={14} /> What was strong:
+                </p>
+                {feedback.strengths.map((s, idx) => (
+                  <p key={idx} className="text-[#4b4e43] text-sm ml-4">• {s}</p>
+                ))}
               </div>
+
               <div>
-                <p className="text-[#8a6b18] text-sm font-bold mb-2">🔧 Suggested Improvements</p>
-                {SAMPLE_FEEDBACK.improvements.map((s) => <p key={s} className="text-[#4b4e43] text-sm mb-1">• {s}</p>)}
+                <p className="text-[#8a6b18] text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <AlertCircle size={14} /> What to improve:
+                </p>
+                {feedback.improvements.map((imp, idx) => (
+                  <p key={idx} className="text-[#4b4e43] text-sm ml-4">• {imp}</p>
+                ))}
               </div>
-              <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-xl px-4 py-3">
-                <p className="text-[#3f5022] text-sm">💡 <strong>Mentor advice:</strong> {SAMPLE_FEEDBACK.tip}</p>
+
+              {/* Ideal Answer Suggestion */}
+              <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-xl p-4 mt-3">
+                <span className="text-xs font-bold text-[#3f5022] flex items-center gap-1.5 mb-1.5">
+                  <BookOpen size={14} /> Model Answer to Learn From:
+                </span>
+                <p className="text-[#2b2d27] text-xs leading-relaxed italic">
+                  "{q.idealAnswer}"
+                </p>
               </div>
             </div>
           </div>
 
-          {qIndex < questions.length - 1 && (
-            <button onClick={handleNext}
-              className="w-full bg-[#556b2f] hover:bg-[#445625] text-white font-semibold py-3.5 rounded-xl transition-all shadow-xs">
+          {qIndex < questions.length - 1 ? (
+            <button 
+              onClick={handleNext}
+              className="w-full bg-[#556b2f] hover:bg-[#445625] text-white font-semibold py-3.5 rounded-xl transition-all shadow-xs"
+            >
               {t('mockInterview.next')} →
             </button>
-          )}
-          {qIndex === questions.length - 1 && (
+          ) : (
             <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-6 text-center">
-              <div className="text-4xl mb-3">🎉</div>
-              <h3 className="text-[#1e2019] font-bold text-lg mb-1">{targetRole} Interview Complete!</h3>
-              <p className="text-[#636659] text-sm">Great practice session. Your velocity score and confidence rating have been logged.</p>
+              <div className="text-3xl mb-2">🎉</div>
+              <h3 className="text-[#1e2019] font-bold text-base mb-1">{targetRole} Interview Complete!</h3>
+              <p className="text-[#636659] text-xs">Your responses have been evaluated against hiring criteria. Practice again anytime to refine your delivery.</p>
             </div>
           )}
         </div>

@@ -35,7 +35,7 @@ export default function Login() {
           <div className="w-12 h-12 bg-[#556b2f] rounded-2xl flex items-center justify-center shadow-md shadow-[#556b2f]/20">
             <Compass size={26} className="text-white" />
           </div>
-          <span className="text-2xl font-bold tracking-tight text-[#1e2019]">CareerPivot</span>
+          <span className="text-2xl font-bold tracking-tight text-[#1e2019]">PivotIQ</span>
         </div>
 
         {/* Card */}

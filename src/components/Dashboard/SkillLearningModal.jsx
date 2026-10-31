@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  X, ExternalLink, PlayCircle, BookOpen, CheckCircle, 
-  HelpCircle, Sparkles, Clock, Compass, Award 
+  X, BookOpen, CheckCircle, 
+  HelpCircle, Sparkles, Clock, Compass, Lightbulb, Search, ArrowRight
 } from 'lucide-react';
 
 export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
@@ -40,13 +40,13 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                 {skill.priority || 'Skill Module'}
               </span>
               <span className="text-[#636659] text-xs flex items-center gap-1">
-                <Clock size={12} /> {skill.time} recommended
+                <Clock size={12} /> {skill.time} estimated
               </span>
             </div>
             <h2 className="text-2xl font-bold text-[#1e2019] flex items-center gap-2">
               {skill.skill}
             </h2>
-            <p className="text-[#636659] text-sm mt-1">{skill.shortDesc || "Master the core fundamentals and practice with curated top resources."}</p>
+            <p className="text-[#636659] text-sm mt-1">{skill.shortDesc || "Master the core fundamentals and practice with recommended learning paths."}</p>
           </div>
 
           <button 
@@ -67,7 +67,7 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                 : 'border-transparent text-[#636659] hover:text-[#1e2019]'
             }`}
           >
-            <Compass size={16} /> Top Videos & Courses
+            <Compass size={16} /> Recommended Learning Paths
           </button>
           <button
             onClick={() => setActiveTab('crashCourse')}
@@ -77,7 +77,7 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                 : 'border-transparent text-[#636659] hover:text-[#1e2019]'
             }`}
           >
-            <BookOpen size={16} /> Interactive Lesson
+            <BookOpen size={16} /> Core Concept Guide
           </button>
           <button
             onClick={() => setActiveTab('quiz')}
@@ -87,96 +87,71 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                 : 'border-transparent text-[#636659] hover:text-[#1e2019]'
             }`}
           >
-            <HelpCircle size={16} /> Quick Quiz Check
+            <HelpCircle size={16} /> Knowledge Check
           </button>
         </div>
 
         {/* Content Area */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1">
           
-          {/* TAB 1: CURATED RESOURCES */}
+          {/* TAB 1: CURATED LEARNING SUGGESTIONS (NO VIDEOS EMBEDDED) */}
           {activeTab === 'resources' && (
             <div className="space-y-6">
-              <div>
-                <h3 className="text-[#1e2019] font-bold text-base mb-1 flex items-center gap-2">
-                  <PlayCircle size={18} className="text-[#556b2f]" /> Hand-Picked Videos & Tutorials
-                </h3>
-                <p className="text-[#636659] text-xs mb-3">Watch these free, high-yield tutorials to grasp the concepts fast:</p>
-                <div className="grid gap-3">
-                  {(skill.videos || [
-                    { title: `${skill.skill} in 15 Minutes - Crash Course`, source: 'YouTube', url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(skill.skill + ' tutorial beginner'), duration: '15-45 mins' },
-                  ]).map((vid, idx) => (
-                    <a
-                      key={idx}
-                      href={vid.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-4 rounded-2xl bg-white border border-[#e2dfd4] hover:border-[#556b2f] hover:shadow-xs transition-all flex items-center justify-between group"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-                          <PlayCircle size={20} />
-                        </div>
-                        <div>
-                          <div className="text-[#1e2019] text-sm font-semibold group-hover:text-[#556b2f] transition-colors">
-                            {vid.title}
-                          </div>
-                          <div className="text-[#636659] text-xs flex items-center gap-2 mt-0.5">
-                            <span>{vid.source}</span> • <span>{vid.duration}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <ExternalLink size={16} className="text-[#8c907f] group-hover:text-[#556b2f] group-hover:translate-x-0.5 transition-all" />
-                    </a>
-                  ))}
+              {/* Suggested Video / Search Topic Note */}
+              <div className="p-5 rounded-2xl bg-[#edf1e6] border border-[#d6dec8] space-y-2">
+                <div className="flex items-center gap-2 text-[#3f5022] text-sm font-bold">
+                  <Lightbulb size={18} className="text-[#556b2f]" /> Recommended Video & Tutorial Search
                 </div>
+                <p className="text-[#4b4e43] text-xs leading-relaxed">
+                  Instead of watching a 40-hour general course, we suggest searching YouTube or educational platforms for:
+                </p>
+                <div className="p-3 bg-white border border-[#d6dec8] rounded-xl flex items-center gap-2 font-mono text-xs text-[#1e2019]">
+                  <Search size={14} className="text-[#556b2f] flex-shrink-0" />
+                  <span>"{skill.suggestedSearch || `${skill.skill} crash course practical tutorial`}"</span>
+                </div>
+                <p className="text-[#636659] text-xs italic">
+                  💡 Suggestion: Focus on videos under 45 minutes that show code/project construction rather than purely conceptual slides.
+                </p>
               </div>
 
+              {/* Recommended Curriculums & Reference Sites */}
               <div>
                 <h3 className="text-[#1e2019] font-bold text-base mb-1 flex items-center gap-2">
-                  <BookOpen size={18} className="text-[#455633]" /> Practice Playgrounds & Free Curriculums
+                  <BookOpen size={18} className="text-[#556b2f]" /> Recommended Practice Mediums
                 </h3>
-                <p className="text-[#636659] text-xs mb-3">Interactive environments where you learn by coding or practicing:</p>
+                <p className="text-[#636659] text-xs mb-3">Interactive environments and reference guides ideal for this skill:</p>
+                
                 <div className="grid gap-3">
-                  {(skill.courses || [
-                    { name: 'Interactive Documentation & Sandbox', type: 'Hands-on Browser Sandbox', url: 'https://www.w3schools.com', badge: '100% Free' }
-                  ]).map((course, idx) => (
-                    <a
+                  {(skill.suggestedResources || [
+                    { name: `${skill.skill} Interactive Sandbox`, type: 'Hands-on Browser Sandbox', topic: 'Practice syntax and solve real mini exercises' },
+                    { name: 'Official Documentation & Standards', type: 'Reference Standard', topic: 'Best practices, method signatures, and architectural patterns' }
+                  ]).map((res, idx) => (
+                    <div
                       key={idx}
-                      href={course.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-4 rounded-2xl bg-white border border-[#e2dfd4] hover:border-[#556b2f] hover:shadow-xs transition-all flex items-center justify-between group"
+                      className="p-4 rounded-2xl bg-white border border-[#e2dfd4] flex items-start gap-3 shadow-xs"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-                          <BookOpen size={20} />
-                        </div>
-                        <div>
-                          <div className="text-[#1e2019] text-sm font-semibold group-hover:text-[#556b2f] transition-colors">
-                            {course.name}
-                          </div>
-                          <div className="text-[#636659] text-xs mt-0.5">{course.type}</div>
-                        </div>
+                      <div className="w-9 h-9 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0">
+                        <Compass size={18} />
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs bg-[#edf1e6] text-[#455633] border border-[#d6dec8] px-2.5 py-0.5 rounded-full font-medium">
-                          {course.badge}
-                        </span>
-                        <ExternalLink size={16} className="text-[#8c907f] group-hover:text-[#556b2f]" />
+                      <div className="flex-1">
+                        <div className="text-[#1e2019] text-sm font-bold flex items-center justify-between">
+                          <span>{res.name}</span>
+                          <span className="text-xs bg-[#f0eee6] text-[#636659] px-2 py-0.5 rounded-full font-medium">{res.type}</span>
+                        </div>
+                        <p className="text-[#636659] text-xs mt-1">{res.topic}</p>
                       </div>
-                    </a>
+                    </div>
                   ))}
                 </div>
               </div>
 
               {/* Mentor Advice Note */}
-              <div className="p-4 rounded-2xl bg-[#edf1e6] border border-[#d6dec8]">
+              <div className="p-4 rounded-2xl bg-white border border-[#e2dfd4]">
                 <div className="flex items-center gap-2 text-[#3f5022] text-sm font-bold mb-1">
                   <Sparkles size={16} /> Mentor's Minimum Effective Dose:
                 </div>
                 <p className="text-[#4b4e43] text-xs leading-relaxed">
-                  {skill.mentorNote || "Don't spend 40 hours reading documentation. Spend 2 hours understanding the core 20% of tools that cover 80% of real interview questions. Practice building 1 small project."}
+                  {skill.mentorNote || "Spend 2 hours understanding the core 20% of tools that cover 80% of real interview questions. Practice building 1 small project."}
                 </p>
               </div>
             </div>
@@ -204,9 +179,12 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                       </div>
                     ))
                   ) : (
-                    <p className="text-[#636659] text-sm">
-                      Understand how {skill.skill} operates in production teams. Focus on core syntax and 1 practical example.
-                    </p>
+                    <div className="p-4 bg-[#faf9f5] rounded-xl border border-[#e2dfd4]">
+                      <span className="font-bold text-[#3f5022] block mb-1">Overview & Foundation</span>
+                      <p className="text-[#636659] text-xs leading-relaxed">
+                        Focus on understanding how {skill.skill} interfaces with daily production workflows. Understand the vocabulary, standard inputs/outputs, and how to verify correctness.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -256,7 +234,7 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                   <div className="mt-4 p-3.5 rounded-xl bg-[#edf1e6] border border-[#d6dec8] text-[#3f5022] text-xs font-medium">
                     {selectedQuizAnswer === (skill.quiz?.correctIndex ?? 0)
                       ? "🎉 Spot on! You understand the foundational concept."
-                      : "💡 Close! Check out the Interactive Lesson tab to review the core definition."}
+                      : "💡 Review the Core Concept Guide tab to reinforce this key principle."}
                   </div>
                 )}
               </div>
@@ -268,7 +246,7 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
         {/* Footer actions */}
         <div className="p-4 border-t border-[#e2dfd4] bg-white flex items-center justify-between">
           <div className="text-xs text-[#7d8270]">
-            External courses open in a new tab so you won't lose your place.
+            Marking this as learned logs progress to your dashboard.
           </div>
           <button
             onClick={handleComplete}
