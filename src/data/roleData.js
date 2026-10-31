@@ -1,547 +1,432 @@
-export const INTEREST_TO_ROLE = {
-  healthcare: 'Healthcare Data Analyst',
-  technology: 'Full Stack Developer',
-  design: 'UX Designer',
-  data: 'Data Analyst',
-  business: 'Product Manager',
-  marketing: 'Growth & Marketing Specialist',
-  finance: 'Financial Analyst',
-  writing: 'Technical Writer',
-  education: 'Instructional Designer',
-  law: 'Compliance & Legal Ops Specialist',
+export const INTEREST_TO_BOOMING_ROLE = {
+  technology: 'Junior Software & Web Engineer',
+  healthcare: 'Junior Health Data & Informatics Specialist',
+  data: 'Business Intelligence & Data Analyst',
+  design: 'UI/UX & Product Designer',
+  business: 'Associate Product & Operations Manager',
+  marketing: 'Growth & Performance Marketing Specialist',
+  finance: 'Financial & Revenue Operations Analyst',
+  writing: 'Technical Writer & Documentation Specialist',
 };
 
 export const ROLE_DATA = {
-  // 1. FULL STACK DEVELOPER
-  fullstack: {
-    title: 'Full Stack Developer',
-    overview: 'Build complete web applications from modern UI (React) to backend web servers (Node.js/Express) and relational databases.',
+  // 1. TECHNOLOGY & CODING: BEGINNER SOFTWARE & WEB ENGINEER
+  technology: {
+    title: 'Junior Software & Web Engineer',
+    boomingReason: 'Software engineering remains the #1 high-demand digital profession globally, with over 1.4 million open roles in web and cloud platforms in 2026.',
+    beginnerPhilosophy: 'Instead of rushing directly into complex frameworks like React, we start with raw programming logic and web foundations (HTML, CSS, JavaScript) so you understand how software actually works.',
     portfolioProjects: [
       {
-        id: 'proj-1',
-        title: 'Production SaaS Task & Sprint Engine',
-        difficulty: 'Intermediate',
-        timeToBuild: '2 weeks',
-        coversGaps: ['Frontend & Modern React', 'Node.js, Express & REST APIs', 'Authentication & Web Security'],
-        description: 'A full-stack Kanban project manager with drag-and-drop boards, JWT authentication, and team workspaces.',
-        whyRecruitersLoveIt: 'Shows you can manage complex UI state, protect API endpoints with JWT tokens, and structure multi-tenant database relations.',
-        techStack: ['React', 'Node.js / Express', 'PostgreSQL / Prisma', 'Tailwind CSS'],
+        id: 'tech-proj-1',
+        title: 'Accessible Semantic Portfolio & Developer Card',
+        difficulty: 'Beginner (Step 1-2)',
+        timeToBuild: '3-4 days',
+        requiredSkills: ['Programming Logic & Computer Fundamentals', 'HTML5 Semantic Foundations', 'CSS3 & Responsive Layouts'],
+        description: 'A responsive multi-page personal portfolio website built with pure semantic HTML5 and modern CSS Grid/Flexbox without relying on templates.',
+        whyRecruitersLoveIt: 'Shows clean semantic markup, accessibility (a11y) standards, and solid responsive layout mastery across mobile and desktop.',
+        techStack: ['HTML5', 'CSS3 (Flexbox & Grid)', 'Git / GitHub Pages'],
         keyFeatures: [
-          'User signup & login with bcrypt hashed passwords and JWT cookies',
-          'Drag-and-drop cards between Backlog, In-Progress, and Done columns',
-          'Optimistic UI updates for snappy responsiveness',
-          'Search and tag filtering across tasks'
+          'Semantic HTML elements (<header>, <nav>, <main>, <section>, <footer>)',
+          'Responsive design adapting from mobile phones to 4K displays',
+          'Clean contact form with input validation attributes',
+          'Deployed publicly on GitHub Pages'
         ],
-        githubTemplate: 'https://github.com/topics/kanban-react-node'
+        githubTemplate: 'https://github.com/topics/html5-portfolio'
       },
       {
-        id: 'proj-2',
-        title: 'E-Commerce Marketplace REST API & Storefront',
-        difficulty: 'Advanced',
-        timeToBuild: '3 weeks',
-        coversGaps: ['Node.js, Express & REST APIs', 'Database Design (PostgreSQL & MongoDB)', 'Git, GitHub & CI/CD Deployment'],
-        description: 'Complete e-commerce infrastructure with product catalog, cart persistence, inventory tracking, and mock checkout.',
-        whyRecruitersLoveIt: 'Proves database normalization, transactional integrity, and automated cloud deployment.',
-        techStack: ['React', 'Express.js', 'PostgreSQL', 'Stripe API Test Mode'],
+        id: 'tech-proj-2',
+        title: 'Interactive Task & Budget Manager (DOM & JS)',
+        difficulty: 'Intermediate (Step 3-4)',
+        timeToBuild: '1-2 weeks',
+        requiredSkills: ['HTML5 Semantic Foundations', 'CSS3 & Responsive Layouts', 'JavaScript Interactivity & DOM Manipulation'],
+        description: 'An interactive browser task and expense calculator with local storage persistence, category filtering, and dynamic DOM rendering.',
+        whyRecruitersLoveIt: 'Proves you master pure JavaScript fundamentals—events, array methods (map, filter, reduce), and state persistence—before relying on frameworks.',
+        techStack: ['JavaScript ES6+', 'HTML5', 'CSS3', 'Browser LocalStorage'],
         keyFeatures: [
-          'Relational database schema: Users, Orders, Products, and OrderItems',
-          'Paginated product listings with category and price range filters',
-          'Persistent shopping cart stored across browser reloads',
-          'Automated deployment via GitHub Actions workflow'
+          'Add, edit, delete, and filter items dynamically in the DOM',
+          'Saves items to browser LocalStorage so data persists on refresh',
+          'Calculates real-time running budget totals and status badges',
+          'Keyboard accessibility for fast data entry'
         ],
-        githubTemplate: 'https://github.com/topics/ecommerce-rest-api'
+        githubTemplate: 'https://github.com/topics/javascript-todo'
+      },
+      {
+        id: 'tech-proj-3',
+        title: 'Full Stack API & Component Web Application',
+        difficulty: 'Advanced (Step 5-6)',
+        timeToBuild: '3 weeks',
+        requiredSkills: ['JavaScript Interactivity & DOM Manipulation', 'Modern Component Frameworks (React)', 'Backend Web Servers & REST APIs (Node.js)'],
+        description: 'Full stack CRUD application with React frontend, Node/Express backend, and persistent relational database storage.',
+        whyRecruitersLoveIt: 'Proves complete end-to-end architectural capability needed for professional software engineer hiring.',
+        techStack: ['React', 'Node.js', 'Express', 'PostgreSQL / Prisma', 'Tailwind CSS'],
+        keyFeatures: [
+          'Modular React component hierarchy with reusable UI elements',
+          'RESTful API handling GET, POST, PUT, DELETE with error middleware',
+          'Database schema with relations and automated migrations',
+          'Live production deployment on Render & Vercel'
+        ],
+        githubTemplate: 'https://github.com/topics/fullstack-app'
       }
     ],
     skills: {
       critical: [
         {
-          skill: 'Frontend & Modern React',
-          yourLevel: 10,
-          required: 85,
-          time: '3 weeks',
-          priority: 'Critical',
-          shortDesc: 'Component architecture, State (useState/useEffect), Hooks, and Tailwind CSS.',
-          tip: 'Build a real CRUD app rather than watching passive tutorials.',
-          mentorNote: 'Recruiters want to see that you can fetch data from an API, handle loading and error states cleanly, and render responsive UI.',
-          suggestedResources: [
-            { name: 'Official React Documentation (Interactive)', type: 'Free Hands-on Tutorial', topic: 'Modern component lifecycle and custom hooks' },
-            { name: 'The Odin Project Full-Stack Path', type: 'Open-Source Curriculum', topic: 'Building production UI from wireframes' }
-          ],
-          suggestedSearch: 'React 19 hooks and state management tutorial 2026',
-          lessonSteps: [
-            { title: 'State & Reactivity', desc: 'State is memory inside a component that triggers a UI re-render when changed.', code: 'const [items, setItems] = useState([]);\nconst addItem = (item) => setItems([...items, item]);' }
-          ],
-          quiz: {
-            question: 'What happens when state is updated using its setter function in React?',
-            options: ['The entire browser page refreshes', 'The component re-renders with the new value', 'The database is automatically deleted', 'Nothing until the user clicks save'],
-            correctIndex: 1
-          }
-        },
-        {
-          skill: 'Node.js, Express & REST APIs',
-          yourLevel: 5,
+          skill: 'Programming Logic & Computer Fundamentals',
+          yourLevel: 0,
           required: 80,
-          time: '4 weeks',
+          time: '2 weeks',
           priority: 'Critical',
-          shortDesc: 'Build HTTP web servers, route handling, JWT authentication, and RESTful CRUD endpoints.',
-          tip: 'Master Express middleware and how to structure MVC architecture.',
-          mentorNote: '90% of technical interviews test whether you can design clean API routes (GET, POST, PUT, DELETE) with status codes.',
+          stepNumber: 1,
+          shortDesc: 'Variables, data types, conditional branching, loops, functions, and memory basics.',
+          tip: 'Beginners who learn algorithmic logic first pick up all other languages 5x faster.',
+          mentorNote: 'Do not jump into React or web frameworks yet! Master if/else statements, loops, and breaking complex problems into simple steps.',
           suggestedResources: [
-            { name: 'Node.js Official Getting Started Guides', type: 'Official Guides', topic: 'Event loop, asynchronous I/O, and file handling' },
-            { name: 'Postman Academy Guided REST Path', type: 'API Testing & Design', topic: 'Designing RESTful request/response cycles' }
+            { name: 'CS50: Introduction to Computer Science (Harvard)', type: 'World Standard Course', topic: 'Algorithms, memory concepts, and foundational logic' },
+            { name: 'Exercism.org - Programming Fundamentals', type: 'Hands-on Coding Exercises', topic: 'Solve bite-sized logic puzzles with mentor feedback' }
           ],
-          suggestedSearch: 'Building REST API in Express and Node.js for beginners',
+          suggestedSearch: 'Computer programming fundamentals for beginners logic loops functions',
           lessonSteps: [
-            { title: 'Creating an Express Endpoint', desc: 'Define routes to accept client requests and return JSON.', code: 'app.post("/api/users", async (req, res) => {\n  const user = await db.create(req.body);\n  res.status(201).json(user);\n});' }
+            { title: 'Variables & Data Types', desc: 'Variables store data in memory (integers, strings, booleans).', code: 'let score = 100;\nlet playerName = "Alex";\nlet isGameOver = false;' },
+            { title: 'Conditional Branching', desc: 'Direct the computer to take different actions based on conditions.', code: 'if (score >= 100) {\n  console.log("Next Level!");\n} else {\n  console.log("Keep playing");\n}' },
+            { title: 'Loops & Iteration', desc: 'Automate repetitive tasks over collections of data.', code: 'for (let i = 1; i <= 5; i++) {\n  console.log("Step: " + i);\n}' }
           ],
           quiz: {
-            question: 'Which HTTP method should be used to create a new resource on the server?',
-            options: ['GET', 'POST', 'PUT', 'DELETE'],
-            correctIndex: 1
+            question: 'What is the primary purpose of a loop in programming?',
+            options: ['To repeat a block of code multiple times until a condition is met', 'To shut down the computer', 'To change the screen color permanently', 'To delete files'],
+            correctIndex: 0
           }
         },
         {
-          skill: 'Database Design (PostgreSQL & MongoDB)',
-          yourLevel: 10,
-          required: 75,
+          skill: 'HTML5 Semantic Foundations',
+          yourLevel: 0,
+          required: 85,
+          time: '1 week',
+          priority: 'Critical',
+          stepNumber: 2,
+          shortDesc: 'Structure web documents using standard semantic tags (<header>, <nav>, <article>, <form>).',
+          tip: 'Avoid using generic <div> tags for everything; use semantic tags for accessibility and SEO.',
+          mentorNote: 'HTML is the skeleton of the internet. Everything you see in browsers starts as an HTML tree.',
+          suggestedResources: [
+            { name: 'MDN Web Docs: HTML Basics', type: 'Official Industry Reference', topic: 'Document structure, text formatting, hyperlinks, and forms' },
+            { name: 'W3Schools Interactive HTML Playground', type: 'Browser Editor', topic: 'Practice writing tags and viewing live output' }
+          ],
+          suggestedSearch: 'HTML5 semantic tags tutorial for beginners',
+          lessonSteps: [
+            { title: 'Document Skeleton', desc: 'Every webpage requires standard DOCTYPE and body structure.', code: '<!DOCTYPE html>\n<html>\n  <head><title>My App</title></head>\n  <body>\n    <h1>Hello World</h1>\n  </body>\n</html>' }
+          ],
+          quiz: {
+            question: 'Which HTML tag should be used for the primary navigation links of a website?',
+            options: ['<nav>', '<div>', '<span>', '<bold>'],
+            correctIndex: 0
+          }
+        },
+        {
+          skill: 'CSS3 & Responsive Layouts',
+          yourLevel: 0,
+          required: 80,
+          time: '2 weeks',
+          priority: 'Critical',
+          stepNumber: 3,
+          shortDesc: 'Box model (margins/padding), Flexbox alignment, CSS Grid, and mobile media queries.',
+          tip: 'Flexbox Froggy and Grid Garden are free games that teach CSS layouts interactively.',
+          suggestedResources: [
+            { name: 'Flexbox Froggy - Interactive Game', type: 'Game-based Learning', topic: 'Master justify-content, align-items, and flex-direction' },
+            { name: 'MDN CSS Layout & Media Queries Guide', type: 'Official Docs', topic: 'Responsive styling for mobile, tablet, and desktop' }
+          ],
+          suggestedSearch: 'CSS Flexbox and Grid crash course beginners'
+        },
+        {
+          skill: 'JavaScript Interactivity & DOM Manipulation',
+          yourLevel: 0,
+          required: 80,
           time: '3 weeks',
           priority: 'Critical',
-          shortDesc: 'Schema modeling, relational SQL joins, indexing, and ORMs (Prisma / Mongoose).',
-          tip: 'Learn Prisma ORM — it makes database schema updates and queries straightforward.',
+          stepNumber: 4,
+          shortDesc: 'Select elements, listen to button clicks, update the page dynamically, and fetch API data.',
+          tip: 'Once you understand document.querySelector and addEventListener, websites come alive.',
           suggestedResources: [
-            { name: 'Prisma ORM Quickstart Tutorial', type: 'Interactive ORM Guide', topic: 'Declarative schema modeling and type-safe database queries' },
-            { name: 'PostgreSQL Official Documentation', type: 'Reference Guide', topic: 'Relational table normalization and indexing' }
+            { name: 'JavaScript30 by Wes Bos', type: '30-Day Practical Coding Challenge', topic: 'Build 30 vanilla JS projects without frameworks' },
+            { name: 'javascript.info - Modern Tutorial', type: 'Comprehensive Guide', topic: 'DOM tree traversal, browser events, and asynchronous promises' }
           ],
-          suggestedSearch: 'PostgreSQL schema modeling and relations guide'
+          suggestedSearch: 'JavaScript DOM manipulation tutorial beginner'
         }
       ],
       important: [
         {
-          skill: 'Git, GitHub & CI/CD Deployment',
-          yourLevel: 25,
-          required: 80,
-          time: '1 week',
+          skill: 'Modern Component Frameworks (React)',
+          yourLevel: 0,
+          required: 75,
+          time: '3 weeks',
           priority: 'Important',
-          shortDesc: 'Branching, PRs, resolving merge conflicts, and deploying to GitHub Pages/Vercel.',
-          tip: 'Ensure your GitHub profile showcases clear READMEs and live deployment links.',
+          stepNumber: 5,
+          shortDesc: 'Component reuse, props, useState, and useEffect hooks.',
           suggestedResources: [
-            { name: 'GitHub Skills Interactive Courses', type: 'Interactive Labs', topic: 'Branching, pull request reviews, and Actions pipelines' }
+            { name: 'Official React Documentation (react.dev)', type: 'Interactive Guided Docs', topic: 'Component thinking and reactive state' }
           ],
-          suggestedSearch: 'Git branch and PR workflow team best practices'
+          suggestedSearch: 'React beginner tutorial step by step'
         },
         {
-          skill: 'Authentication & Web Security (JWT, OAuth)',
-          yourLevel: 5,
+          skill: 'Backend Web Servers & REST APIs (Node.js)',
+          yourLevel: 0,
           required: 70,
-          time: '2 weeks',
+          time: '3 weeks',
           priority: 'Important',
-          shortDesc: 'Cookies, tokens, password hashing with bcrypt, CORS, and SQL injection prevention.',
+          stepNumber: 6,
+          shortDesc: 'Handle HTTP requests, routing in Express, and database storage.',
           suggestedResources: [
-            { name: 'OWASP Web Security Fundamentals', type: 'Industry Standard', topic: 'Securing cookies, preventing XSS, and CSRF protection' }
+            { name: 'The Odin Project - NodeJS Curriculum', type: 'Open-Source Learning', topic: 'Servers, routing, authentication, and databases' }
           ],
-          suggestedSearch: 'Secure JWT authentication in Node and React'
+          suggestedSearch: 'Node.js Express REST API beginner guide'
         }
       ],
       niceToHave: [
         {
-          skill: 'TypeScript Basics',
+          skill: 'Git & Version Control Fundamentals',
           yourLevel: 0,
-          required: 60,
-          time: '2 weeks',
+          required: 65,
+          time: '1 week',
           priority: 'Nice to Have',
-          shortDesc: 'Add type safety to prevent JavaScript runtime bugs before shipping.',
+          shortDesc: 'Git init, commit, push, and hosting projects on GitHub.',
           suggestedResources: [
-            { name: 'TypeScript Handbook by Microsoft', type: 'Interactive Handbook', topic: 'Interfaces, generics, and union types' }
+            { name: 'GitHub Skills: First Day on GitHub', type: 'Interactive Repository', topic: 'Tracking changes and collaborating' }
           ],
-          suggestedSearch: 'TypeScript for React developers quickstart'
+          suggestedSearch: 'Git and GitHub beginner tutorial'
         }
       ]
     },
     weeklyPlan: [
       {
-        week: 1, title: 'Frontend & Modern React Mastery',
+        week: 1, title: 'Step 1: Programming Logic & Computer Fundamentals',
         days: [
-          { day: 'Mon', task: 'Setup Vite + React + Tailwind CSS project (1.5 hrs)', done: false },
-          { day: 'Tue', task: 'Build interactive UI components with useState & props (2 hrs)', done: false },
-          { day: 'Wed', task: 'Fetch data from an API using useEffect (2 hrs)', done: false },
-          { day: 'Thu', task: 'Handle loading spinners, error banners & empty states (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Mini project: Build a responsive Search & Filter app (2 hrs)', done: false }
+          { day: 'Mon', task: 'Variables, data types (numbers, strings, booleans) & memory (1.5 hrs)', done: false },
+          { day: 'Tue', task: 'Conditional statements: if, else if, else logic (1.5 hrs)', done: false },
+          { day: 'Wed', task: 'Loops: for and while loops with practice problems (2 hrs)', done: false },
+          { day: 'Thu', task: 'Functions: inputs (parameters) and outputs (return values) (2 hrs)', done: false },
+          { day: 'Fri', task: 'Mini challenge: Build a text-based guessing game in code (2 hrs)', done: false }
         ]
       },
       {
-        week: 2, title: 'Node.js & Express REST Backend',
+        week: 2, title: 'Step 2: Semantic HTML5 & Web Structure',
         days: [
-          { day: 'Mon', task: 'Initialize Node.js + Express server & test with Postman (2 hrs)', done: false },
-          { day: 'Tue', task: 'Create CRUD routes (GET, POST, PUT, DELETE) (2 hrs)', done: false },
-          { day: 'Wed', task: 'Add request validation and custom error middleware (1.5 hrs)', done: false },
-          { day: 'Thu', task: 'Connect PostgreSQL or MongoDB using Prisma/Mongoose (2 hrs)', done: false },
-          { day: 'Fri', task: 'Connect React frontend to your Express backend (2 hrs)', done: false }
+          { day: 'Mon', task: 'How browsers work & basic HTML document structure (1 hr)', done: false },
+          { day: 'Tue', task: 'Semantic tags: header, nav, main, section, article, footer (1.5 hrs)', done: false },
+          { day: 'Wed', task: 'Text formatting, links, lists, and images with alt text (1.5 hrs)', done: false },
+          { day: 'Thu', task: 'HTML Forms: text inputs, buttons, checkboxes, radio options (2 hrs)', done: false },
+          { day: 'Fri', task: 'Mini project: Build a multi-section personal biography webpage (2 hrs)', done: false }
         ]
       },
       {
-        week: 3, title: 'Auth, Deployment & Full Stack Polish',
+        week: 3, title: 'Step 3: CSS3 Layouts, Flexbox & Responsive Styling',
         days: [
-          { day: 'Mon', task: 'Implement password hashing (bcrypt) & JWT login flow (2 hrs)', done: false },
-          { day: 'Tue', task: 'Protect private routes on both server and client (2 hrs)', done: false },
-          { day: 'Wed', task: 'Deploy backend to Render & frontend to GitHub Pages (2 hrs)', done: false },
-          { day: 'Thu', task: 'Polish GitHub README with architecture diagram & screenshots (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Full Stack mock interview practice (2 hrs)', done: false }
+          { day: 'Mon', task: 'CSS Selectors, colors, fonts, and the Box Model (padding/margin) (2 hrs)', done: false },
+          { day: 'Tue', task: 'Flexbox fundamentals: justify-content, align-items, flex-direction (2 hrs)', done: false },
+          { day: 'Wed', task: 'CSS Grid: columns, rows, and responsive card layouts (2 hrs)', done: false },
+          { day: 'Thu', task: 'Mobile responsiveness: @media queries for phone & tablet screens (1.5 hrs)', done: false },
+          { day: 'Fri', task: 'Portfolio Milestone: Polish and deploy Accessible Portfolio website (2 hrs)', done: false }
         ]
       }
     ],
     mockInterview: [
       {
         id: 1,
-        question: 'Explain how the virtual DOM works in React and why it improves performance.',
-        type: 'Technical',
-        keywords: ['virtual dom', 'dom', 'reconciliation', 'diff', 'diffing', 'render', 're-render', 'batch', 'performance'],
-        rubric: ['Explains real DOM vs Virtual DOM', 'Mentions diffing algorithm and reconciliation', 'Explains batching DOM updates'],
-        idealAnswer: 'The Virtual DOM is a lightweight JavaScript representation of the actual DOM in memory. When state changes, React creates a new Virtual DOM tree, compares (diffs) it against the previous one through reconciliation, and computes the minimal set of changes needed. It then applies these in a single batch to the real DOM, avoiding expensive layout reflows.'
+        question: 'What is the difference between semantic HTML and non-semantic HTML? Why does it matter?',
+        type: 'Web Foundations',
+        keywords: ['semantic', 'meaning', 'accessibility', 'screen reader', 'seo', 'div', 'nav', 'header'],
+        rubric: ['Explains that semantic tags convey meaning about content', 'Mentions screen readers and accessibility (a11y)', 'Cites SEO and search crawler benefits'],
+        idealAnswer: 'Semantic HTML uses tags that clearly describe their meaning to both the browser and developer (like <header>, <nav>, <article>, and <footer>), rather than generic tags like <div> or <span>. This is crucial for accessibility—allowing screen readers to navigate effortlessly—and improves search engine indexing (SEO).'
       },
       {
         id: 2,
-        question: 'Walk me through how you would architect a secure user authentication system from frontend to database.',
-        type: 'System Design',
-        keywords: ['hash', 'bcrypt', 'salt', 'jwt', 'token', 'cookie', 'httponly', 'password', 'secure'],
-        rubric: ['Mentions password hashing with salt (e.g. bcrypt)', 'Explains JWT or session tokens', 'Covers token storage in httpOnly cookies', 'Discusses expired token handling'],
-        idealAnswer: 'On registration, user passwords must be hashed with a unique salt using bcrypt before database storage. On login, credentials are verified and a signed JWT containing user claims is issued. For security, store tokens in httpOnly, SameSite cookies to protect against XSS. API endpoints validate the token via middleware on incoming requests.'
+        question: 'Explain the CSS Box Model and how margin, border, padding, and content relate to each other.',
+        type: 'CSS Fundamentals',
+        keywords: ['content', 'padding', 'border', 'margin', 'box-sizing', 'border-box'],
+        rubric: ['Accurately orders from inside out: Content -> Padding -> Border -> Margin', 'Explains that padding is inside the border and margin is outside', 'Mentions box-sizing: border-box'],
+        idealAnswer: 'The CSS Box Model is the container that wraps every HTML element. From the inside out, it consists of: 1) Content (text/images), 2) Padding (clears area around content, inside the border), 3) Border (wraps padding and content), and 4) Margin (clears area outside the border between other elements). Using "box-sizing: border-box" ensures padding and border are included in the element total width.'
       },
       {
         id: 3,
-        question: 'Tell me about a challenging bug you encountered in a project and how you diagnosed and resolved it.',
-        type: 'Behavioral',
-        keywords: ['situation', 'problem', 'bug', 'debug', 'devtools', 'network', 'console', 'fixed', 'resolved', 'learned'],
-        rubric: ['Structured with STAR method (Situation, Task, Action, Result)', 'Mentions debugging tools (DevTools, console, network tab)', 'Highlights personal problem-solving skill'],
-        idealAnswer: 'In a recent application, users experienced stale state when rapidly filtering products. I opened Chrome DevTools Network tab and found race conditions where older asynchronous fetch responses resolved after newer ones. I resolved this by utilizing AbortController to cancel in-flight requests when a new filter is selected, guaranteeing up-to-date results.'
+        question: 'What is the DOM in web development, and how does JavaScript interact with it?',
+        type: 'JavaScript Basics',
+        keywords: ['dom', 'document object model', 'tree', 'nodes', 'html', 'queryselector', 'event listener'],
+        rubric: ['Defines Document Object Model as a tree representation of HTML', 'Explains how JavaScript selects nodes (e.g. querySelector)', 'Mentions modifying content or listening to user events'],
+        idealAnswer: 'The DOM (Document Object Model) is a tree-like representation of an HTML document created by the browser in memory. JavaScript uses the DOM API to dynamically inspect and manipulate the page—such as finding elements using document.querySelector, modifying text or CSS styles, and listening to user events like button clicks.'
       }
     ]
   },
 
-  // 2. HEALTHCARE DATA ANALYST
+  // 2. HEALTHCARE: BOOMING CLINICAL INFORMATICS & HEALTH DATA
   healthcare: {
-    title: 'Healthcare Data Analyst',
-    overview: 'Analyze patient outcomes, hospital operational efficiency, clinical quality metrics, and healthcare compliance using SQL, Excel, and HIPAA-compliant data pipelines.',
+    title: 'Junior Health Data & Informatics Specialist',
+    boomingReason: 'Healthcare informatics is expanding at 28% annual growth due to the nationwide modernization of Electronic Health Records (EHR) and AI-driven clinical operations.',
+    beginnerPhilosophy: 'Beginners start with healthcare privacy (HIPAA) and medical terminology, followed by Excel patient sheets, before advancing to clinical databases and dashboards.',
     portfolioProjects: [
       {
         id: 'hc-proj-1',
-        title: 'Hospital Readmission & Patient Risk Predictor Dashboard',
-        difficulty: 'Intermediate',
+        title: 'Patient Intake & Clinical Spreadsheet Tracker',
+        difficulty: 'Beginner (Step 1-2)',
+        timeToBuild: '4-5 days',
+        requiredSkills: ['Healthcare Privacy, HIPAA & Medical Coding (ICD-10)', 'Clinical Spreadsheets & Patient Cohort Analysis'],
+        description: 'An audited patient intake spreadsheet modeling clinic appointments, insurance authorization status, and ICD-10 diagnosis categories.',
+        whyRecruitersLoveIt: 'Shows mastery of medical terminology, Excel formulas (VLOOKUP, IF, SUMIFS), and compliance with patient privacy protocols.',
+        techStack: ['Excel / Google Sheets', 'HIPAA Guidelines', 'ICD-10 Codes'],
+        keyFeatures: [
+          'De-identified patient intake records following HIPAA Safe Harbor rules',
+          'Automated formula verification for missing insurance policy numbers',
+          'Pivot summary showing top 5 clinical diagnoses per age bracket'
+        ],
+        githubTemplate: 'https://github.com/topics/healthcare-excel'
+      },
+      {
+        id: 'hc-proj-2',
+        title: 'Hospital Readmission & Patient Risk Dashboard',
+        difficulty: 'Intermediate (Step 3-4)',
         timeToBuild: '2 weeks',
-        coversGaps: ['Healthcare SQL & Patient Data Extraction', 'Clinical Quality Dashboards (Tableau/Power BI)', 'HIPAA & Healthcare Data Privacy'],
+        requiredSkills: ['Clinical Spreadsheets & Patient Cohort Analysis', 'Healthcare SQL & Electronic Health Records (EHR)', 'Hospital Quality & Clinical Dashboards (Tableau/Power BI)'],
         description: 'An executive clinical dashboard tracking 30-day hospital readmissions, bed occupancy, and patient length-of-stay metrics.',
         whyRecruitersLoveIt: 'Shows you understand healthcare operations, ICD-10 diagnosis codes, and how hospitals avoid CMS readmission penalties.',
-        techStack: ['SQL / BigQuery', 'Power BI / Tableau', 'Excel Advanced', 'Synthea Synthetic Patient Data'],
+        techStack: ['SQL / BigQuery', 'Power BI / Tableau', 'Synthea Synthetic Patient Data'],
         keyFeatures: [
           '30-day readmission rate tracking categorized by primary ICD-10 diagnosis',
           'Bed utilization rate forecast by department (ICU, ER, General Ward)',
           'Patient de-identification pipeline following HIPAA Safe Harbor rules'
         ],
         githubTemplate: 'https://github.com/topics/healthcare-analytics'
-      },
-      {
-        id: 'hc-proj-2',
-        title: 'Clinical Trial Patient Retention & Drug Efficacy Analysis',
-        difficulty: 'Advanced',
-        timeToBuild: '3 weeks',
-        coversGaps: ['Biostatistics & Medical Metrics', 'Python for Health Data Analysis', 'Clinical Quality Dashboards (Tableau/Power BI)'],
-        description: 'Analyzes patient drop-off curves and side-effect reporting across clinical trial cohorts using synthetic medical datasets.',
-        whyRecruitersLoveIt: 'Proves biostatistical proficiency (survival curves, adverse event incidence rates) needed for pharmaceutical and health-tech teams.',
-        techStack: ['Python', 'Pandas', 'Lifelines / SciPy', 'Tableau Public'],
-        keyFeatures: [
-          'Survival analysis tracking patient retention over 180-day trials',
-          'Adverse drug reaction heatmaps cross-referenced by age cohorts',
-          'Automated data cleaning for missing patient check-in records'
-        ],
-        githubTemplate: 'https://github.com/topics/health-data-science'
       }
     ],
     skills: {
       critical: [
         {
-          skill: 'Healthcare SQL & Patient Data Extraction',
-          yourLevel: 15,
-          required: 80,
-          time: '3 weeks',
-          priority: 'Critical',
-          shortDesc: 'Extract and query Electronic Health Records (EHR) and claims data using relational SQL.',
-          tip: 'Practice using Synthea — a free open-source synthetic medical patient database.',
-          mentorNote: 'Healthcare interviews heavily test querying longitudinal patient history (e.g. patients diagnosed with Diabetes who had an ER visit within 90 days).',
-          suggestedResources: [
-            { name: 'Synthea Open Synthetic Patient Data Generator', type: 'Hands-on Health Dataset', topic: 'Realistic EHR database with ICD-10 and SNOMED codes' },
-            { name: 'Mode SQL Tutorial for Health Informatics', type: 'Interactive Querying', topic: 'Complex multi-table queries joining encounters to medications' }
-          ],
-          suggestedSearch: 'SQL queries for healthcare EHR and claims data analysis'
-        },
-        {
-          skill: 'Clinical Quality Dashboards (Tableau/Power BI)',
-          yourLevel: 10,
-          required: 75,
-          time: '3 weeks',
-          priority: 'Critical',
-          shortDesc: 'Visualize hospital KPIs: bed turnover, readmission rates, and ER wait times.',
-          tip: 'Build one clean dashboard visualizing CMS (Centers for Medicare & Medicaid) quality metrics.',
-          suggestedResources: [
-            { name: 'CMS.gov Hospital Quality Data Portal', type: 'Public Health Datasets', topic: 'Real Medicare readmission and patient satisfaction data' },
-            { name: 'Tableau Public Healthcare Gallery', type: 'Design Inspiration', topic: 'Clinical dashboard templates and executive scorecards' }
-          ],
-          suggestedSearch: 'Hospital KPI dashboard design Tableau Power BI'
-        },
-        {
-          skill: 'HIPAA & Healthcare Data Privacy',
-          yourLevel: 20,
+          skill: 'Healthcare Privacy, HIPAA & Medical Coding (ICD-10)',
+          yourLevel: 0,
           required: 85,
           time: '1 week',
           priority: 'Critical',
-          shortDesc: 'Master Protected Health Information (PHI) compliance and Safe Harbor de-identification.',
-          tip: 'Understand the 18 HIPAA identifiers that must be removed before data can be shared.',
+          stepNumber: 1,
+          shortDesc: 'Protected Health Information (PHI), 18 Safe Harbor identifiers, and diagnostic coding hierarchies.',
+          tip: 'Understanding HIPAA is the mandatory prerequisite before any healthcare employer grants data access.',
           suggestedResources: [
-            { name: 'HHS.gov HIPAA Privacy Rule Guidance', type: 'Official US Dept of Health', topic: 'De-identification methods and Safe Harbor standard' }
+            { name: 'HHS.gov HIPAA Privacy Rule Overview', type: 'Official US Dept of Health', topic: 'Safe Harbor de-identification rules and patient data safeguards' },
+            { name: 'WHO ICD-10 Classification Browser', type: 'Interactive Code Lookup', topic: 'How clinical diagnoses are categorized into alphanumeric codes' }
           ],
-          suggestedSearch: 'HIPAA compliance rules for healthcare data analysts'
-        }
-      ],
-      important: [
-        {
-          skill: 'Medical Terminology & Coding (ICD-10, CPT)',
-          yourLevel: 10,
-          required: 70,
-          time: '2 weeks',
-          priority: 'Important',
-          shortDesc: 'Know how diagnoses (ICD-10) and medical procedures (CPT) are structured in claims.',
-          suggestedResources: [
-            { name: 'WHO ICD-10 Interactive Browser', type: 'Classification Reference', topic: 'Disease classification hierarchies' }
-          ],
-          suggestedSearch: 'Guide to ICD-10 and CPT codes for data analysts'
+          suggestedSearch: 'HIPAA compliance rules and ICD-10 coding guide for beginners'
         },
         {
-          skill: 'Python for Health Data Analysis',
-          yourLevel: 5,
-          required: 65,
-          time: '4 weeks',
-          priority: 'Important',
-          shortDesc: 'Automate cohort selection and calculate patient metrics using Pandas.',
-          suggestedResources: [
-            { name: 'Kaggle Health & Medical Datasets', type: 'Interactive Notebooks', topic: 'Analyzing patient lengths-of-stay and vitals' }
-          ],
-          suggestedSearch: 'Python pandas healthcare analysis tutorial'
-        }
-      ],
-      niceToHave: [
-        {
-          skill: 'Biostatistics & Health Economics Basics',
+          skill: 'Clinical Spreadsheets & Patient Cohort Analysis',
           yourLevel: 0,
-          required: 50,
-          time: '3 weeks',
-          priority: 'Nice to Have',
-          shortDesc: 'Odds ratios, relative risk, and cost-effectiveness calculations.',
+          required: 80,
+          time: '2 weeks',
+          priority: 'Critical',
+          stepNumber: 2,
+          shortDesc: 'Excel / Google Sheets: VLOOKUP/XLOOKUP, Pivot Tables, conditional formatting, and cohort cleaning.',
+          tip: 'Most clinical audit teams rely on advanced spreadsheets daily for fast reviews.',
           suggestedResources: [
-            { name: 'Johns Hopkins Public Health Coursework', type: 'Free Course Materials', topic: 'Epidemiological measures and risk calculations' }
+            { name: 'Excel for Healthcare Professionals', type: 'Practical Guides', topic: 'Pivot tables, cohort categorization, and data sanitization' }
           ],
-          suggestedSearch: 'Biostatistics fundamentals relative risk odds ratio'
-        }
-      ]
-    },
-    weeklyPlan: [
-      {
-        week: 1, title: 'Healthcare Data & SQL Fundamentals',
-        days: [
-          { day: 'Mon', task: 'Study EHR structure: Patients, Encounters, Diagnoses, Medications (2 hrs)', done: false },
-          { day: 'Tue', task: 'Download Synthea synthetic patient dataset into SQLite/Postgres (2 hrs)', done: false },
-          { day: 'Wed', task: 'Write SQL query to find patients with hypertension and diabetes (2 hrs)', done: false },
-          { day: 'Thu', task: 'Calculate 30-day readmission rate per hospital department in SQL (2 hrs)', done: false },
-          { day: 'Fri', task: 'Review the 18 HIPAA Safe Harbor identifiers (1.5 hrs)', done: false }
-        ]
-      },
-      {
-        week: 2, title: 'Clinical Quality & Executive Dashboards',
-        days: [
-          { day: 'Mon', task: 'Connect Tableau / Power BI to patient encounters table (1.5 hrs)', done: false },
-          { day: 'Tue', task: 'Build KPI cards: Total Admissions, Average Length of Stay (2 hrs)', done: false },
-          { day: 'Wed', task: 'Create readmission rate trend chart by month and diagnosis (2 hrs)', done: false },
-          { day: 'Thu', task: 'Add interactive department and age group filter drill-downs (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Publish Hospital Readmissions portfolio dashboard (2 hrs)', done: false }
-        ]
-      },
-      {
-        week: 3, title: 'Claims Analysis & Mock Interviews',
-        days: [
-          { day: 'Mon', task: 'Learn billing claims structure and CPT procedure code mappings (2 hrs)', done: false },
-          { day: 'Tue', task: 'Analyze denied claims in Python to find root causes (2 hrs)', done: false },
-          { day: 'Wed', task: 'Draft executive summary report with recommendations for hospital VP (2 hrs)', done: false },
-          { day: 'Thu', task: 'Upload project repo and write healthcare methodology README (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Complete Healthcare Analyst mock interview practice (2 hrs)', done: false }
-        ]
-      }
-    ],
-    mockInterview: [
-      {
-        id: 1,
-        question: 'How do you ensure Protected Health Information (PHI) is kept secure and compliant with HIPAA when preparing datasets for analysis?',
-        type: 'Compliance & Ethics',
-        keywords: ['hipaa', 'phi', 'de-identify', 'safe harbor', 'identifiers', 'encrypt', 'encryption', 'access control', 'compliance'],
-        rubric: ['Identifies PHI and the 18 Safe Harbor direct identifiers', 'Mentions de-identification and data masking', 'Covers encryption in transit/at rest and role-based access'],
-        idealAnswer: 'To ensure HIPAA compliance, I adhere to the Safe Harbor method by removing or masking all 18 direct identifiers—including patient names, precise dates, SSNs, and medical record numbers. Data must remain encrypted both at rest and in transit. Access is strictly controlled via role-based permissions, and only the minimum necessary dataset is pulled for the analytical scope.'
-      },
-      {
-        id: 2,
-        question: 'A chief medical officer asks why the 30-day hospital readmission rate spiked by 12% last month. How do you investigate this?',
-        type: 'Case Study',
-        keywords: ['diagnosis', 'cohort', 'department', 'discharge', 'follow-up', 'icd', 'seasonality', 'medication', 'root cause'],
-        rubric: ['Segments readmissions by department and primary diagnosis (ICD-10)', 'Checks for discharge process or medication reconciliation changes', 'Investigates external factors like community viral outbreaks or bed capacity'],
-        idealAnswer: 'I would break down the 12% spike across three key dimensions: 1) Clinical: filter by ICD-10 diagnosis to see if a specific condition (e.g. Congestive Heart Failure or pneumonia) drove the increase; 2) Operational: review discharge protocol changes, staffing ratios, and average length of stay; 3) Follow-up care: check if outpatient follow-up appointment compliance dropped.'
-      },
-      {
-        id: 3,
-        question: 'How do you calculate a hospital 30-day readmission metric in SQL?',
-        type: 'Technical SQL',
-        keywords: ['lead', 'lag', 'window', 'join', 'datediff', 'admission', 'discharge', '30 days', 'patient_id'],
-        rubric: ['Explains joining patient visits on patient_id', 'Uses window function (LEAD/LAG) or self-join to compare consecutive visits', 'Filters where next admission date minus current discharge date is between 1 and 30 days'],
-        idealAnswer: 'Using a window function like LEAD(admission_date) OVER (PARTITION BY patient_id ORDER BY admission_date), I can find the patient next hospital visit. Then I calculate DATEDIFF between the subsequent admission date and the current discharge date. If that difference is between 1 and 30 days, it is flagged as a 30-day readmission.'
-      }
-    ]
-  },
-
-  // 3. DATA ANALYST (GENERAL)
-  data: {
-    title: 'Data Analyst',
-    overview: 'Extract business insights from raw data using SQL, Python/Excel, and modern dashboards.',
-    portfolioProjects: [
-      {
-        id: 'data-proj-1',
-        title: 'Customer Churn & Retention Diagnostic Dashboard',
-        difficulty: 'Intermediate',
-        timeToBuild: '2 weeks',
-        coversGaps: ['SQL & Data Querying', 'Data Visualization (Power BI / Tableau)'],
-        description: 'An interactive executive dashboard showing subscriber churn rates, customer lifetime value (LTV), and drop-off cohorts.',
-        whyRecruitersLoveIt: 'Shows you understand how data connects directly to revenue, profit margins, and executive business decisions.',
-        techStack: ['PostgreSQL', 'Tableau Public / Power BI', 'Excel'],
-        keyFeatures: [
-          'Cohort analysis tracking 12-month customer retention curves',
-          'Drill-down filters by acquisition channel and plan tier',
-          'Executive KPI summary card for monthly recurring revenue'
-        ],
-        githubTemplate: 'https://github.com/topics/customer-churn-analysis'
-      }
-    ],
-    skills: {
-      critical: [
+          suggestedSearch: 'Excel data cleaning and pivot tables tutorial for healthcare'
+        },
         {
-          skill: 'SQL & Data Querying',
-          yourLevel: 15,
+          skill: 'Healthcare SQL & Electronic Health Records (EHR)',
+          yourLevel: 0,
           required: 80,
           time: '3 weeks',
           priority: 'Critical',
-          shortDesc: 'Extract and transform data using SELECT, GROUP BY, and JOINs.',
-          tip: 'Start with MODE SQL Tutorial — free and beginner-friendly',
-          mentorNote: 'For interviews, 90% of questions test just SELECT, WHERE, GROUP BY, and JOINs.',
+          stepNumber: 3,
+          shortDesc: 'Query patient encounters, lab results, and billing tables using relational SQL.',
           suggestedResources: [
-            { name: 'Mode Analytics Interactive SQL School', type: 'Hands-on Sandbox', topic: 'SQL querying fundamentals and aggregations' }
+            { name: 'Synthea Open Synthetic Patient Data Generator', type: 'Synthetic Health Dataset', topic: 'Practice SQL queries on realistic EHR patient tables' }
           ],
-          suggestedSearch: 'SQL tutorial for data analysis beginner'
-        },
-        {
-          skill: 'Data Visualization (Power BI / Tableau)',
-          yourLevel: 10,
-          required: 70,
-          time: '3 weeks',
-          priority: 'Critical',
-          shortDesc: 'Turn numbers into executive charts and dashboards.',
-          suggestedResources: [
-            { name: 'Microsoft Power BI Guided Learning', type: 'Official Guides', topic: 'Creating interactive reports and DAX formulas' }
-          ],
-          suggestedSearch: 'Power BI beginner dashboard tutorial'
+          suggestedSearch: 'SQL queries for healthcare EHR and claims data analysis'
         }
       ],
       important: [
         {
-          skill: 'Python for Data Analysis (Pandas)',
-          yourLevel: 5,
+          skill: 'Hospital Quality & Clinical Dashboards (Tableau/Power BI)',
+          yourLevel: 0,
           required: 75,
-          time: '4 weeks',
+          time: '3 weeks',
           priority: 'Important',
-          shortDesc: 'Clean messy spreadsheets and run automated analysis.',
+          stepNumber: 4,
+          shortDesc: 'Visualize CMS hospital metrics: 30-day readmissions, average length of stay (ALOS), and ER wait times.',
           suggestedResources: [
-            { name: 'Kaggle Learn - Pandas', type: 'Interactive Notebooks', topic: 'DataFrame indexing, grouping, and aggregations' }
+            { name: 'CMS.gov Hospital Quality Data Portal', type: 'Public Data', topic: 'Real hospital quality and clinical performance metrics' }
           ],
-          suggestedSearch: 'Pandas data analysis crash course'
+          suggestedSearch: 'Hospital quality dashboard design Tableau Power BI'
         }
       ],
       niceToHave: [
         {
-          skill: 'Statistical Analysis & A/B Testing',
-          yourLevel: 5,
-          required: 65,
-          time: '3 weeks',
+          skill: 'Healthcare Interoperability (HL7 & FHIR Standards)',
+          yourLevel: 0,
+          required: 60,
+          time: '2 weeks',
           priority: 'Nice to Have',
-          shortDesc: 'Understand averages, standard deviation, and hypothesis testing.',
+          stepNumber: 5,
+          shortDesc: 'How medical records transfer between disparate clinics, labs, and pharmacies.',
           suggestedResources: [
-            { name: 'Khan Academy: College Statistics', type: 'Self-paced exercises', topic: 'Hypothesis testing, p-values, and distributions' }
+            { name: 'HL7 International FHIR Overview', type: 'Industry Standard', topic: 'RESTful healthcare data transfer protocols' }
           ],
-          suggestedSearch: 'Statistics for data analysts made simple'
+          suggestedSearch: 'FHIR and HL7 healthcare interoperability explained simply'
         }
       ]
     },
     weeklyPlan: [
       {
-        week: 1, title: 'SQL & Database Foundations',
+        week: 1, title: 'Step 1: Healthcare Ecosystem, HIPAA & Coding',
         days: [
-          { day: 'Mon', task: 'Complete MODE SQL Tutorial: Basics (2 hrs)', done: false },
-          { day: 'Tue', task: 'Practice SELECT, WHERE, GROUP BY (1.5 hrs)', done: false },
-          { day: 'Wed', task: 'JOINs deep dive — inner, left, right (2 hrs)', done: false },
-          { day: 'Thu', task: 'Window functions: ROW_NUMBER, RANK (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Mini project: Analyze a sample business dataset (2 hrs)', done: false }
+          { day: 'Mon', task: 'Study the healthcare data journey: clinics, hospitals, insurers, labs (1.5 hrs)', done: false },
+          { day: 'Tue', task: 'Master the 18 HIPAA Safe Harbor identifiers to de-identify records (2 hrs)', done: false },
+          { day: 'Wed', task: 'Understand diagnosis coding: ICD-10 chapters and structure (1.5 hrs)', done: false },
+          { day: 'Thu', task: 'Learn procedure coding: CPT and billing claims basics (1.5 hrs)', done: false },
+          { day: 'Fri', task: 'Case study: Audit a mock medical chart for HIPAA compliance (2 hrs)', done: false }
         ]
       },
       {
-        week: 2, title: 'Executive Dashboards with Tableau',
+        week: 2, title: 'Step 2: Excel for Clinical Patient Spreadsheets',
         days: [
-          { day: 'Mon', task: 'Tableau / Power BI installation & data import (1 hr)', done: false },
-          { day: 'Tue', task: 'Build your first executive KPI dashboard (2 hrs)', done: false },
-          { day: 'Wed', task: 'Advanced charts: scatter plots & time trends (2 hrs)', done: false },
-          { day: 'Thu', task: 'Write an executive summary report from findings (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Publish your portfolio project on GitHub (2 hrs)', done: false }
+          { day: 'Mon', task: 'Load and inspect sample clinical records in Excel / Google Sheets (1.5 hrs)', done: false },
+          { day: 'Tue', task: 'Clean patient data: trim spaces, fix date formats, handle blanks (2 hrs)', done: false },
+          { day: 'Wed', task: 'Master XLOOKUP to match patients with diagnostic categories (2 hrs)', done: false },
+          { day: 'Thu', task: 'Build Pivot Tables calculating patient volumes per clinic department (2 hrs)', done: false },
+          { day: 'Fri', task: 'Complete Patient Intake & Clinical Spreadsheet portfolio project (2 hrs)', done: false }
         ]
       },
       {
-        week: 3, title: 'Python Analytics & Mock Practice',
+        week: 3, title: 'Step 3: Healthcare SQL & Patient Queries',
         days: [
-          { day: 'Mon', task: 'Python basics: data types, lists, dictionaries (2 hrs)', done: false },
-          { day: 'Tue', task: 'Pandas: DataFrames, read_csv, filtering (2 hrs)', done: false },
-          { day: 'Wed', task: 'Data cleaning: handle nulls, duplicates, formatting (1.5 hrs)', done: false },
-          { day: 'Thu', task: 'Data aggregation & groupby metrics (1.5 hrs)', done: false },
-          { day: 'Fri', task: 'Complete Data Analyst mock interview practice (2 hrs)', done: false }
+          { day: 'Mon', task: 'Download Synthea synthetic patient SQLite database (1 hr)', done: false },
+          { day: 'Tue', task: 'Query patients diagnosed with Chronic Conditions in SQL (2 hrs)', done: false },
+          { day: 'Wed', task: 'JOIN patients table with encounters and medications tables (2 hrs)', done: false },
+          { day: 'Thu', task: 'Write SQL query to flag emergency visits within 30 days of discharge (2 hrs)', done: false },
+          { day: 'Fri', task: 'Mock interview practice: Clinical data compliance and case questions (2 hrs)', done: false }
         ]
       }
     ],
     mockInterview: [
       {
         id: 1,
-        question: 'Walk me through a time you used data to influence a business decision.',
-        type: 'Behavioral',
-        keywords: ['situation', 'metric', 'revenue', 'data', 'analysis', 'stakeholder', 'decision', 'result', 'impact'],
-        rubric: ['Clear situation setup', 'Specific data mentioned', 'Measurable outcome', 'Personal contribution'],
-        idealAnswer: 'At my previous role, I noticed high customer drop-off on our pricing page. I ran a cohort analysis showing users on mobile converted 40% lower than desktop. I shared these findings with the product manager, leading to a streamlined mobile checkout that improved overall conversions by 18%.'
+        question: 'What are the HIPAA Safe Harbor requirements, and how do you ensure patient data privacy before analysis?',
+        type: 'Compliance',
+        keywords: ['hipaa', 'safe harbor', '18 identifiers', 'phi', 'names', 'dates', 'masking', 'de-identify'],
+        rubric: ['Identifies PHI and the 18 direct identifiers', 'Explains Safe Harbor de-identification method', 'Mentions masking or removing geographic/date precision'],
+        idealAnswer: 'Under the HIPAA Safe Harbor method, all 18 direct personal identifiers must be removed or masked—including names, phone numbers, SSNs, medical record numbers, and any date elements more specific than a year. Only after these identifiers are stripped and verified can the dataset be safely used for analytical research.'
       },
       {
         id: 2,
-        question: 'What is the difference between a LEFT JOIN and an INNER JOIN in SQL? Give an example.',
-        type: 'Technical SQL',
-        keywords: ['inner', 'left', 'null', 'match', 'table', 'rows', 'both'],
-        rubric: ['Correct definition of both joins', 'Explains NULL values for non-matching rows in LEFT JOIN', 'Provides clear practical example'],
-        idealAnswer: 'An INNER JOIN returns only records that have matching values in both tables. A LEFT JOIN returns all records from the left table, along with matched records from the right table—filling in NULLs for any right-table columns where there is no match. For example, joining Customers to Orders with a LEFT JOIN ensures customers who have placed zero orders are still included.'
+        question: 'How do ICD-10 diagnosis codes differ from CPT procedure codes in healthcare records?',
+        type: 'Terminology',
+        keywords: ['icd-10', 'cpt', 'diagnosis', 'procedure', 'why', 'what', 'billing'],
+        rubric: ['Explains ICD-10 identifies the diagnosis (the "why")', 'Explains CPT identifies the medical service or procedure performed (the "what")', 'Mentions how both are required on insurance billing claims'],
+        idealAnswer: 'ICD-10 codes represent the diagnosis—the medical condition or disease explaining "why" the patient sought care (e.g. E11 for Type 2 Diabetes). CPT codes represent the medical procedures, tests, or treatments performed—the "what" was done by the provider. Together on an insurance claim, they justify the medical necessity of the treatment.'
       }
     ]
   }
 };
 
 export function getRoleKey(roleString) {
-  if (!roleString) return 'fullstack';
+  if (!roleString) return 'technology';
   const lower = roleString.toLowerCase();
   if (lower.includes('health') || lower.includes('clinic') || lower.includes('care') || lower.includes('med')) {
     return 'healthcare';
   }
-  if (lower.includes('data') || lower.includes('analyst') || lower.includes('business intelligence') || lower.includes('bi')) {
-    return 'data';
-  }
-  return 'fullstack';
+  return 'technology';
 }

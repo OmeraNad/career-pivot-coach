@@ -81,9 +81,17 @@ export default function SkillGapMap() {
   };
 
   const handleMarkComplete = (skillName) => {
+    // Save to user mastered skills in localStorage
+    const storageKey = `cpc_skills_${user?.id || 'guest'}`;
+    const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    if (!existing.some(s => s.name === skillName)) {
+      const updatedList = [...existing, { name: skillName, date: 'Today' }];
+      localStorage.setItem(storageKey, JSON.stringify(updatedList));
+    }
+
     setSkillsData((prev) => {
       const updateGroup = (arr) =>
-        arr.map((s) => (s.skill === skillName ? { ...s, yourLevel: Math.min(100, s.yourLevel + 20) } : s));
+        arr.map((s) => (s.skill === skillName ? { ...s, yourLevel: Math.min(100, s.yourLevel + 25) } : s));
       return {
         critical: updateGroup(prev.critical),
         important: updateGroup(prev.important),

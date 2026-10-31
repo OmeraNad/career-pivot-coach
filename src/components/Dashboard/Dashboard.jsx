@@ -149,7 +149,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 bg-[#f0eee6] border border-[#dcd8cb] px-3 py-1.5 rounded-xl">
               <span className="text-xs text-[#636659] font-medium">Target Role:</span>
               <select
-                value={user?.prefs?.role || 'Full Stack Developer'}
+                value={user?.prefs?.role || 'Junior Software & Web Engineer'}
                 onChange={(e) => {
                   const newRole = e.target.value;
                   const users = JSON.parse(localStorage.getItem('cpc_users') || '[]');
@@ -165,12 +165,11 @@ export default function Dashboard() {
                 }}
                 className="bg-transparent text-[#3f5022] font-semibold text-xs focus:outline-none cursor-pointer"
               >
-                <option value="Healthcare Data Analyst">Healthcare Data Analyst</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
-                <option value="Data Analyst">Data Analyst</option>
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="Product Manager">Product Manager</option>
-                <option value="UX Designer">UX Designer</option>
+                <option value="Junior Software & Web Engineer">Junior Software & Web Engineer</option>
+                <option value="Junior Health Data & Informatics Specialist">Junior Health Data & Informatics Specialist</option>
+                <option value="Business Intelligence & Data Analyst">Business Intelligence & Data Analyst</option>
+                <option value="UI/UX & Product Designer">UI/UX & Product Designer</option>
+                <option value="Associate Product & Operations Manager">Associate Product & Operations Manager</option>
               </select>
             </div>
 
