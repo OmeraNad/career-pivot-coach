@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
-  const [activeTab, setActiveTab] = useState('resources'); // 'resources' | 'crashCourse' | 'quiz'
+  const [activeTab, setActiveTab] = useState('resources');
   const [selectedQuizAnswer, setSelectedQuizAnswer] = useState(null);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -25,66 +25,66 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-slate-900 border border-purple-500/30 rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-[#f7f6f2] border border-[#d6dec8] rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-[#1e2019]">
         
         {/* Header */}
-        <div className="p-6 border-b border-white/10 flex items-start justify-between bg-white/5">
+        <div className="p-6 border-b border-[#e2dfd4] flex items-start justify-between bg-white">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${
                 skill.priority === 'Critical' 
-                  ? 'bg-red-500/20 text-red-300 border border-red-500/30'
-                  : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+                  ? 'bg-[#faebeb] text-[#ba3c3c] border border-[#f2c8c8]'
+                  : 'bg-[#fbf5e6] text-[#8a6b18] border border-[#f0e2bd]'
               }`}>
                 {skill.priority || 'Skill Module'}
               </span>
-              <span className="text-slate-400 text-xs flex items-center gap-1">
+              <span className="text-[#636659] text-xs flex items-center gap-1">
                 <Clock size={12} /> {skill.time} recommended
               </span>
             </div>
-            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-[#1e2019] flex items-center gap-2">
               {skill.skill}
             </h2>
-            <p className="text-slate-400 text-sm mt-1">{skill.shortDesc || "Master the core fundamentals and practice with curated top resources."}</p>
+            <p className="text-[#636659] text-sm mt-1">{skill.shortDesc || "Master the core fundamentals and practice with curated top resources."}</p>
           </div>
 
           <button 
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-xl text-[#7d8270] hover:text-[#1e2019] hover:bg-[#f0eee6] transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-white/10 px-6 bg-slate-950/40">
+        <div className="flex border-b border-[#e2dfd4] px-6 bg-[#eeebe1]">
           <button
             onClick={() => setActiveTab('resources')}
-            className={`py-3 px-4 font-medium text-sm flex items-center gap-2 border-b-2 transition-all ${
+            className={`py-3.5 px-4 font-semibold text-sm flex items-center gap-2 border-b-2 transition-all ${
               activeTab === 'resources'
-                ? 'border-purple-500 text-purple-400'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-[#556b2f] text-[#556b2f] bg-white rounded-t-xl'
+                : 'border-transparent text-[#636659] hover:text-[#1e2019]'
             }`}
           >
-            <Compass size={16} /> Top Video & Courses
+            <Compass size={16} /> Top Videos & Courses
           </button>
           <button
             onClick={() => setActiveTab('crashCourse')}
-            className={`py-3 px-4 font-medium text-sm flex items-center gap-2 border-b-2 transition-all ${
+            className={`py-3.5 px-4 font-semibold text-sm flex items-center gap-2 border-b-2 transition-all ${
               activeTab === 'crashCourse'
-                ? 'border-purple-500 text-purple-400'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-[#556b2f] text-[#556b2f] bg-white rounded-t-xl'
+                : 'border-transparent text-[#636659] hover:text-[#1e2019]'
             }`}
           >
             <BookOpen size={16} /> Interactive Lesson
           </button>
           <button
             onClick={() => setActiveTab('quiz')}
-            className={`py-3 px-4 font-medium text-sm flex items-center gap-2 border-b-2 transition-all ${
+            className={`py-3.5 px-4 font-semibold text-sm flex items-center gap-2 border-b-2 transition-all ${
               activeTab === 'quiz'
-                ? 'border-purple-500 text-purple-400'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-[#556b2f] text-[#556b2f] bg-white rounded-t-xl'
+                : 'border-transparent text-[#636659] hover:text-[#1e2019]'
             }`}
           >
             <HelpCircle size={16} /> Quick Quiz Check
@@ -98,74 +98,72 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
           {activeTab === 'resources' && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-white font-semibold text-base mb-1 flex items-center gap-2">
-                  <PlayCircle size={18} className="text-purple-400" /> Best Videos & Tutorials
+                <h3 className="text-[#1e2019] font-bold text-base mb-1 flex items-center gap-2">
+                  <PlayCircle size={18} className="text-[#556b2f]" /> Hand-Picked Videos & Tutorials
                 </h3>
-                <p className="text-slate-400 text-xs mb-3">Watch these hand-picked free videos to understand this skill quickly:</p>
+                <p className="text-[#636659] text-xs mb-3">Watch these free, high-yield tutorials to grasp the concepts fast:</p>
                 <div className="grid gap-3">
                   {(skill.videos || [
-                    { title: `${skill.skill} in 15 Minutes - Complete Crash Course`, source: 'YouTube (freeCodeCamp / Traversy)', url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(skill.skill + ' tutorial beginner'), duration: '15-45 mins' },
-                    { title: `${skill.skill} Full Practical Walkthrough`, source: 'YouTube', url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(skill.skill + ' full course'), duration: '1-2 hrs' }
+                    { title: `${skill.skill} in 15 Minutes - Crash Course`, source: 'YouTube', url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(skill.skill + ' tutorial beginner'), duration: '15-45 mins' },
                   ]).map((vid, idx) => (
                     <a
                       key={idx}
                       href={vid.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all flex items-center justify-between group"
+                      className="p-4 rounded-2xl bg-white border border-[#e2dfd4] hover:border-[#556b2f] hover:shadow-xs transition-all flex items-center justify-between group"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                           <PlayCircle size={20} />
                         </div>
                         <div>
-                          <div className="text-white text-sm font-medium group-hover:text-purple-300 transition-colors">
+                          <div className="text-[#1e2019] text-sm font-semibold group-hover:text-[#556b2f] transition-colors">
                             {vid.title}
                           </div>
-                          <div className="text-slate-400 text-xs flex items-center gap-2 mt-0.5">
+                          <div className="text-[#636659] text-xs flex items-center gap-2 mt-0.5">
                             <span>{vid.source}</span> • <span>{vid.duration}</span>
                           </div>
                         </div>
                       </div>
-                      <ExternalLink size={16} className="text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                      <ExternalLink size={16} className="text-[#8c907f] group-hover:text-[#556b2f] group-hover:translate-x-0.5 transition-all" />
                     </a>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h3 className="text-white font-semibold text-base mb-1 flex items-center gap-2">
-                  <BookOpen size={18} className="text-blue-400" /> Best Free Courses & Practice Sites
+                <h3 className="text-[#1e2019] font-bold text-base mb-1 flex items-center gap-2">
+                  <BookOpen size={18} className="text-[#455633]" /> Practice Playgrounds & Free Curriculums
                 </h3>
-                <p className="text-slate-400 text-xs mb-3">Interactive platforms where you learn by actually doing:</p>
+                <p className="text-[#636659] text-xs mb-3">Interactive environments where you learn by coding or practicing:</p>
                 <div className="grid gap-3">
                   {(skill.courses || [
-                    { name: 'Kaggle Learn / W3Schools Interactive', type: 'Hands-on Interactive Lab', url: 'https://www.w3schools.com', badge: '100% Free' },
-                    { name: 'Coursera / edX Guided Specialization', type: 'Certificate Course', url: 'https://www.coursera.org', badge: 'Free Audit' }
+                    { name: 'Interactive Documentation & Sandbox', type: 'Hands-on Browser Sandbox', url: 'https://www.w3schools.com', badge: '100% Free' }
                   ]).map((course, idx) => (
                     <a
                       key={idx}
                       href={course.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/50 hover:bg-white/10 transition-all flex items-center justify-between group"
+                      className="p-4 rounded-2xl bg-white border border-[#e2dfd4] hover:border-[#556b2f] hover:shadow-xs transition-all flex items-center justify-between group"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                           <BookOpen size={20} />
                         </div>
                         <div>
-                          <div className="text-white text-sm font-medium group-hover:text-blue-300 transition-colors">
+                          <div className="text-[#1e2019] text-sm font-semibold group-hover:text-[#556b2f] transition-colors">
                             {course.name}
                           </div>
-                          <div className="text-slate-400 text-xs mt-0.5">{course.type}</div>
+                          <div className="text-[#636659] text-xs mt-0.5">{course.type}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs bg-green-500/20 text-green-300 border border-green-500/30 px-2 py-0.5 rounded-full">
+                        <span className="text-xs bg-[#edf1e6] text-[#455633] border border-[#d6dec8] px-2.5 py-0.5 rounded-full font-medium">
                           {course.badge}
                         </span>
-                        <ExternalLink size={16} className="text-slate-400 group-hover:text-white" />
+                        <ExternalLink size={16} className="text-[#8c907f] group-hover:text-[#556b2f]" />
                       </div>
                     </a>
                   ))}
@@ -173,11 +171,11 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
               </div>
 
               {/* Mentor Advice Note */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-900/30 to-blue-900/30 border border-purple-500/20">
-                <div className="flex items-center gap-2 text-purple-300 text-sm font-semibold mb-1">
-                  <Sparkles size={16} /> Mentor's "Minimum Effective Dose" Approach:
+              <div className="p-4 rounded-2xl bg-[#edf1e6] border border-[#d6dec8]">
+                <div className="flex items-center gap-2 text-[#3f5022] text-sm font-bold mb-1">
+                  <Sparkles size={16} /> Mentor's Minimum Effective Dose:
                 </div>
-                <p className="text-slate-300 text-xs leading-relaxed">
+                <p className="text-[#4b4e43] text-xs leading-relaxed">
                   {skill.mentorNote || "Don't spend 40 hours reading documentation. Spend 2 hours understanding the core 20% of tools that cover 80% of real interview questions. Practice building 1 small project."}
                 </p>
               </div>
@@ -186,28 +184,28 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
 
           {/* TAB 2: CRASH COURSE / LESSON */}
           {activeTab === 'crashCourse' && (
-            <div className="space-y-5">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Sparkles size={18} className="text-purple-400" />
-                  What you actually need to know:
+            <div className="space-y-4">
+              <div className="bg-white border border-[#e2dfd4] rounded-2xl p-5 space-y-4 shadow-xs">
+                <h3 className="text-base font-bold text-[#1e2019] flex items-center gap-2">
+                  <Sparkles size={18} className="text-[#556b2f]" />
+                  What you actually need to understand:
                 </h3>
-                <div className="text-slate-300 text-sm leading-relaxed space-y-3">
+                <div className="text-[#4b4e43] text-sm leading-relaxed space-y-3">
                   {skill.lessonSteps ? (
                     skill.lessonSteps.map((step, i) => (
-                      <div key={i} className="p-3.5 bg-black/30 rounded-xl border border-white/5">
-                        <span className="font-semibold text-purple-300 block mb-1">Step {i + 1}: {step.title}</span>
-                        <p className="text-slate-400 text-xs leading-relaxed">{step.desc}</p>
+                      <div key={i} className="p-4 bg-[#faf9f5] rounded-xl border border-[#e2dfd4]">
+                        <span className="font-bold text-[#3f5022] block mb-1">Step {i + 1}: {step.title}</span>
+                        <p className="text-[#636659] text-xs leading-relaxed">{step.desc}</p>
                         {step.code && (
-                          <pre className="mt-2 bg-slate-950 p-2.5 rounded-lg text-xs font-mono text-pink-300 overflow-x-auto">
+                          <pre className="mt-2.5 bg-[#252820] text-[#e8ecd9] p-3 rounded-lg text-xs font-mono overflow-x-auto">
                             <code>{step.code}</code>
                           </pre>
                         )}
                       </div>
                     ))
                   ) : (
-                    <p className="text-slate-400 text-sm">
-                      Understand how {skill.skill} operates in professional settings. Start by practicing simple syntax and applying it to small everyday problems.
+                    <p className="text-[#636659] text-sm">
+                      Understand how {skill.skill} operates in production teams. Focus on core syntax and 1 practical example.
                     </p>
                   )}
                 </div>
@@ -218,27 +216,27 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
           {/* TAB 3: QUIZ */}
           {activeTab === 'quiz' && (
             <div className="space-y-4">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <span className="text-xs uppercase font-bold tracking-wider text-purple-400">Knowledge Check</span>
-                <h4 className="text-white font-semibold text-base mt-2 mb-4">
+              <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs">
+                <span className="text-xs uppercase font-bold tracking-wider text-[#556b2f]">Knowledge Check</span>
+                <h4 className="text-[#1e2019] font-bold text-base mt-2 mb-4">
                   {skill.quiz ? skill.quiz.question : `Which of the following is the key purpose of ${skill.skill}?`}
                 </h4>
 
                 <div className="space-y-2.5">
                   {(skill.quiz ? skill.quiz.options : [
-                    "To structure, analyze, and communicate findings effectively",
-                    "To delete database tables randomly",
-                    "To replace human communication completely"
+                    "To structure, build, and deploy reliable features",
+                    "To cause endless server downtime",
+                    "To delete database tables by accident"
                   ]).map((opt, idx) => {
                     const isSelected = selectedQuizAnswer === idx;
                     const isCorrect = skill.quiz ? idx === skill.quiz.correctIndex : idx === 0;
 
-                    let btnStyle = "bg-white/5 border-white/10 text-slate-300 hover:bg-white/10";
+                    let btnStyle = "bg-[#faf9f5] border-[#e2dfd4] text-[#1e2019] hover:bg-[#f0eee6]";
                     if (quizSubmitted) {
-                      if (isCorrect) btnStyle = "bg-green-500/20 border-green-500/50 text-green-200 font-semibold";
-                      else if (isSelected) btnStyle = "bg-red-500/20 border-red-500/50 text-red-200";
+                      if (isCorrect) btnStyle = "bg-[#edf1e6] border-[#556b2f] text-[#3f5022] font-semibold";
+                      else if (isSelected) btnStyle = "bg-[#faebeb] border-[#ba3c3c] text-[#ba3c3c]";
                     } else if (isSelected) {
-                      btnStyle = "bg-purple-600/30 border-purple-500 text-white";
+                      btnStyle = "bg-[#edf1e6] border-[#556b2f] text-[#3f5022] font-semibold";
                     }
 
                     return (
@@ -255,7 +253,7 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
                 </div>
 
                 {quizSubmitted && (
-                  <div className="mt-4 p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs">
+                  <div className="mt-4 p-3.5 rounded-xl bg-[#edf1e6] border border-[#d6dec8] text-[#3f5022] text-xs font-medium">
                     {selectedQuizAnswer === (skill.quiz?.correctIndex ?? 0)
                       ? "🎉 Spot on! You understand the foundational concept."
                       : "💡 Close! Check out the Interactive Lesson tab to review the core definition."}
@@ -268,21 +266,21 @@ export default function SkillLearningModal({ skill, onClose, onMarkComplete }) {
         </div>
 
         {/* Footer actions */}
-        <div className="p-4 border-t border-white/10 bg-slate-950/60 flex items-center justify-between">
-          <div className="text-xs text-slate-400">
-            Clicking resources opens them in a new tab so you won't lose your progress.
+        <div className="p-4 border-t border-[#e2dfd4] bg-white flex items-center justify-between">
+          <div className="text-xs text-[#7d8270]">
+            External courses open in a new tab so you won't lose your place.
           </div>
           <button
             onClick={handleComplete}
             disabled={completed}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-xs ${
               completed
-                ? 'bg-green-600/30 text-green-300 border border-green-500/40 cursor-default'
-                : 'bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/20'
+                ? 'bg-[#edf1e6] text-[#3f5022] border border-[#d6dec8] cursor-default'
+                : 'bg-[#556b2f] hover:bg-[#445625] text-white'
             }`}
           >
             <CheckCircle size={16} />
-            {completed ? 'Skill Mastered! ✅' : 'Mark as Learned (+10%)'}
+            {completed ? 'Skill Mastered! ✅' : 'Mark as Learned (+20%)'}
           </button>
         </div>
 

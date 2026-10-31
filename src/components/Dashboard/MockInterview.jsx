@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
-import { Mic, ChevronRight, Star, Sparkles } from 'lucide-react';
+import { Mic, ChevronRight, Sparkles } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
 
 const SAMPLE_FEEDBACK = {
-  score: 82,
-  strengths: ['Great technical terminology', 'Clear, logical structure in your explanation'],
+  score: 84,
+  strengths: ['Great technical clarity', 'Structured step-by-step reasoning'],
   improvements: [
-    'Add an edge case or potential failure scenario to demonstrate senior awareness',
-    'Conclude with how this solution impacts the end-user experience',
+    'Mention potential performance bottlenecks or failure edge cases',
+    'Summarize how your architectural decision benefits the business or user experience',
   ],
   tip: 'Use the STAR format: Situation → Task → Action → Result',
 };
@@ -44,29 +44,29 @@ export default function MockInterview() {
     }
   };
 
-  const scoreColor = SAMPLE_FEEDBACK.score >= 80 ? 'text-green-400' : SAMPLE_FEEDBACK.score >= 60 ? 'text-yellow-400' : 'text-red-400';
+  const scoreColor = SAMPLE_FEEDBACK.score >= 80 ? 'text-[#3f5022]' : 'text-[#8a6b18]';
 
   if (!started) {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-1">{t('mockInterview.title')}</h1>
-          <p className="text-slate-400 text-sm">{t('mockInterview.subtitle')}</p>
+          <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('mockInterview.title')}</h1>
+          <p className="text-[#636659] text-sm">{t('mockInterview.subtitle')}</p>
         </div>
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-10 text-center shadow-xl">
-          <div className="w-20 h-20 bg-pink-600/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Mic size={36} className="text-pink-400" />
+        <div className="bg-white border border-[#e2dfd4] rounded-3xl p-10 text-center shadow-xs">
+          <div className="w-20 h-20 bg-[#edf1e6] border border-[#d6dec8] rounded-full flex items-center justify-center mx-auto mb-6">
+            <Mic size={36} className="text-[#556b2f]" />
           </div>
-          <h2 className="text-white font-bold text-xl mb-3">Ready to Practice for {targetRole}?</h2>
-          <p className="text-slate-400 text-sm mb-2">You will get <strong className="text-white">{questions.length} calibrated interview questions</strong> for {targetRole}.</p>
-          <p className="text-slate-400 text-sm mb-8">Each answer is scored against a real hiring rubric with tailored AI feedback.</p>
+          <h2 className="text-[#1e2019] font-bold text-xl mb-3">Ready to Practice for {targetRole}?</h2>
+          <p className="text-[#636659] text-sm mb-2">You will get <strong className="text-[#1e2019]">{questions.length} calibrated interview questions</strong> for {targetRole}.</p>
+          <p className="text-[#636659] text-sm mb-8">Each answer is scored against a real hiring rubric with tailored AI feedback.</p>
           <div className="flex gap-3 justify-center mb-8">
             {['Technical Architecture', 'Code Logic', 'Behavioral STAR'].map((type) => (
-              <span key={type} className="bg-white/10 text-slate-300 text-xs px-3 py-1.5 rounded-full border border-white/10">{type}</span>
+              <span key={type} className="bg-[#f0eee6] text-[#4b4e43] text-xs px-3.5 py-1.5 rounded-full border border-[#e2dfd4] font-medium">{type}</span>
             ))}
           </div>
           <button onClick={() => setStarted(true)}
-            className="bg-pink-600 hover:bg-pink-500 text-white font-semibold px-8 py-3 rounded-2xl transition-all shadow-lg shadow-pink-600/30">
+            className="bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-8 py-3.5 rounded-2xl transition-all shadow-xs">
             {t('mockInterview.start')}
           </button>
         </div>
@@ -78,30 +78,30 @@ export default function MockInterview() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-1">{t('mockInterview.title')}</h1>
-          <p className="text-slate-400 text-sm">Question {qIndex + 1} of {questions.length} • {targetRole}</p>
+          <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('mockInterview.title')}</h1>
+          <p className="text-[#636659] text-sm">Question {qIndex + 1} of {questions.length} • {targetRole}</p>
         </div>
         <div className="flex gap-2">
           {questions.map((_, i) => (
-            <div key={i} className={`w-8 h-2 rounded-full transition-all ${i < qIndex ? 'bg-green-500' : i === qIndex ? 'bg-pink-500' : 'bg-white/10'}`} />
+            <div key={i} className={`w-8 h-2 rounded-full transition-all ${i < qIndex ? 'bg-[#556b2f]' : i === qIndex ? 'bg-[#708643]' : 'bg-[#e2dfd4]'}`} />
           ))}
         </div>
       </div>
 
       {/* Question card */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 shadow-lg">
+      <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 space-y-4 shadow-xs">
         <div className="flex items-center gap-2">
-          <span className="bg-pink-500/20 text-pink-400 text-xs font-semibold px-3 py-1 rounded-full border border-pink-500/30">{q.type}</span>
+          <span className="bg-[#edf1e6] text-[#455633] text-xs font-semibold px-3 py-1 rounded-full border border-[#d6dec8]">{q.type}</span>
         </div>
-        <p className="text-white text-lg font-semibold leading-relaxed">{q.question}</p>
+        <p className="text-[#1e2019] text-lg font-bold leading-relaxed">{q.question}</p>
 
         {/* Rubric */}
-        <div className="bg-white/3 border border-white/5 rounded-xl p-4">
-          <p className="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wider">Hiring Rubric Checkpoints:</p>
-          <ul className="space-y-1">
+        <div className="bg-[#faf9f5] border border-[#e2dfd4] rounded-xl p-4">
+          <p className="text-[#7d8270] text-xs font-bold mb-2 uppercase tracking-wider">Hiring Rubric Checkpoints:</p>
+          <ul className="space-y-1.5">
             {q.rubric.map((r) => (
-              <li key={r} className="text-slate-300 text-sm flex items-center gap-2">
-                <ChevronRight size={12} className="text-pink-400" />{r}
+              <li key={r} className="text-[#4b4e43] text-sm flex items-center gap-2">
+                <ChevronRight size={14} className="text-[#556b2f]" />{r}
               </li>
             ))}
           </ul>
@@ -116,16 +116,16 @@ export default function MockInterview() {
           disabled={submitted}
           rows={6}
           placeholder="Type your response here as if speaking to the interviewer..."
-          className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500 resize-none text-sm disabled:opacity-60"
+          className="w-full bg-white border border-[#dcd8cb] rounded-2xl p-4 text-[#1e2019] placeholder-[#9a9e8f] focus:outline-none focus:border-[#556b2f] focus:ring-2 focus:ring-[#556b2f]/15 resize-none text-sm disabled:opacity-60 shadow-xs"
         />
         {!submitted ? (
           <button onClick={() => setSubmitted(true)} disabled={answer.trim().length < 5}
-            className="mt-3 bg-pink-600 hover:bg-pink-500 disabled:opacity-40 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-md">
+            className="mt-3 bg-[#556b2f] hover:bg-[#445625] disabled:opacity-40 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs">
             {t('mockInterview.submit')}
           </button>
         ) : !showFeedback ? (
           <button onClick={() => setShowFeedback(true)}
-            className="mt-3 bg-green-600 hover:bg-green-500 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-md">
+            className="mt-3 bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-xs">
             {t('mockInterview.feedback')}
           </button>
         ) : null}
@@ -134,40 +134,40 @@ export default function MockInterview() {
       {/* Feedback */}
       {showFeedback && (
         <div className="space-y-4 animate-fadeIn">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl">
+          <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 shadow-xs">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-white font-bold flex items-center gap-2">
-                <Sparkles size={18} className="text-pink-400" /> AI Rubric Evaluation
+              <h3 className="text-[#1e2019] font-bold flex items-center gap-2">
+                <Sparkles size={18} className="text-[#556b2f]" /> AI Rubric Evaluation
               </h3>
               <div className={`text-3xl font-bold ${scoreColor}`}>{SAMPLE_FEEDBACK.score}<span className="text-lg">/100</span></div>
             </div>
 
             <div className="space-y-4">
               <div>
-                <p className="text-green-400 text-sm font-semibold mb-2">✅ Strengths</p>
-                {SAMPLE_FEEDBACK.strengths.map((s) => <p key={s} className="text-slate-300 text-sm mb-1">• {s}</p>)}
+                <p className="text-[#3f5022] text-sm font-bold mb-2">✅ Key Strengths</p>
+                {SAMPLE_FEEDBACK.strengths.map((s) => <p key={s} className="text-[#4b4e43] text-sm mb-1">• {s}</p>)}
               </div>
               <div>
-                <p className="text-orange-400 text-sm font-semibold mb-2">🔧 What to Polish</p>
-                {SAMPLE_FEEDBACK.improvements.map((s) => <p key={s} className="text-slate-300 text-sm mb-1">• {s}</p>)}
+                <p className="text-[#8a6b18] text-sm font-bold mb-2">🔧 Suggested Improvements</p>
+                {SAMPLE_FEEDBACK.improvements.map((s) => <p key={s} className="text-[#4b4e43] text-sm mb-1">• {s}</p>)}
               </div>
-              <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl px-4 py-3">
-                <p className="text-purple-300 text-sm">💡 <strong>Mentor note:</strong> {SAMPLE_FEEDBACK.tip}</p>
+              <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-xl px-4 py-3">
+                <p className="text-[#3f5022] text-sm">💡 <strong>Mentor advice:</strong> {SAMPLE_FEEDBACK.tip}</p>
               </div>
             </div>
           </div>
 
           {qIndex < questions.length - 1 && (
             <button onClick={handleNext}
-              className="w-full bg-pink-600 hover:bg-pink-500 text-white font-semibold py-3 rounded-xl transition-all shadow-md">
+              className="w-full bg-[#556b2f] hover:bg-[#445625] text-white font-semibold py-3.5 rounded-xl transition-all shadow-xs">
               {t('mockInterview.next')} →
             </button>
           )}
           {qIndex === questions.length - 1 && (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-6 text-center">
+            <div className="bg-[#edf1e6] border border-[#d6dec8] rounded-2xl p-6 text-center">
               <div className="text-4xl mb-3">🎉</div>
-              <h3 className="text-white font-bold text-lg mb-1">{targetRole} Interview Complete!</h3>
-              <p className="text-slate-400 text-sm">Great practice session. Your velocity score and confidence rating have been logged.</p>
+              <h3 className="text-[#1e2019] font-bold text-lg mb-1">{targetRole} Interview Complete!</h3>
+              <p className="text-[#636659] text-sm">Great practice session. Your velocity score and confidence rating have been logged.</p>
             </div>
           )}
         </div>

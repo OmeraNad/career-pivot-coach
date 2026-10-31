@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
-  BrainCircuit, LayoutDashboard, Map, CalendarDays, Mic,
-  SendHorizonal, TrendingUp, LogOut, User, Globe, Menu, X
+  Compass, LayoutDashboard, Map, CalendarDays, Mic,
+  SendHorizonal, TrendingUp, LogOut, User, Globe, Menu, X, ChevronDown
 } from 'lucide-react';
 import SkillGapMap from './SkillGapMap';
 import WeeklyPlan from './WeeklyPlan';
@@ -58,16 +58,16 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex">
+    <div className="min-h-screen bg-[#f7f6f2] flex text-[#1e2019] selection:bg-[#556b2f]/20">
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} transition-all duration-300 bg-slate-900/80 backdrop-blur border-r border-white/5 flex flex-col`}>
+      <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} transition-all duration-300 bg-[#f0ede4] border-r border-[#e2dfd4] flex flex-col`}>
         {/* Logo */}
-        <div className="p-4 flex items-center gap-3 border-b border-white/5">
-          <div className="w-8 h-8 bg-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
-            <BrainCircuit size={18} className="text-white" />
+        <div className="p-4 flex items-center gap-3 border-b border-[#e2dfd4]">
+          <div className="w-8 h-8 bg-[#556b2f] rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+            <Compass size={18} className="text-white" />
           </div>
-          {sidebarOpen && <span className="text-white font-bold text-sm">CareerPivot</span>}
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="ml-auto text-slate-400 hover:text-white transition-colors">
+          {sidebarOpen && <span className="font-bold text-sm tracking-tight text-[#1e2019]">CareerPivot</span>}
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="ml-auto text-[#7d8270] hover:text-[#1e2019] transition-colors">
             {sidebarOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
@@ -80,8 +80,8 @@ export default function Dashboard() {
               onClick={() => setActiveTab(id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium ${
                 activeTab === id
-                  ? 'bg-purple-600/20 text-purple-400 border border-purple-500/30'
-                  : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                  ? 'bg-[#556b2f] text-white shadow-sm'
+                  : 'text-[#5a5d4f] hover:bg-[#e4e1d6] hover:text-[#1e2019]'
               }`}
             >
               <Icon size={18} className="flex-shrink-0" />
@@ -92,15 +92,15 @@ export default function Dashboard() {
 
         {/* Language switcher */}
         {sidebarOpen && (
-          <div className="p-3 border-t border-white/5">
-            <div className="flex items-center gap-1 bg-white/5 rounded-xl p-1">
-              <Globe size={14} className="text-slate-400 ml-1 flex-shrink-0" />
+          <div className="p-3 border-t border-[#e2dfd4]">
+            <div className="flex items-center gap-1 bg-[#e4e1d6] rounded-xl p-1">
+              <Globe size={14} className="text-[#636659] ml-1 flex-shrink-0" />
               {LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => switchLang(lang.code)}
                   className={`flex-1 py-1 rounded-lg text-xs font-semibold transition-all ${
-                    currentLang === lang.code ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'
+                    currentLang === lang.code ? 'bg-white text-[#1e2019] shadow-xs' : 'text-[#636659] hover:text-[#1e2019]'
                   }`}
                 >
                   {lang.label}
@@ -111,22 +111,22 @@ export default function Dashboard() {
         )}
 
         {/* User + Logout */}
-        <div className="p-3 border-t border-white/5">
+        <div className="p-3 border-t border-[#e2dfd4]">
           {sidebarOpen ? (
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-600/30 rounded-xl flex items-center justify-center">
-                <User size={16} className="text-purple-400" />
+              <div className="w-8 h-8 bg-[#556b2f]/15 rounded-xl flex items-center justify-center flex-shrink-0">
+                <User size={16} className="text-[#556b2f]" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-white text-xs font-semibold truncate">{user?.name}</div>
-                <div className="text-slate-500 text-xs truncate">{user?.email}</div>
+                <div className="text-[#1e2019] text-xs font-semibold truncate">{user?.name}</div>
+                <div className="text-[#7d8270] text-xs truncate">{user?.email}</div>
               </div>
-              <button onClick={handleLogout} className="text-slate-400 hover:text-red-400 transition-colors">
+              <button onClick={handleLogout} className="text-[#7d8270] hover:text-[#ba3c3c] transition-colors">
                 <LogOut size={16} />
               </button>
             </div>
           ) : (
-            <button onClick={handleLogout} className="w-full flex justify-center text-slate-400 hover:text-red-400 transition-colors p-2">
+            <button onClick={handleLogout} className="w-full flex justify-center text-[#7d8270] hover:text-[#ba3c3c] transition-colors p-2">
               <LogOut size={16} />
             </button>
           )}
@@ -136,15 +136,15 @@ export default function Dashboard() {
       {/* Main content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <div className="border-b border-white/5 px-8 py-4 flex items-center justify-between bg-slate-900/40 backdrop-blur sticky top-0 z-10">
+        <div className="border-b border-[#e2dfd4] px-8 py-4 flex items-center justify-between bg-white/70 backdrop-blur sticky top-0 z-10">
           <div>
-            <h2 className="text-white font-bold">{t('dashboard.greeting')}, {user?.name?.split(' ')[0]} 👋</h2>
-            <p className="text-slate-400 text-xs">{t('dashboard.subtitle')}</p>
+            <h2 className="text-[#1e2019] font-bold text-base">{t('dashboard.greeting')}, {user?.name?.split(' ')[0]} 👋</h2>
+            <p className="text-[#636659] text-xs">{t('dashboard.subtitle')}</p>
           </div>
           
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl">
-              <span className="text-xs text-slate-400">Target Role:</span>
+            <div className="flex items-center gap-2 bg-[#f0eee6] border border-[#dcd8cb] px-3 py-1.5 rounded-xl">
+              <span className="text-xs text-[#636659] font-medium">Target Role:</span>
               <select
                 value={user?.prefs?.role || 'Full Stack Developer'}
                 onChange={(e) => {
@@ -160,25 +160,25 @@ export default function Dashboard() {
                   localStorage.setItem('cpc_session', JSON.stringify(session));
                   window.location.reload();
                 }}
-                className="bg-transparent text-purple-300 font-semibold text-xs focus:outline-none cursor-pointer"
+                className="bg-transparent text-[#3f5022] font-semibold text-xs focus:outline-none cursor-pointer"
               >
-                <option value="Full Stack Developer" className="bg-slate-900 text-white">Full Stack Developer</option>
-                <option value="Data Analyst" className="bg-slate-900 text-white">Data Analyst</option>
-                <option value="Software Engineer" className="bg-slate-900 text-white">Software Engineer</option>
-                <option value="Product Manager" className="bg-slate-900 text-white">Product Manager</option>
-                <option value="UX Designer" className="bg-slate-900 text-white">UX Designer</option>
+                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Product Manager">Product Manager</option>
+                <option value="UX Designer">UX Designer</option>
               </select>
             </div>
 
             {user?.prefs?.isBeginner && (
-              <span className="bg-purple-600/20 text-purple-400 border border-purple-500/30 text-xs font-semibold px-3 py-1 rounded-full">
-                ✨ Beginner Path
+              <span className="bg-[#edf1e6] text-[#455633] border border-[#d6dec8] text-xs font-semibold px-3 py-1 rounded-full">
+                🌱 Beginner Path
               </span>
             )}
           </div>
         </div>
 
-        <div className="p-8">
+        <div className="p-8 max-w-6xl mx-auto">
           {renderContent()}
         </div>
       </main>

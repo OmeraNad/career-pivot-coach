@@ -3,18 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { Plus, TrendingUp, Building, X } from 'lucide-react';
 
 const STATUS_COLORS = {
-  Applied: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-  Screening: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-  Interview: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-  Offer: 'bg-green-500/20 text-green-300 border-green-500/30',
-  Rejected: 'bg-red-500/20 text-red-300 border-red-500/30',
+  Applied: 'bg-[#edf1e6] text-[#455633] border-[#d6dec8]',
+  Screening: 'bg-[#fbf5e6] text-[#8a6b18] border-[#f0e2bd]',
+  Interview: 'bg-[#eef3f7] text-[#2c5f7d] border-[#cee0ec]',
+  Offer: 'bg-[#ebf5ed] text-[#296a3e] border-[#c0e4c8]',
+  Rejected: 'bg-[#faebeb] text-[#ba3c3c] border-[#f2c8c8]',
 };
 
 const INITIAL_APPS = [
-  { id: 1, company: 'Spotify', role: 'Data Analyst', date: '2026-10-28', status: 'Screening' },
-  { id: 2, company: 'Razorpay', role: 'Business Analyst', date: '2026-10-25', status: 'Applied' },
-  { id: 3, company: 'Swiggy', role: 'Data Analyst', date: '2026-10-20', status: 'Rejected' },
-  { id: 4, company: 'Zomato', role: 'Growth Analyst', date: '2026-10-15', status: 'Interview' },
+  { id: 1, company: 'Stripe', role: 'Full Stack Engineer', date: '2026-10-28', status: 'Screening' },
+  { id: 2, company: 'Vercel', role: 'Frontend Engineer', date: '2026-10-25', status: 'Applied' },
+  { id: 3, company: 'Shopify', role: 'Software Developer', date: '2026-10-20', status: 'Rejected' },
+  { id: 4, company: 'Linear', role: 'Full Stack Developer', date: '2026-10-15', status: 'Interview' },
 ];
 
 export default function ApplicationTracker() {
@@ -41,11 +41,11 @@ export default function ApplicationTracker() {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-1">{t('applications.title')}</h1>
-          <p className="text-slate-400 text-sm">{t('applications.subtitle')}</p>
+          <h1 className="text-2xl font-bold text-[#1e2019] mb-1">{t('applications.title')}</h1>
+          <p className="text-[#636659] text-sm">{t('applications.subtitle')}</p>
         </div>
         <button onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-xl text-sm transition-all">
+          className="flex items-center gap-2 bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-all shadow-xs">
           <Plus size={16} /> {t('applications.add')}
         </button>
       </div>
@@ -61,78 +61,80 @@ export default function ApplicationTracker() {
       </div>
 
       {/* AI Insight */}
-      <div className="bg-purple-600/10 border border-purple-500/20 rounded-2xl p-5 flex items-start gap-4">
-        <TrendingUp size={20} className="text-purple-400 mt-0.5 flex-shrink-0" />
+      <div className="bg-white border border-[#e2dfd4] rounded-2xl p-5 flex items-start gap-4 shadow-xs">
+        <div className="w-10 h-10 rounded-xl bg-[#edf1e6] text-[#556b2f] flex items-center justify-center flex-shrink-0">
+          <TrendingUp size={20} />
+        </div>
         <div>
-          <p className="text-white font-semibold text-sm mb-1">🧠 AI Insight</p>
-          <p className="text-slate-400 text-sm">
-            Your response rate is <strong className="text-white">{responseRate}%</strong>. 
-            You're getting traction at <strong className="text-white">consumer tech startups</strong> (Swiggy, Zomato). 
-            Consider applying more to similar companies. FAANG applications haven't moved — your profile may need 1-2 more portfolio projects first.
+          <p className="text-[#1e2019] font-bold text-sm mb-1">🌿 Mentor Opportunity Insight</p>
+          <p className="text-[#636659] text-sm leading-relaxed">
+            Your response rate is <strong className="text-[#1e2019]">{responseRate}%</strong>. 
+            You are generating consistent screening callbacks with modern developer tooling companies (Stripe, Linear). 
+            Prioritize applications requiring React + Node.js stacks where your gap map is strongest.
           </p>
         </div>
       </div>
 
       {/* Add form */}
       {showForm && (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+        <div className="bg-white border border-[#e2dfd4] rounded-2xl p-6 space-y-4 shadow-xs animate-fadeIn">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-white font-semibold">New Application</h3>
-            <button onClick={() => setShowForm(false)} className="text-slate-400 hover:text-white"><X size={18} /></button>
+            <h3 className="text-[#1e2019] font-bold text-base">New Job Application</h3>
+            <button onClick={() => setShowForm(false)} className="text-[#8c907f] hover:text-[#1e2019]"><X size={18} /></button>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-slate-400 text-xs mb-1 block">Company</label>
+              <label className="text-[#636659] text-xs font-semibold mb-1 block">Company</label>
               <input value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-4 py-2.5 text-[#1e2019] text-sm focus:outline-none focus:border-[#556b2f]"
                 placeholder="Google" />
             </div>
             <div>
-              <label className="text-slate-400 text-xs mb-1 block">Role</label>
+              <label className="text-[#636659] text-xs font-semibold mb-1 block">Role Title</label>
               <input value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500"
-                placeholder="Data Analyst" />
+                className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-4 py-2.5 text-[#1e2019] text-sm focus:outline-none focus:border-[#556b2f]"
+                placeholder="Full Stack Developer" />
             </div>
             <div>
-              <label className="text-slate-400 text-xs mb-1 block">Date Applied</label>
+              <label className="text-[#636659] text-xs font-semibold mb-1 block">Date Applied</label>
               <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500" />
+                className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-4 py-2.5 text-[#1e2019] text-sm focus:outline-none focus:border-[#556b2f]" />
             </div>
             <div>
-              <label className="text-slate-400 text-xs mb-1 block">Status</label>
+              <label className="text-[#636659] text-xs font-semibold mb-1 block">Status</label>
               <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}
-                className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500">
+                className="w-full bg-[#faf9f5] border border-[#dcd8cb] rounded-xl px-4 py-2.5 text-[#1e2019] text-sm focus:outline-none focus:border-[#556b2f]">
                 {['Applied', 'Screening', 'Interview', 'Offer', 'Rejected'].map((s) => <option key={s}>{s}</option>)}
               </select>
             </div>
           </div>
           <button onClick={addApp}
-            className="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all">
+            className="bg-[#556b2f] hover:bg-[#445625] text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all shadow-xs">
             Save Application
           </button>
         </div>
       )}
 
       {/* Table */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-        <div className="grid grid-cols-4 gap-4 px-5 py-3 border-b border-white/5 text-slate-500 text-xs font-semibold uppercase tracking-wider">
+      <div className="bg-white border border-[#e2dfd4] rounded-2xl overflow-hidden shadow-xs">
+        <div className="grid grid-cols-4 gap-4 px-6 py-3.5 border-b border-[#f0eee6] bg-[#faf9f5] text-[#7d8270] text-xs font-bold uppercase tracking-wider">
           <span>Company</span><span>Role</span><span>Date</span><span>Status</span>
         </div>
-        <div className="divide-y divide-white/5">
+        <div className="divide-y divide-[#f0eee6]">
           {apps.map((app) => (
-            <div key={app.id} className="grid grid-cols-4 gap-4 px-5 py-4 items-center hover:bg-white/3 transition-all group">
+            <div key={app.id} className="grid grid-cols-4 gap-4 px-6 py-4 items-center hover:bg-[#faf9f5] transition-all group">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center">
-                  <Building size={14} className="text-slate-400" />
+                <div className="w-8 h-8 bg-[#f0eee6] rounded-xl flex items-center justify-center">
+                  <Building size={14} className="text-[#556b2f]" />
                 </div>
-                <span className="text-white text-sm font-medium">{app.company}</span>
+                <span className="text-[#1e2019] text-sm font-semibold">{app.company}</span>
               </div>
-              <span className="text-slate-300 text-sm">{app.role}</span>
-              <span className="text-slate-400 text-sm">{app.date}</span>
+              <span className="text-[#4b4e43] text-sm">{app.role}</span>
+              <span className="text-[#7d8270] text-sm">{app.date}</span>
               <div className="flex items-center justify-between">
-                <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${STATUS_COLORS[app.status]}`}>{app.status}</span>
-                <button onClick={() => removeApp(app.id)} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 transition-all">
-                  <X size={14} />
+                <span className={`text-xs px-3 py-1 rounded-full border font-semibold ${STATUS_COLORS[app.status]}`}>{app.status}</span>
+                <button onClick={() => removeApp(app.id)} className="opacity-0 group-hover:opacity-100 text-[#8c907f] hover:text-[#ba3c3c] transition-all">
+                  <X size={15} />
                 </button>
               </div>
             </div>
