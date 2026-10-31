@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 import { ArrowRight, Search, Sparkles } from 'lucide-react';
 
 const POPULAR_ROLES = [
@@ -13,7 +12,6 @@ const POPULAR_ROLES = [
 export default function RoleSelect() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { completeOnboarding } = useAuth();
   const [role, setRole] = useState('');
   const [isBeginner, setIsBeginner] = useState(false);
 
@@ -32,14 +30,8 @@ export default function RoleSelect() {
       sessionStorage.setItem('onboarding_role', 'beginner');
       navigate('/onboarding/interests');
     } else {
-      const lang = localStorage.getItem('preferredLanguage') || 'en';
-      completeOnboarding({
-        role: role.trim(),
-        isBeginner: false,
-        interests: [],
-        language: lang,
-      });
-      navigate('/dashboard');
+      sessionStorage.setItem('onboarding_role_name', role.trim());
+      navigate('/onboarding/skills');
     }
   };
 
@@ -48,7 +40,6 @@ export default function RoleSelect() {
   return (
     <div className="min-h-screen bg-[#f7f6f2] flex items-center justify-center p-4 selection:bg-[#556b2f]/20">
       <div className="max-w-xl w-full">
-        {/* Step indicator */}
         <div className="flex items-center justify-center gap-2 mb-10">
           <div className="w-2 h-2 bg-[#dcd8cb] rounded-full" />
           <div className="w-2 h-2 bg-[#dcd8cb] rounded-full" />
@@ -59,7 +50,6 @@ export default function RoleSelect() {
         <h1 className="text-3xl md:text-4xl font-bold text-[#1e2019] mb-2 text-center tracking-tight">{t('role.title')}</h1>
         <p className="text-[#636659] text-center mb-8 text-sm md:text-base">{t('role.subtitle')}</p>
 
-        {/* Search input */}
         <div className="relative mb-4">
           <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8c907f]" />
           <input
@@ -71,7 +61,6 @@ export default function RoleSelect() {
           />
         </div>
 
-        {/* Popular roles */}
         <div className="flex flex-wrap gap-2 mb-6">
           {POPULAR_ROLES.map((r) => (
             <button
@@ -88,14 +77,12 @@ export default function RoleSelect() {
           ))}
         </div>
 
-        {/* Divider */}
         <div className="flex items-center gap-3 mb-6">
           <div className="flex-1 h-px bg-[#e4e1d6]" />
           <span className="text-[#8c907f] text-xs font-medium uppercase tracking-wider">or</span>
           <div className="flex-1 h-px bg-[#e4e1d6]" />
         </div>
 
-        {/* Beginner option */}
         <button
           onClick={handleBeginner}
           className={`w-full flex items-center gap-4 p-5 rounded-2xl border transition-all mb-8 text-left ${
