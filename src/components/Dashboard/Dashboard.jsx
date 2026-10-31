@@ -4,10 +4,11 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
   Compass, LayoutDashboard, Map, CalendarDays, Mic,
-  SendHorizonal, TrendingUp, LogOut, User, Globe, Menu, X, ChevronDown
+  SendHorizonal, TrendingUp, LogOut, User, Globe, Menu, X, ChevronDown, FolderGit2
 } from 'lucide-react';
 import SkillGapMap from './SkillGapMap';
 import WeeklyPlan from './WeeklyPlan';
+import PortfolioProjects from './PortfolioProjects';
 import MockInterview from './MockInterview';
 import ApplicationTracker from './ApplicationTracker';
 import ProgressTracker from './ProgressTracker';
@@ -40,6 +41,7 @@ export default function Dashboard() {
     { id: 'overview', icon: LayoutDashboard, label: t('dashboard.tabs.overview') },
     { id: 'skillGap', icon: Map, label: t('dashboard.tabs.skillGap') },
     { id: 'weeklyPlan', icon: CalendarDays, label: t('dashboard.tabs.weeklyPlan') },
+    { id: 'projects', icon: FolderGit2, label: t('dashboard.tabs.projects') || 'Portfolio Projects' },
     { id: 'mockInterview', icon: Mic, label: t('dashboard.tabs.mockInterview') },
     { id: 'applications', icon: SendHorizonal, label: t('dashboard.tabs.applications') },
     { id: 'progress', icon: TrendingUp, label: t('dashboard.tabs.progress') },
@@ -50,6 +52,7 @@ export default function Dashboard() {
       case 'overview': return <Overview setActiveTab={setActiveTab} />;
       case 'skillGap': return <SkillGapMap />;
       case 'weeklyPlan': return <WeeklyPlan />;
+      case 'projects': return <PortfolioProjects />;
       case 'mockInterview': return <MockInterview />;
       case 'applications': return <ApplicationTracker />;
       case 'progress': return <ProgressTracker />;

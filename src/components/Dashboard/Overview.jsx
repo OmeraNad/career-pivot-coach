@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
-import { Map, CalendarDays, Mic, SendHorizonal, TrendingUp, ArrowRight, Star, BookOpen, Compass } from 'lucide-react';
+import { Map, CalendarDays, Mic, SendHorizonal, TrendingUp, ArrowRight, Star, BookOpen, Compass, FolderGit2 } from 'lucide-react';
 
 const BEGINNER_ROLES = [
   { title: 'Social Media Manager', emoji: '📱', time: '1-2 months', difficulty: 'Easy' },
@@ -34,6 +34,7 @@ export default function Overview({ setActiveTab }) {
   const quickActions = [
     { id: 'skillGap', icon: Map, label: t('dashboard.tabs.skillGap'), desc: 'See what skills you are missing & watch top tutorials' },
     { id: 'weeklyPlan', icon: CalendarDays, label: t('dashboard.tabs.weeklyPlan'), desc: 'View your step-by-step weekly roadmap' },
+    { id: 'projects', icon: FolderGit2, label: 'Portfolio Projects', desc: 'Real projects matched to close your specific skill gaps' },
     { id: 'mockInterview', icon: Mic, label: t('dashboard.tabs.mockInterview'), desc: 'Practice role-calibrated interview questions' },
     { id: 'applications', icon: SendHorizonal, label: t('dashboard.tabs.applications'), desc: 'Track applications & learn response patterns' },
     { id: 'progress', icon: TrendingUp, label: t('dashboard.tabs.progress'), desc: 'Track learning pace & mastered skills' },

@@ -3,6 +3,85 @@ export const ROLE_DATA = {
   fullstack: {
     title: 'Full Stack Developer',
     overview: 'Build complete web applications from modern UI (React/Next.js) to server backends (Node.js/Express) and production databases.',
+    realJobDescriptions: [
+      {
+        company: 'Stripe',
+        role: 'Full Stack Engineer (L3/L4)',
+        location: 'Remote',
+        salary: '$135,000 - $175,000',
+        matchedSkills: ['React', 'Node.js', 'PostgreSQL', 'REST APIs', 'TypeScript'],
+        snippet: 'Looking for engineers who can own features end-to-end. You will architect frontend client interfaces in React and build resilient backend microservices in Node.js/Go with relational databases.'
+      },
+      {
+        company: 'Linear',
+        role: 'Full Stack Product Engineer',
+        location: 'Remote',
+        salary: '$140,000 - $180,000',
+        matchedSkills: ['Modern React', 'State Management', 'WebSockets', 'Database Schema Design'],
+        snippet: 'We craft high-performance web software. Experience with modern React state mechanics, client-side caching, and designing normalized relational databases is essential.'
+      },
+      {
+        company: 'Shopify',
+        role: 'Software Developer (Merchant Platforms)',
+        location: 'Hybrid / Remote',
+        salary: '$120,000 - $160,000',
+        matchedSkills: ['RESTful APIs', 'Git/GitHub', 'Authentication', 'SQL'],
+        snippet: 'Join our merchant team building APIs that power millions of checkouts daily. Strong grasp of RESTful design, unit testing, and team Git workflows required.'
+      }
+    ],
+    portfolioProjects: [
+      {
+        id: 'proj-1',
+        title: 'Production SaaS Task & Sprint Engine',
+        difficulty: 'Intermediate',
+        timeToBuild: '2 weeks',
+        coversGaps: ['Frontend & Modern React', 'Node.js, Express & REST APIs', 'Authentication & Web Security'],
+        description: 'A full-stack Kanban project manager with drag-and-drop boards, JWT authentication, and team workspaces.',
+        whyRecruitersLoveIt: 'Shows you can manage complex UI state (drag & drop), protect API endpoints with JWT tokens, and structure clean multi-tenant database relations.',
+        techStack: ['React', 'Node.js / Express', 'PostgreSQL / Prisma', 'Tailwind CSS'],
+        keyFeatures: [
+          'User signup & login with bcrypt hashed passwords and JWT cookies',
+          'Drag-and-drop cards between Backlog, In-Progress, and Done columns',
+          'Optimistic UI updates so interactions feel instantaneous',
+          'Search and tag filtering across 100+ tasks'
+        ],
+        githubTemplate: 'https://github.com/topics/kanban-react-node'
+      },
+      {
+        id: 'proj-2',
+        title: 'E-Commerce Marketplace REST API & Storefront',
+        difficulty: 'Advanced',
+        timeToBuild: '3 weeks',
+        coversGaps: ['Node.js, Express & REST APIs', 'Database Design (PostgreSQL & MongoDB)', 'Git, GitHub & CI/CD Deployment'],
+        description: 'Complete e-commerce infrastructure with product catalog, cart persistence, inventory tracking, and mock Stripe checkout.',
+        whyRecruitersLoveIt: 'Proves database normalization, transactional integrity (preventing double-buys), and deployment on cloud hosting with CI/CD.',
+        techStack: ['React', 'Express.js', 'PostgreSQL', 'Stripe API Test Mode'],
+        keyFeatures: [
+          'Relational database schema: Users, Orders, Products, and OrderItems',
+          'Paginated product listings with category and price range filters',
+          'Persistent shopping cart stored across browser reloads',
+          'Automated deployment via GitHub Actions workflow'
+        ],
+        githubTemplate: 'https://github.com/topics/ecommerce-rest-api'
+      },
+      {
+        id: 'proj-3',
+        title: 'Real-Time Markdown Documentation & Team Chat',
+        difficulty: 'Intermediate',
+        timeToBuild: '10 days',
+        coversGaps: ['Frontend & Modern React', 'TypeScript Basics', 'Authentication & Web Security'],
+        description: 'Collaborative notes workspace where multiple users can type in markdown and see live previews simultaneously.',
+        whyRecruitersLoveIt: 'Demonstrates handling asynchronous streams, TypeScript interfaces, and sanitizing user HTML input to prevent XSS attacks.',
+        techStack: ['React', 'TypeScript', 'Tailwind CSS', 'WebSockets / Socket.io'],
+        keyFeatures: [
+          'Live split-pane markdown editor with instant preview',
+          'Strong TypeScript typings across all component props and state',
+          'Export to PDF / Markdown file downloads',
+          'Role-based permissions (Editor vs Viewer)'
+        ],
+        githubTemplate: 'https://github.com/topics/markdown-editor-react'
+      }
+    ],
     skills: {
       critical: [
         {
@@ -12,21 +91,18 @@ export const ROLE_DATA = {
           time: '3 weeks',
           priority: 'Critical',
           shortDesc: 'Component architecture, State (useState/useEffect), Hooks, and Tailwind CSS.',
-          tip: 'Build a real CRUD app (like a Task Manager or E-commerce cart) rather than watching endless tutorials.',
+          tip: 'Build a real CRUD app rather than watching endless tutorials.',
           mentorNote: 'Recruiters want to see that you can fetch data from an API, handle loading and error states cleanly, and render responsive UI.',
           videos: [
             { title: 'React JS Full Course 2026', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', duration: '12 hrs (Focus on core hooks)' },
-            { title: 'React in 100 Seconds + Practical Crash Course', source: 'Fireship (YouTube)', url: 'https://www.youtube.com/watch?v=Tn6-PIqc4UM', duration: '15 mins' },
-            { title: 'Build and Deploy 5 Real React Projects', source: 'JavaScript Mastery (YouTube)', url: 'https://www.youtube.com/results?search_query=javascript+mastery+react+projects', duration: '2 hrs' }
+            { title: 'React in 100 Seconds + Practical Crash Course', source: 'Fireship (YouTube)', url: 'https://www.youtube.com/watch?v=Tn6-PIqc4UM', duration: '15 mins' }
           ],
           courses: [
             { name: 'The Odin Project - Full Stack JavaScript', type: 'Open-Source Curriculum', url: 'https://www.theodinproject.com/', badge: '100% Free' },
-            { name: 'FullStackOpen (University of Helsinki)', type: 'Deep Modern Web Development', url: 'https://fullstackopen.com/en/', badge: '100% Free' },
-            { name: 'React Official Documentation (Learn by Doing)', type: 'Official Interactive Docs', url: 'https://react.dev/learn', badge: 'Interactive' }
+            { name: 'React Official Documentation', type: 'Official Interactive Docs', url: 'https://react.dev/learn', badge: 'Interactive' }
           ],
           lessonSteps: [
-            { title: 'State & Reactivity', desc: 'State is memory inside a component that triggers a UI re-render when changed.', code: 'const [items, setItems] = useState([]);\nconst addItem = (item) => setItems([...items, item]);' },
-            { title: 'Effects & Async Fetching', desc: 'Fetch data cleanly when the component mounts with proper dependency arrays.', code: 'useEffect(() => {\n  fetch("/api/data").then(r => r.json()).then(setData);\n}, []);' }
+            { title: 'State & Reactivity', desc: 'State is memory inside a component that triggers a UI re-render when changed.', code: 'const [items, setItems] = useState([]);\nconst addItem = (item) => setItems([...items, item]);' }
           ],
           quiz: {
             question: 'What happens when state is updated using its setter function in React?',
@@ -41,15 +117,14 @@ export const ROLE_DATA = {
           time: '4 weeks',
           priority: 'Critical',
           shortDesc: 'Build HTTP web servers, route handling, JWT authentication, and RESTful CRUD endpoints.',
-          tip: 'Master Express middleware and how to structure MVC (Models, Controllers, Routes).',
+          tip: 'Master Express middleware and how to structure MVC.',
           mentorNote: '90% of technical interviews test whether you can design clean API routes (GET, POST, PUT, DELETE) with status codes (200, 201, 400, 404, 500).',
           videos: [
             { title: 'Node.js and Express.js - Full Course', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', duration: '8 hrs' },
             { title: 'Build a REST API from scratch in 30 mins', source: 'Web Dev Simplified (YouTube)', url: 'https://www.youtube.com/watch?v=fgTGADljAeg', duration: '30 mins' }
           ],
           courses: [
-            { name: 'Node.js Official Getting Started Guides', type: 'Official Guides', url: 'https://nodejs.org/en/learn', badge: '100% Free' },
-            { name: 'Postman Student Expert Certification', type: 'API Testing & Design', url: 'https://academy.postman.com/', badge: 'Free Badge' }
+            { name: 'Node.js Official Getting Started Guides', type: 'Official Guides', url: 'https://nodejs.org/en/learn', badge: '100% Free' }
           ],
           lessonSteps: [
             { title: 'Creating an Express Endpoint', desc: 'Define routes to accept client requests and return JSON.', code: 'app.post("/api/users", async (req, res) => {\n  const user = await db.create(req.body);\n  res.status(201).json(user);\n});' }
@@ -67,15 +142,12 @@ export const ROLE_DATA = {
           time: '3 weeks',
           priority: 'Critical',
           shortDesc: 'Schema modeling, relational SQL joins, indexing, and ORMs (Prisma / Mongoose).',
-          tip: 'Learn how to use Prisma ORM — it provides type-safety and makes database work intuitive.',
-          mentorNote: 'Never store plain text passwords. Always hash with bcrypt, and understand 1-to-many vs many-to-many relationships.',
+          tip: 'Learn Prisma ORM — it makes database schema updates and queries straightforward.',
           videos: [
-            { title: 'SQL vs NoSQL Explained in 100 Seconds', source: 'Fireship (YouTube)', url: 'https://www.youtube.com/watch?v=QwevGzVu_dc', duration: '2 mins' },
-            { title: 'PostgreSQL Tutorial for Beginners', source: 'Amigoscode (YouTube)', url: 'https://www.youtube.com/results?search_query=postgresql+tutorial+for+beginners', duration: '2 hrs' }
+            { title: 'SQL vs NoSQL Explained in 100 Seconds', source: 'Fireship (YouTube)', url: 'https://www.youtube.com/watch?v=QwevGzVu_dc', duration: '2 mins' }
           ],
           courses: [
-            { name: 'Prisma ORM Quickstart Tutorial', type: 'Interactive ORM Guide', url: 'https://www.prisma.io/docs/getting-started', badge: '100% Free' },
-            { name: 'MongoDB University Free Developer Path', type: 'Official Certification Course', url: 'https://learn.mongodb.com/', badge: '100% Free' }
+            { name: 'Prisma ORM Quickstart Tutorial', type: 'Interactive ORM Guide', url: 'https://www.prisma.io/docs/getting-started', badge: '100% Free' }
           ]
         }
       ],
@@ -86,14 +158,10 @@ export const ROLE_DATA = {
           required: 80,
           time: '1 week',
           priority: 'Important',
-          shortDesc: 'Branching, PRs, resolving merge conflicts, and deploying to Vercel/Render.',
+          shortDesc: 'Branching, PRs, resolving merge conflicts, and deploying to GitHub Pages/Vercel.',
           tip: 'Make sure your GitHub profile shows green commit squares and meaningful commit messages.',
-          mentorNote: 'A recruiter judges a junior engineer in 10 seconds by looking at their pinned GitHub repositories and live demo links.',
           videos: [
-            { title: 'Git and GitHub for Beginners - Crash Course', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=RGOj5yH7evk', duration: '1 hr' }
-          ],
-          courses: [
-            { name: 'GitHub Skills: First Day on GitHub', type: 'Hands-on Repository Practice', url: 'https://skills.github.com/', badge: '100% Free' }
+            { title: 'Git and GitHub for Beginners', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=RGOj5yH7evk', duration: '1 hr' }
           ]
         },
         {
@@ -103,7 +171,6 @@ export const ROLE_DATA = {
           time: '2 weeks',
           priority: 'Important',
           shortDesc: 'Cookies, tokens, password hashing, CORS, and SQL injection prevention.',
-          tip: 'Understand how access tokens and refresh tokens work to keep users logged in securely.',
           videos: [
             { title: 'JWT Authentication Tutorial', source: 'Web Dev Simplified (YouTube)', url: 'https://www.youtube.com/watch?v=mbsmsi7l3r4', duration: '20 mins' }
           ]
@@ -117,7 +184,6 @@ export const ROLE_DATA = {
           time: '2 weeks',
           priority: 'Nice to Have',
           shortDesc: 'Add type safety to prevent JavaScript runtime bugs before shipping.',
-          tip: 'Most tech startups in 2026 write TypeScript. Learning interfaces and types puts you ahead of 70% of junior candidates.',
           videos: [
             { title: 'TypeScript Course for Beginners', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=BwuLxPH8IDs', duration: '1.5 hrs' }
           ]
@@ -182,6 +248,58 @@ export const ROLE_DATA = {
   data: {
     title: 'Data Analyst',
     overview: 'Extract business insights from raw data using SQL, Python/Excel, and modern dashboards.',
+    realJobDescriptions: [
+      {
+        company: 'Spotify',
+        role: 'Data Analyst - Content Insights',
+        location: 'Remote',
+        salary: '$110,000 - $145,000',
+        matchedSkills: ['SQL', 'Tableau', 'Statistical Analysis', 'A/B Testing'],
+        snippet: 'Help Spotify creators grow their listeners. Strong SQL querying skills, ability to translate complex data into dashboards, and A/B test analysis required.'
+      },
+      {
+        company: 'DoorDash',
+        role: 'Strategy & Analytics Associate',
+        location: 'Hybrid',
+        salary: '$115,000 - $150,000',
+        matchedSkills: ['Advanced SQL', 'Python / Pandas', 'Data Modeling', 'Business Acumen'],
+        snippet: 'Drive operational strategy. We look for analysts who can pull millions of records in SQL, run statistical models in Python, and present recommendations to VPs.'
+      }
+    ],
+    portfolioProjects: [
+      {
+        id: 'data-proj-1',
+        title: 'Customer Churn & Retention Diagnostic Dashboard',
+        difficulty: 'Intermediate',
+        timeToBuild: '2 weeks',
+        coversGaps: ['SQL & Data Querying', 'Data Visualization (Power BI / Tableau)'],
+        description: 'An interactive executive dashboard showing subscriber churn rates, customer lifetime value (LTV), and drop-off cohorts.',
+        whyRecruitersLoveIt: 'Shows you understand how data connects directly to revenue, profit margins, and executive business decisions.',
+        techStack: ['PostgreSQL', 'Tableau Public / Power BI', 'Excel'],
+        keyFeatures: [
+          'Cohort analysis tracking 12-month customer retention curves',
+          'Drill-down filters by acquisition channel and plan tier',
+          'Executive KPI summary card for monthly recurring revenue'
+        ],
+        githubTemplate: 'https://github.com/topics/customer-churn-analysis'
+      },
+      {
+        id: 'data-proj-2',
+        title: 'E-Commerce Marketing A/B Test Hypothesis Engine',
+        difficulty: 'Advanced',
+        timeToBuild: '2.5 weeks',
+        coversGaps: ['Python for Data Analysis (Pandas)', 'Statistical Analysis & A/B Testing'],
+        description: 'End-to-end Python statistical notebook testing whether a checkout button redesign produced statistically significant conversion gains.',
+        whyRecruitersLoveIt: 'Hiring managers test A/B testing in 95% of data analyst screenings. Having this on your GitHub guarantees interview callbacks.',
+        techStack: ['Python', 'Pandas', 'SciPy', 'Matplotlib / Seaborn'],
+        keyFeatures: [
+          'Hypothesis formulation (Null vs Alternative hypothesis)',
+          'Two-sample t-test calculation with p-value and confidence intervals',
+          'Data distributions visual charts showing conversion variance'
+        ],
+        githubTemplate: 'https://github.com/topics/ab-testing-data-science'
+      }
+    ],
     skills: {
       critical: [
         {
@@ -194,12 +312,10 @@ export const ROLE_DATA = {
           tip: 'Start with MODE SQL Tutorial — free and beginner-friendly',
           mentorNote: 'For interviews, 90% of questions test just SELECT, WHERE, GROUP BY, and JOINs.',
           videos: [
-            { title: 'SQL Tutorial - Full Database Course for Beginners', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=HXV3zeRR3h4', duration: '4.5 hrs' },
-            { title: 'Learn SQL in 60 Minutes', source: 'Web Dev Simplified (YouTube)', url: 'https://www.youtube.com/watch?v=p3qvj9hO_Bo', duration: '60 mins' }
+            { title: 'SQL Tutorial - Full Database Course for Beginners', source: 'freeCodeCamp (YouTube)', url: 'https://www.youtube.com/watch?v=HXV3zeRR3h4', duration: '4.5 hrs' }
           ],
           courses: [
-            { name: 'Mode Analytics Interactive SQL School', type: 'Hands-on Sandbox', url: 'https://mode.com/sql-tutorial/', badge: '100% Free' },
-            { name: 'SQLBolt - Interactive Lessons', type: 'Interactive', url: 'https://sqlbolt.com/', badge: '100% Free' }
+            { name: 'Mode Analytics Interactive SQL School', type: 'Hands-on Sandbox', url: 'https://mode.com/sql-tutorial/', badge: '100% Free' }
           ]
         },
         {
@@ -300,13 +416,13 @@ export const ROLE_DATA = {
         id: 2,
         question: 'You notice company revenue dropped 15% this week. How would you investigate this anomaly?',
         type: 'Case',
-        rubric: ['Structured approach', 'Identifies multiple hypotheses (seasonality, checkout bugs, marketing)', 'Defines validation metrics']
+        rubric: ['Structured approach', 'Identifies multiple hypotheses', 'Defines validation metrics']
       },
       {
         id: 3,
         question: 'What is the difference between a LEFT JOIN and an INNER JOIN in SQL? Give an example.',
         type: 'Technical',
-        rubric: ['Correct definition', 'Explains NULL handling in unmatched rows', 'Practical business example']
+        rubric: ['Correct definition', 'Explains NULL handling', 'Practical business example']
       }
     ]
   }
@@ -321,5 +437,5 @@ export function getRoleKey(roleString) {
   if (lower.includes('data') || lower.includes('analyst') || lower.includes('business') || lower.includes('sql') || lower.includes('intelligence')) {
     return 'data';
   }
-  return 'fullstack'; // Default to fullstack
+  return 'fullstack';
 }
