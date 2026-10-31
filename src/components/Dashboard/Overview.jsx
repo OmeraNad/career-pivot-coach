@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { Map, CalendarDays, Mic, SendHorizonal, TrendingUp, ArrowRight, Star, BookOpen, Compass, FolderGit2 } from 'lucide-react';
-import { CAREER_CATEGORIES } from '../../data/careerCatalog';
+import { getCareerCategoriesForInterests } from '../../data/careerCatalog';
 
 const BASICS = [
   { icon: '📝', title: 'Write a Professional Resume', desc: 'Learn how to structure your resume from scratch without fluff' },
@@ -19,7 +19,7 @@ export default function Overview({ setActiveTab }) {
   const interests = user?.prefs?.interests?.length
     ? user.prefs.interests
     : user?.prefs?.interestKey ? [user.prefs.interestKey] : [];
-  const recommendedCategories = CAREER_CATEGORIES.filter((category) => interests.includes(category.id));
+  const recommendedCategories = getCareerCategoriesForInterests(interests);
 
   const quickActions = [
     { id: 'skillGap', icon: Map, label: t('dashboard.tabs.skillGap'), desc: 'See what skills you are missing & watch top tutorials' },

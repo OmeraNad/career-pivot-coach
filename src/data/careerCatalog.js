@@ -241,6 +241,11 @@ export const CAREER_ROLES = CAREER_CATEGORIES.flatMap((category) =>
   })),
 );
 
+export function getCareerCategoriesForInterests(interests = []) {
+  const selectedInterests = new Set(interests);
+  return CAREER_CATEGORIES.filter((category) => selectedInterests.has(category.id));
+}
+
 export const CAREER_ROLE_DATA = Object.fromEntries(
   CAREER_ROLES.map((role) => [role.key, role.config]),
 );

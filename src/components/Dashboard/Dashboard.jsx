@@ -14,7 +14,7 @@ import ApplicationTracker from './ApplicationTracker';
 import ProgressTracker from './ProgressTracker';
 import Overview from './Overview';
 import i18n from '../../i18n';
-import { CAREER_ROLES } from '../../data/careerCatalog';
+import { CAREER_ROLES, getCareerCategoriesForInterests } from '../../data/careerCatalog';
 
 const LANGUAGES = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
@@ -34,6 +34,13 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [currentLang, setCurrentLang] = useState(i18n.language || 'en');
+  const interests = user?.prefs?.interests?.length
+    ? user.prefs.interests
+    : user?.prefs?.interestKey ? [user.prefs.interestKey] : [];
+  const beginnerCategories = getCareerCategoriesForInterests(interests);
+  const selectableCareerRoles = user?.prefs?.isBeginner
+    ? beginnerCategories.flatMap((category) => category.roles)
+    : CAREER_ROLES;
 
   useEffect(() => {
     const handleResize = () => setSidebarOpen(window.innerWidth >= 768);
@@ -174,23 +181,25 @@ export default function Dashboard() {
               <select
                 value={user?.prefs?.role || 'Product Manager'}
                 onChange={(e) => {
-                  updatePrefs({ role: e.target.value, isBeginner: false });
+                  updatePrefs({ role: e.target.value });
                 }}
                 className="bg-transparent text-[#3F4A2F] font-semibold text-xs focus:outline-none cursor-pointer max-w-[42vw] md:max-w-none"
               >
                 <optgroup label="Curated career roles">
-                  {CAREER_ROLES.map((careerRole) => (
+                  {selectableCareerRoles.map((careerRole) => (
                     <option key={careerRole.key} value={careerRole.title}>{careerRole.title}</option>
                   ))}
                 </optgroup>
-                <optgroup label="Other roles">
-                  {['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Full Stack Developer']
-                    .filter((name) => !CAREER_ROLES.some((careerRole) => careerRole.title === name))
-                    .map((name) => <option key={name} value={name}>{name}</option>)}
-                  {user?.prefs?.role && !CAREER_ROLES.some((careerRole) => careerRole.title === user.prefs.role) && !['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Full Stack Developer'].includes(user.prefs.role) && (
-                    <option value={user.prefs.role}>{user.prefs.role}</option>
-                  )}
-                </optgroup>
+                {!user?.prefs?.isBeginner && (
+                  <optgroup label="Other roles">
+                    {['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Full Stack Developer']
+                      .filter((name) => !CAREER_ROLES.some((careerRole) => careerRole.title === name))
+                      .map((name) => <option key={name} value={name}>{name}</option>)}
+                    {user?.prefs?.role && !CAREER_ROLES.some((careerRole) => careerRole.title === user.prefs.role) && !['Product Manager', 'Junior Software & Web Engineer', 'Junior Health Data & Informatics Specialist', 'Business Intelligence & Data Analyst', 'UI/UX & Product Designer', 'Software Engineer', 'Full Stack Developer'].includes(user.prefs.role) && (
+                      <option value={user.prefs.role}>{user.prefs.role}</option>
+                    )}
+                  </optgroup>
+                )}
               </select>
             </div>
 
