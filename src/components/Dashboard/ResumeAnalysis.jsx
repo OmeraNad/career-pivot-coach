@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { AlertCircle, CheckCircle2, FileText, Upload } from 'lucide-react';
-import { getSkillLevels } from '../../data/skillMatch';
+import { assessResumeSkills } from '../../data/skillMatch';
 
 const emptyResume = {
   fileName: '',
@@ -20,7 +20,7 @@ function readResume(key) {
   }
 }
 
-export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, updatePrefs }) {
+export default function ResumeAnalysis({ user, targetRole, roleConfig, updatePrefs }) {
   const storageKey = `cpc_resume_${user?.id || 'guest'}`;
   const [form, setForm] = useState(() => readResume(storageKey));
   const latestForm = useRef(form);
@@ -35,23 +35,20 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
     const listedSkills = form.existingSkills.split(/[,;\n]+/).map((skill) => skill.trim()).filter(Boolean);
     const profileSkills = user?.prefs?.knownSkills || [];
     const allListedSkills = [...new Set([...profileSkills, ...listedSkills])];
-    const profileText = [
-      form.resumeText,
-      form.education,
-      form.experience,
-      form.certifications,
-      form.projects,
-    ].filter(Boolean).join('\n');
-    const levels = getSkillLevels(roleKey, [...allListedSkills, profileText], 55);
-    const strengths = roleSkills.filter((skill) => levels[skill.skill] !== undefined);
-    const missing = roleSkills.filter((skill) => (levels[skill.skill] || 0) < skill.required - 5);
+    const sources = [
+      { type: 'resume', value: form.resumeText },
+      { type: 'education', value: form.education },
+      { type: 'experience', value: form.experience },
+      { type: 'certifications', value: form.certifications },
+      { type: 'projects', value: form.projects },
+      { type: 'listed', value: allListedSkills.join('\n') },
+    ];
+    const result = assessResumeSkills(roleSkills, sources);
     return {
-      strengths,
-      missing,
-      readiness: Math.round((strengths.length / Math.max(1, roleSkills.length)) * 100),
+      ...result,
       listedSkills: allListedSkills,
     };
-  }, [form, roleKey, roleSkills, user?.prefs?.knownSkills]);
+  }, [form, roleSkills, user?.prefs?.knownSkills]);
 
   const updateForm = (field, value) => {
     const next = { ...form, [field]: value };
@@ -113,7 +110,7 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
   };
 
   const saveSkillsToProfile = () => {
-    const detected = assessment.strengths.map((skill) => skill.skill);
+    const detected = assessment.categories.strengths.map((skill) => skill.skill);
     updatePrefs({
       knownSkills: [...new Set([...assessment.listedSkills, ...detected])],
       skillConfidence: 55,
@@ -188,26 +185,41 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
             <h3 className="text-[#292923] font-bold text-sm">Local skill-gap assessment</h3>
             <p className="text-[#797762] text-xs mt-1">Matched requirements are based only on skills found in your resume or entered information.</p>
           </div>
-          <span className="text-[#68734A] font-bold text-sm whitespace-nowrap">{assessment.readiness}% skill coverage</span>
+          <span className="text-[#68734A] font-bold text-sm whitespace-nowrap">{assessment.coverage}% skill coverage</span>
         </div>
         <div className="h-2 rounded-full bg-[#D9D3C4] overflow-hidden">
-          <div className="h-full bg-[#68734A] transition-all" style={{ width: `${assessment.readiness}%` }} />
+          <div className="h-full bg-[#68734A] transition-all" style={{ width: `${assessment.coverage}%` }} />
         </div>
+        <p className="text-xs text-[#626153]">
+          Coverage is weighted by each role skill’s requirement level: demonstrated strengths count fully, partial evidence counts halfway, skills needing improvement count one-quarter, and missing or unassessed skills count zero.
+        </p>
+        <p className="text-xs text-[#626153]">
+          Education and certifications can show familiarity; practical proficiency requires evidence of applying a skill in work or a project.
+        </p>
         <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <p className="text-xs font-bold text-[#3F4A2F] mb-2">Strengths found ({assessment.strengths.length})</p>
-            {assessment.strengths.length ? assessment.strengths.map((skill) => (
-              <p key={skill.skill} className="flex gap-2 text-xs text-[#4D4A3F] mb-1">
-                <CheckCircle2 size={14} className="text-[#68734A] flex-shrink-0" />{skill.skill}
-              </p>
-            )) : <p className="text-xs text-[#797762]">No matching skills found yet. Add skills or upload a text-based PDF.</p>}
-          </div>
-          <div>
-            <p className="text-xs font-bold text-[#866B34] mb-2">Priority skills to develop ({assessment.missing.length})</p>
-            {assessment.missing.map((skill) => (
-              <p key={skill.skill} className="text-xs text-[#4D4A3F] mb-1">{skill.skill} <span className="text-[#797762]">· {skill.priority}</span></p>
-            ))}
-          </div>
+          {[
+            ['strengths', 'Demonstrated strengths', 'text-[#3F4A2F]'],
+            ['partial', 'Partially demonstrated', 'text-[#866B34]'],
+            ['improvement', 'Skills requiring improvement', 'text-[#866B34]'],
+            ['missing', 'Missing from supplied evidence', 'text-[#8e3030]'],
+            ['notAssessed', 'Not assessed', 'text-[#626153]'],
+          ].map(([category, label, color]) => (
+            <div key={category}>
+              <p className={`text-xs font-bold ${color} mb-2`}>{label} ({assessment.categories[category].length})</p>
+              {assessment.categories[category].length ? assessment.categories[category].map((skill) => (
+                <div key={skill.skill} className="text-xs text-[#4D4A3F] mb-3">
+                  <p className="flex gap-2 font-semibold">
+                    {category === 'strengths' && <CheckCircle2 size={14} className="text-[#68734A] flex-shrink-0" />}
+                    {skill.skill} <span className="text-[#797762] font-normal">· {skill.priority}</span>
+                  </p>
+                  <p className="mt-1 text-[#626153]">{skill.explanation}</p>
+                  {skill.evidence.length > 0 && (
+                    <p className="mt-1 text-[#797762] italic">Evidence: “{skill.evidence.slice(0, 2).join('” · “')}”</p>
+                  )}
+                </div>
+              )) : <p className="text-xs text-[#797762]">No skills in this category.</p>}
+            </div>
+          ))}
         </div>
         <div className="grid md:grid-cols-2 gap-3 pt-2 border-t border-[#D9D3C4]">
           <div>
@@ -217,9 +229,11 @@ export default function ResumeAnalysis({ user, targetRole, roleKey, roleConfig, 
           <div>
             <p className="text-xs font-bold text-[#4D4A3F] mb-1">Next improvements</p>
             <p className="text-xs text-[#626153]">
-              {assessment.missing.length
-                ? `Add truthful examples of ${assessment.missing.slice(0, 2).map((skill) => skill.skill).join(' and ')} where applicable, and consider a portfolio project to demonstrate them. Do not list skills you have not practiced.`
-                : 'No priority skill gaps were detected against this curated baseline. Review your resume for clear, specific evidence and keep the information accurate.'}
+              {assessment.categories.missing.length || assessment.categories.improvement.length
+                ? `Add truthful examples for ${[...assessment.categories.missing, ...assessment.categories.improvement].slice(0, 2).map((skill) => skill.skill).join(' and ')} where applicable, and consider a portfolio project to build practical evidence. Do not list skills you have not practiced.`
+                : assessment.categories.notAssessed.length
+                  ? 'Add more detail about your work, projects, or education so these skills can be assessed without assumptions.'
+                  : 'No missing or developing skills were identified in the supplied evidence. Keep examples specific and accurate.'}
             </p>
           </div>
         </div>

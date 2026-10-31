@@ -116,7 +116,6 @@ export default function SkillGapMap() {
         key={user?.id}
         user={user}
         targetRole={targetRole}
-        roleKey={roleKey}
         roleConfig={roleConfig}
         updatePrefs={updatePrefs}
       />
