@@ -1,0 +1,139 @@
+{
+  "login": {
+    "title": "Bienvenido de Nuevo",
+    "subtitle": "Inicia sesión en tu Career Pivot Coach",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "button": "Iniciar Sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "createAccount": "Crear una nueva cuenta",
+    "error": {
+      "notFound": "No se encontró ninguna cuenta con este correo. Por favor, crea una nueva cuenta.",
+      "wrongPassword": "Contraseña incorrecta. Por favor, inténtalo de nuevo.",
+      "generic": "Algo salió mal. Por favor, inténtalo de nuevo."
+    }
+  },
+  "signup": {
+    "title": "Crea Tu Cuenta",
+    "subtitle": "Comienza tu viaje de transformación profesional",
+    "name": "Nombre Completo",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirm": "Confirmar Contraseña",
+    "button": "Crear Cuenta",
+    "hasAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión",
+    "error": {
+      "exists": "Ya existe una cuenta con este correo.",
+      "mismatch": "Las contraseñas no coinciden.",
+      "generic": "Algo salió mal. Por favor, inténtalo de nuevo."
+    }
+  },
+  "welcome": {
+    "title": "Bienvenido",
+    "subtitle": "Configuremos tu experiencia personalizada de coaching profesional.",
+    "continue": "Comenzar"
+  },
+  "language": {
+    "title": "¿Qué idioma prefieres?",
+    "subtitle": "Usaremos este idioma en toda la aplicación.",
+    "continue": "Continuar"
+  },
+  "role": {
+    "title": "¿Tienes algún rol en mente?",
+    "subtitle": "Cuéntanos tu rol objetivo o déjanos ayudarte a descubrir uno.",
+    "placeholder": "ej. Gerente de Producto, Analista de Datos...",
+    "beginner": "Soy principiante, no sé nada",
+    "continue": "Continuar"
+  },
+  "interests": {
+    "title": "¿Cuáles son tus intereses?",
+    "subtitle": "¿En qué estás interesado? Esto nos ayuda a sugerirte los mejores caminos profesionales.",
+    "none": "No tengo un interés en este momento",
+    "continue": "Continuar",
+    "options": {
+      "technology": "Tecnología y Programación",
+      "design": "Diseño y Creatividad",
+      "business": "Negocios y Gestión",
+      "data": "Datos y Análisis",
+      "marketing": "Marketing y Ventas",
+      "writing": "Escritura y Comunicación",
+      "finance": "Finanzas y Contabilidad",
+      "healthcare": "Salud y Bienestar",
+      "education": "Educación y Enseñanza",
+      "law": "Derecho y Política"
+    }
+  },
+  "dashboard": {
+    "greeting": "Hola",
+    "subtitle": "Tu centro de comando profesional personalizado",
+    "tabs": {
+      "overview": "Resumen",
+      "skillGap": "Brecha de Habilidades",
+      "weeklyPlan": "Plan Semanal",
+      "mockInterview": "Entrevista Simulada",
+      "applications": "Solicitudes",
+      "progress": "Progreso"
+    }
+  },
+  "skillGap": {
+    "title": "Mapa de Brecha de Habilidades",
+    "subtitle": "Basado en descripciones de trabajo reales para tu rol objetivo",
+    "critical": "Crítico",
+    "important": "Importante",
+    "niceToHave": "Sería bueno tener",
+    "yourLevel": "Tu Nivel",
+    "required": "Requerido",
+    "analyze": "Analizar Habilidades"
+  },
+  "weeklyPlan": {
+    "title": "Plan Semana a Semana",
+    "subtitle": "Tu hoja de ruta de aprendizaje personalizada",
+    "week": "Semana",
+    "day": "Día",
+    "stuck": "Estoy Atascado — Replantear",
+    "complete": "Marcar Completo"
+  },
+  "mockInterview": {
+    "title": "Entrevista Simulada",
+    "subtitle": "Practica con preguntas específicas del rol",
+    "start": "Comenzar Entrevista",
+    "next": "Siguiente Pregunta",
+    "submit": "Enviar Respuesta",
+    "feedback": "Ver Retroalimentación",
+    "score": "Puntuación"
+  },
+  "applications": {
+    "title": "Rastreador de Solicitudes",
+    "subtitle": "Rastrea tus solicitudes de empleo y aprende de los patrones",
+    "add": "Agregar Solicitud",
+    "status": {
+      "applied": "Solicitado",
+      "screening": "Revisión",
+      "interview": "Entrevista",
+      "offer": "Oferta",
+      "rejected": "Rechazado"
+    }
+  },
+  "progress": {
+    "title": "Rastreador de Progreso",
+    "subtitle": "Mira qué tan lejos has llegado",
+    "overall": "Progreso General",
+    "streak": "Días Consecutivos",
+    "completed": "Tareas Completadas",
+    "skillsLearned": "Habilidades Aprendidas"
+  },
+  "beginner": {
+    "title": "Roles Recomendados para Principiantes",
+    "subtitle": "Basado en tus intereses, aquí hay excelentes puntos de entrada",
+    "learnFirst": "Aprende Esto Primero",
+    "learnFirstSubtitle": "Conceptos básicos universales que todo principiante necesita antes de buscar empleo",
+    "timeToReady": "Tiempo hasta estar listo",
+    "difficulty": "Dificultad"
+  },
+  "nav": {
+    "logout": "Cerrar Sesión",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  }
+}

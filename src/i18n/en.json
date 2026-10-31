@@ -1,0 +1,139 @@
+{
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your Career Pivot Coach",
+    "email": "Email Address",
+    "password": "Password",
+    "button": "Sign In",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create a new account",
+    "error": {
+      "notFound": "No account found with this email. Please create a new account.",
+      "wrongPassword": "Incorrect password. Please try again.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "signup": {
+    "title": "Create Your Account",
+    "subtitle": "Start your career transformation journey",
+    "name": "Full Name",
+    "email": "Email Address",
+    "password": "Password",
+    "confirm": "Confirm Password",
+    "button": "Create Account",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "error": {
+      "exists": "An account with this email already exists.",
+      "mismatch": "Passwords do not match.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "welcome": {
+    "title": "Welcome",
+    "subtitle": "Let's set up your personalized career coaching experience.",
+    "continue": "Get Started"
+  },
+  "language": {
+    "title": "Which language do you prefer?",
+    "subtitle": "We'll use this language throughout the app.",
+    "continue": "Continue"
+  },
+  "role": {
+    "title": "Any roles in mind?",
+    "subtitle": "Tell us your target role or let us help you discover one.",
+    "placeholder": "e.g. Product Manager, Data Analyst...",
+    "beginner": "I'm a beginner, I don't know anything",
+    "continue": "Continue"
+  },
+  "interests": {
+    "title": "What are your interests?",
+    "subtitle": "What are you interested in? This helps us suggest the best career paths for you.",
+    "none": "I don't have an interest right now",
+    "continue": "Continue",
+    "options": {
+      "technology": "Technology & Coding",
+      "design": "Design & Creativity",
+      "business": "Business & Management",
+      "data": "Data & Analytics",
+      "marketing": "Marketing & Sales",
+      "writing": "Writing & Communication",
+      "finance": "Finance & Accounting",
+      "healthcare": "Healthcare & Wellbeing",
+      "education": "Education & Teaching",
+      "law": "Law & Policy"
+    }
+  },
+  "dashboard": {
+    "greeting": "Hello",
+    "subtitle": "Your personalized career command center",
+    "tabs": {
+      "overview": "Overview",
+      "skillGap": "Skill Gap",
+      "weeklyPlan": "Weekly Plan",
+      "mockInterview": "Mock Interview",
+      "applications": "Applications",
+      "progress": "Progress"
+    }
+  },
+  "skillGap": {
+    "title": "Skill Gap Map",
+    "subtitle": "Based on real job descriptions for your target role",
+    "critical": "Critical",
+    "important": "Important",
+    "niceToHave": "Nice to Have",
+    "yourLevel": "Your Level",
+    "required": "Required",
+    "analyze": "Analyze Skills"
+  },
+  "weeklyPlan": {
+    "title": "Week-by-Week Plan",
+    "subtitle": "Your personalized learning roadmap",
+    "week": "Week",
+    "day": "Day",
+    "stuck": "I'm Stuck — Replan",
+    "complete": "Mark Complete"
+  },
+  "mockInterview": {
+    "title": "Mock Interview",
+    "subtitle": "Practice with role-specific questions",
+    "start": "Start Interview",
+    "next": "Next Question",
+    "submit": "Submit Answer",
+    "feedback": "View Feedback",
+    "score": "Score"
+  },
+  "applications": {
+    "title": "Application Tracker",
+    "subtitle": "Track your job applications and learn from patterns",
+    "add": "Add Application",
+    "status": {
+      "applied": "Applied",
+      "screening": "Screening",
+      "interview": "Interview",
+      "offer": "Offer",
+      "rejected": "Rejected"
+    }
+  },
+  "progress": {
+    "title": "Progress Tracker",
+    "subtitle": "See how far you've come",
+    "overall": "Overall Progress",
+    "streak": "Day Streak",
+    "completed": "Tasks Completed",
+    "skillsLearned": "Skills Learned"
+  },
+  "beginner": {
+    "title": "Recommended Starting Roles",
+    "subtitle": "Based on your interests, here are great entry points",
+    "learnFirst": "Learn These First",
+    "learnFirstSubtitle": "Universal basics every beginner needs before job hunting",
+    "timeToReady": "Time to job-ready",
+    "difficulty": "Difficulty"
+  },
+  "nav": {
+    "logout": "Logout",
+    "profile": "Profile",
+    "settings": "Settings"
+  }
+}
