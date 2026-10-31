@@ -3,15 +3,26 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { AlertOctagon, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
 import { ROLE_DATA, getRoleKey } from '../../data/roleData';
+import { getSkillLevels, allSkillsFor } from '../../data/skillMatch';
 
 export default function WeeklyPlan() {
   const { t } = useTranslation();
   const { user } = useAuth();
 
   const targetRole = user?.prefs?.role || 'Product Manager';
-  const roleConfig = ROLE_DATA[getRoleKey(targetRole)] || ROLE_DATA.productManager;
+  const roleKey = getRoleKey(targetRole);
+  const roleConfig = ROLE_DATA[roleKey] || ROLE_DATA.productManager;
 
-  const storageKey = `cpc_plan_${user?.id || 'guest'}_${getRoleKey(targetRole)}`;
+  const storageKey = `cpc_plan_${user?.id || 'guest'}_${roleKey}`;
+
+  // Which plan steps the user already knows, based on the skills they entered
+  const levels = getSkillLevels(roleKey, user?.prefs?.knownSkills, user?.prefs?.skillConfidence);
+  const coveredSteps = new Set(
+    allSkillsFor(roleKey)
+      .filter((s) => (levels[s.skill] || 0) >= s.required - 5)
+      .map((s) => s.stepNumber)
+  );
+  const stepOf = (w) => Number(/Step (\d+)/.exec(w.title)?.[1]);
 
   const [plan, setPlan] = useState(() => {
     const saved = localStorage.getItem(storageKey);
@@ -21,7 +32,10 @@ export default function WeeklyPlan() {
     return roleConfig.weeklyPlan;
   });
 
-  const [expanded, setExpanded] = useState(0);
+  const [expanded, setExpanded] = useState(() => {
+    const i = plan.findIndex((w) => !coveredSteps.has(stepOf(w)));
+    return i === -1 ? 0 : i;
+  });
   const [replanning, setReplanning] = useState(false);
   const [replanned, setReplanned] = useState(false);
 
@@ -39,7 +53,6 @@ export default function WeeklyPlan() {
       const updated = prev.map((w, wIdx) => wIdx !== wi ? w : {
         ...w, days: w.days.map((d, dIdx) => dIdx !== di ? d : { ...d, done: !d.done })
       });
-      // Save flat list to localStorage for ProgressTracker
       const allTasks = updated.flatMap(w => w.days);
       localStorage.setItem(storageKey, JSON.stringify(updated));
       localStorage.setItem(`cpc_plan_${user?.id}`, JSON.stringify(allTasks));
@@ -49,9 +62,9 @@ export default function WeeklyPlan() {
 
   const handleReplan = () => {
     setReplanning(true);
-    setTimeout(() => { 
-      setReplanning(false); 
-      setReplanned(true); 
+    setTimeout(() => {
+      setReplanning(false);
+      setReplanned(true);
     }, 1500);
   };
 
@@ -87,7 +100,6 @@ export default function WeeklyPlan() {
         </div>
       )}
 
-      {/* Progress bar */}
       <div className="bg-white border border-[#e2dfd4] rounded-2xl p-5 shadow-xs">
         <div className="flex justify-between text-sm mb-2">
           <span className="text-[#636659] font-medium">Weekly Milestone Progress</span>
@@ -99,7 +111,6 @@ export default function WeeklyPlan() {
         </div>
       </div>
 
-      {/* Weeks */}
       {plan.map((week, wi) => {
         const weekDone = week.days.filter((d) => d.done).length;
         const isExpanded = expanded === wi;
@@ -109,12 +120,19 @@ export default function WeeklyPlan() {
               className="w-full flex items-center justify-between p-5 hover:bg-[#faf9f5] transition-all">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${
-                  weekDone === week.days.length 
-                    ? 'bg-[#edf1e6] text-[#455633] border border-[#d6dec8]' 
+                  weekDone === week.days.length
+                    ? 'bg-[#edf1e6] text-[#455633] border border-[#d6dec8]'
                     : 'bg-[#f0eee6] text-[#636659]'
                 }`}>W{week.week}</div>
                 <div className="text-left">
-                  <div className="text-[#1e2019] font-bold text-sm">{t('weeklyPlan.week')} {week.week}: {week.title}</div>
+                  <div className="text-[#1e2019] font-bold text-sm">
+                    {t('weeklyPlan.week')} {week.week}: {week.title}
+                    {coveredSteps.has(stepOf(week)) && (
+                      <span className="ml-2 text-xs bg-[#edf1e6] text-[#3f5022] border border-[#d6dec8] px-2 py-0.5 rounded-full font-semibold">
+                        ✅ Already covered, quick review
+                      </span>
+                    )}
+                  </div>
                   <div className="text-[#636659] text-xs">{weekDone}/{week.days.length} days complete</div>
                 </div>
               </div>
