@@ -5,6 +5,7 @@ import Signup from './components/Auth/Signup';
 import Welcome from './components/Onboarding/Welcome';
 import LanguageSelect from './components/Onboarding/LanguageSelect';
 import RoleSelect from './components/Onboarding/RoleSelect';
+import SkillsSelect from './components/Onboarding/SkillsSelect';
 import InterestSelect from './components/Onboarding/InterestSelect';
 import Dashboard from './components/Dashboard/Dashboard';
 
@@ -23,20 +24,17 @@ export default function App() {
   return (
     <HashRouter>
       <Routes>
-        {/* Public routes */}
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
 
-        {/* Onboarding (requires auth) */}
         <Route path="/welcome" element={<PrivateRoute><Welcome /></PrivateRoute>} />
         <Route path="/onboarding/language" element={<PrivateRoute><LanguageSelect /></PrivateRoute>} />
         <Route path="/onboarding/role" element={<PrivateRoute><RoleSelect /></PrivateRoute>} />
+        <Route path="/onboarding/skills" element={<PrivateRoute><SkillsSelect /></PrivateRoute>} />
         <Route path="/onboarding/interests" element={<PrivateRoute><InterestSelect /></PrivateRoute>} />
 
-        {/* Main app */}
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
 
-        {/* Default redirect */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </HashRouter>
