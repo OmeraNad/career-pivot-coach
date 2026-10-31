@@ -15,7 +15,7 @@ export default function SkillsSelect() {
   const navigate = useNavigate();
   const { completeOnboarding } = useAuth();
 
-  const role = sessionStorage.getItem('onboarding_role_name') || '';
+    const [role] = useState(() => sessionStorage.getItem('onboarding_role_name') || '');
   const roleKey = getRoleKey(role);
 
   const [skills, setSkills] = useState([]);
